@@ -1,7 +1,10 @@
 # Wiki Schema
 
 ## Domain
-Temporal and durable execution ecosystem — including Temporal platform, SDKs, patterns, competitors, and related infrastructure.
+Knowledge base covering:
+1. Temporal and durable execution ecosystem
+2. Andrej Karpathy's AI/ML repositories (LLM training, tokenization, neural network implementations)
+3. General ML/AI concepts
 
 ## Conventions
 - File names: lowercase, hyphens, no spaces (e.g., `temporal-sdks.md`)
@@ -26,6 +29,7 @@ sources: [raw/articles/source-name.md]
 ## Tag Taxonomy
 - Platform: temporal, temporal-cloud, self-hosted
 - SDKs: python, go, typescript, java, csharp, ruby, php
+- Repositories: karpathy, nanogpt, llm-c, mingpt, minbpe, micrograd, char-rnn
 - Concepts: durable-execution, workflow, activity,-signal, timer,-replay, compensation
 - Patterns: saga,-cqrs,-event-sourcing, outbox-pattern
 - Infrastructure: cluster, namespace, task-queue, persistence

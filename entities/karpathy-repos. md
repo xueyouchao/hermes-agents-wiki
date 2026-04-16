@@ -1,0 +1,53 @@
+---
+title: Karpathy Repositories
+created: 2026-04-16
+updated: 2026-04-16
+type: concept
+tags: [karpathy, repositories, ai, ml, deep-learning]
+sources: []
+---
+
+# Karpathy Repositories Overview
+
+Andrej Karpathy's GitHub hosts some of the most popular educational AI/ML repositories. Here's a comprehensive overview of his key projects.
+
+## By Category
+
+### LLM Training
+- [[nanoGPT]] - Fastest GPT training (56.7k stars)
+- [[llm-c]] - Pure C/CUDA training (29.5k stars)
+- [[mingpt]] - Minimal PyTorch implementation (24.1k stars)
+
+### Tokenization
+- [[minbpe]] - Minimal BPE (10.4k stars)
+
+### Neural Networks
+- [[micrograd]] - Tiny autograd (15.4k stars)
+- [[char-rnn]] - Character RNN (12k stars)
+
+## GitNexus Analysis
+
+All Karpathy repos have been indexed with GitNexus for code intelligence:
+- nanoGPT: 83 symbols, 142 edges, 11 clusters
+- llm.c: 734 symbols, 1456 edges, 66 clusters
+- minGPT: 122 symbols, 286 edges, 21 clusters
+- minbpe: 116 symbols, 264 edges, 6 clusters
+- micrograd: 59 symbols, 122 edges, 4 clusters
+- char-rnn: 27 symbols, 20 edges
+
+## Common Patterns Across Repos
+
+1. **Minimalism** - All repos prioritize readable, minimal code
+2. **Educational** - Designed for learning, not production
+3. **Self-contained** - Minimal dependencies
+
+## Learning Path
+
+1. Start with [[micrograd]] - Understand autograd
+2. Learn [[minbpe]] - Understand tokenization
+3. Study [[mingpt]] - Understand Transformer architecture
+4. Use [[nanoGPT]] - Practical training
+5. Optimize with [[llm-c]] - Performance
+
+## Related
+- [[andrej-karpthy]] - The author
