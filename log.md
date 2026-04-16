@@ -21,3 +21,10 @@
 - Updated SCHEMA.md tag taxonomy with aws service tags
 - Updated index.md with all new pages (now 31 total)
 - Sources: AWS official product pages (2026)
+
+## [2026-04-16] ingest | Amazon Bedrock (AgentCore)
+- Created entity page: aws-bedrock.md
+- Documented AgentCore platform: Runtime, Gateway, Memory, Identity, Specialized Tools
+- Included capabilities: Model Distillation (500% faster, 75% cheaper), Prompt Routing (30% cost reduction), Guardrails (88% harmful content blocked)
+- Added customer success: Robinhood (80% cost reduction), Epsilon (months to weeks)
+- Related: [[amazon-sagemaker|SageMaker]], [[aws-lambda|Lambda]], [[aws-iam|IAM]]

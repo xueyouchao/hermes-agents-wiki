@@ -2,7 +2,7 @@
 
 > Content catalog. Every wiki page listed under its type with a one-line summary.
 > Read this first to find relevant pages for any query.
-> Last updated: 2026-04-16 | Total pages: 31
+> Last updated: 2026-04-16 | Total pages: 32
 
 ## Entities
 - [[andrej-karpathy]] - AI researcher, Tesla/OpenAI, Stanford
@@ -30,6 +30,7 @@
 - [[aws-ecs]] - Elastic Container Service - container orchestration
 - [[aws-eks]] - Elastic Kubernetes Service - managed Kubernetes
 - [[amazon-sagemaker]] - Machine learning platform
+- [[aws-bedrock]] - Fully managed generative AI service with AgentCore
 
 ## Concepts
 - [[activity]] - Failure-prone functions with automatic retries
