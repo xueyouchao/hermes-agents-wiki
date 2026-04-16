@@ -30,8 +30,9 @@ sources: [raw/articles/source-name.md]
 - Platform: temporal, temporal-cloud, self-hosted
 - SDKs: python, go, typescript, java, csharp, ruby, php
 - Repositories: karpathy, nanogpt, llm-c, mingpt, minbpe, micrograd, char-rnn
-- Cloud: aws, ec2, lambda, s3, rds, dynamodb, vpc, cloudfront, iam, route53, sns, sqs, ecs, eks, sagemaker
-- Concepts: durable-execution, workflow, activity,-signal, timer,-replay, compensation
+- Cloud: aws, ec2, lambda, s3, rds, dynamodb, vpc, cloudfront, iam, route53, sns, sqs, ecs, eks, sagemaker, bedrock
+- 3DGS: gaussian-splatting, radiance-field, nerf, view-synthesis, 3d-reconstruction, point-cloud, splatting
+- Concepts: durable-execution, workflow, activity, signal, timer, replay, compensation
 - Patterns: saga,-cqrs,-event-sourcing, outbox-pattern
 - Infrastructure: cluster, namespace, task-queue, persistence
 - Use-cases: ai-agents, fintech, media, ecommerce, infrastructure

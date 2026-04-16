@@ -1,0 +1,12 @@
+---                             
+title: Awesome 3D Gaussian Splatting
+created: 2026-04-16
+updated: 2026-04-16
+type: entity
+tags: [3dgs, gaussian-splatting, papers, resources, curated-list]                             
+sources: [raw/repos/awesome-3dgs.md]                             
+---                       
+# Awesome 3D Gaussian Splatting
+A curated collection of papers and resources focused on 3D Gaussian Splatting, maintained by MrNeRF. The definitive resource list for the 3DGS research community.
+## Overview
+| Attribute | Value | |-----------|-------| | Stars | ~5,800+ | | Type | Paper/Resource Collection | | GitNexus | 227 symbols, 524 edges, 16 clusters, 20 flows |## Content Categories### Papers by Year#### 2025 (Latest)- **GaussianHead:** 3D Gaussian-based Head Avatars with Dynamic Hybrid Neural Field- **FatesGS:** Fast and Accurate Sparse-View Surface Reconstruction- **LongSplat:** Robust Unposed 3D Gaussian Splatting (ICCV 2025)- **HorizonGS:** Unified 3D Gaussian Splatting for Large-scale Aerial/Ground (CVPR 2025)#### 2024- Dynamic 4D Gaussian Splatting- Text-to-3D Generation (Gaussians-to-Life)- Compression methods (QUEEN, etc.)- Sparse-view reconstruction techniques- Real-time editing and manipulation#### 2023- **Original 3DGS Paper** (Kerbl et al.)- COLMAP-Free 3DGS- Depth-supervised Gaussian Splatting- Mobile/Edge implementations### Research Directions| Direction | Description | |-----------|-------------| | **Dynamic 4D** | Scenes that change over time | | **Compression** | Reducing file sizes, faster loading | | **Text-to-3D** | Generating 3D scenes from text prompts | | **Sparse View** | Reconstruction from few images | | **Editing** | In-place modification of Gaussian scenes | | **Compression** | Neural compression, quantization | | **Streaming** | Progressive/lazy loading |## Notable Papers to Read1. **3D Gaussian Splatting** (SIGGRAPH 2023) — Foundation2. **Dynamic 3DGS** — Temporal consistency3. **Gaussian-2-Life** — Text animation4. **QUEEN** — Efficient encoding5. **CF-3DGS** — COLMAP-free reconstruction## Related Concepts- [[3d-gaussian-splatting]] — Core concept- [[gaussian-impl]] — Reference implementation- [[splat-webgl]] — Browser viewer## References- [GitHub](https://github.com/MrNeRF/awesome-3D-gaussian-splatting)- [Website](https://mrnerf.github.io/awesome-3D-gaussian-splatting/)- [Papers 2025](https://github.com/Awesome3DGS/3D-gaussian-Splatting-Papers/blob/main/2025/Accepted.md)
