@@ -12,6 +12,8 @@
 - [[minbpe]] - Minimal BPE tokenization - 10.4k stars
 - [[mingpt]] - Minimal PyTorch GPT - 24.1k stars
 - [[nanoGPT]] - Fastest GPT training - 56.7k stars
+- [[nanochat]] - Budget ChatGPT on $100 hardware - 52k stars
+- [[autoresearch]] - Autonomous AI agent research - 73k stars
 - [[temporal]] - Open-source durable execution platform
 - [[temporal-cloud]] - Managed Temporal service offering
 

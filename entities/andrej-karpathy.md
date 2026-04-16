@@ -21,6 +21,8 @@ Andrej Karpathy is a prominent AI researcher and educator, formerly at Tesla (Di
 | Repository | Stars | Description |
 |------------|-------|-------------|
 | [[nanoGPT]] | 56.7k | Simplest GPT training/finetuning |
+- [[nanochat]] - Budget ChatGPT on $100 hardware (52k stars)
+- [[autoresearch]] - Autonomous AI agent research (73k stars)
 | [[llm.c]] | 29.5k | LLM training in pure C/CUDA |
 | [[minGPT]] | 24.1k | Minimal PyTorch GPT implementation |
 | [[llama2.c]] | 19.4k | Llama 2 inference in pure C |
@@ -34,5 +36,7 @@ Andrej Karpathy is a prominent AI researcher and educator, formerly at Tesla (Di
 
 ## Related
 - [[nanoGPT]] - His most popular GPT implementation
+- [[nanochat]] - Budget ChatGPT on $100 hardware (52k stars)
+- [[autoresearch]] - Autonomous AI agent research (73k stars)
 - [[llm.c]] - Pure C/ CUDA training
 - [[minGPT]] - Educational PyTorch GPT
