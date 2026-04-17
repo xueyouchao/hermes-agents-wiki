@@ -4,12 +4,20 @@
 Knowledge base covering:
 1. Temporal and durable execution ecosystem
 2. Andrej Karpathy's AI/ML repositories (LLM training, tokenization, neural network implementations)
-3. General ML/AI concepts
+3. NVIDIA applied AI research (RTX AI apps, ACE for Games, fVDB)
+4. AWS infrastructure and AI platform knowledge
+5. General ML/AI concepts
+
+## Topic Sub-Wikis
+- `research/karpathy/` with supporting pages in `entities/karpathy/` and `concepts/karpathy/`
+- `research/aws/` with supporting pages in `entities/aws/`
+- `research/temporal/` with supporting pages in `entities/temporal/` and `concepts/temporal/`
+- `research/nvidia/` with supporting pages in `entities/nvidia/` and `concepts/nvidia/`
 
 ## Conventions
 - File names: lowercase, hyphens, no spaces (e.g., `temporal-sdks.md`)
 - Every wiki page starts with YAML frontmatter (see below)
-- Use `[[wikilinks]]` to link between pages (minimum 2 outbound links per page)
+- Use Obsidian wikilinks between pages (minimum 2 outbound links per page when the topic naturally connects elsewhere)
 - When updating a page, always bump the `updated` date
 - Every new page must be added to `index.md` under the correct section
 - Every action must be appended to `log.md`
@@ -22,7 +30,7 @@ created: YYYY-MM-DD
 updated: YYYY-MM-DD
 type: entity | concept | comparison | query | summary
 tags: [from taxonomy below]
-sources: [raw/articles/source-name.md]
+sources: [raw/articles/source-name.md]  # local raw file or external URL
 ---
 ```
 
@@ -33,7 +41,7 @@ sources: [raw/articles/source-name.md]
 - Cloud: aws, ec2, lambda, s3, rds, dynamodb, vpc, cloudfront, iam, route53, sns, sqs, ecs, eks, sagemaker, bedrock
 - 3DGS: gaussian-splatting, radiance-field, nerf, view-synthesis, 3d-reconstruction, point-cloud, splatting
 - Concepts: durable-execution, workflow, activity, signal, timer, replay, compensation
-- Patterns: saga,-cqrs,-event-sourcing, outbox-pattern
+- Patterns: saga, cqrs, event-sourcing, outbox-pattern
 - Infrastructure: cluster, namespace, task-queue, persistence
 - Use-cases: ai-agents, fintech, media, ecommerce, infrastructure
 - People/Orgs: company, person
@@ -50,7 +58,7 @@ sources: [raw/articles/source-name.md]
 One page per notable entity. Include:
 - Overview / what it is
 - Key facts and dates
-- Relationships to other entities ([[wikilinks]])
+- Relationships to other entities via wiki links
 - Source references
 
 ## Concept Pages
@@ -58,7 +66,7 @@ One page per concept or topic. Include:
 - Definition / explanation
 - Current state of knowledge
 - Open questions or debates
-- Related concepts ([[wikilinks]])
+- Related concepts via wiki links
 
 ## Comparison Pages
 Side-by-side analyses. Include:

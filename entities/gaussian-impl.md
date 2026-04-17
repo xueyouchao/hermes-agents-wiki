@@ -1,13 +1,35 @@
----                         
+---
 title: Gaussian Splatting Reference Implementation
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-04-17
 type: entity
-tags: [3dgs, gaussian-splatting, repository, python, pytorch, radiance-field]                         
-sources: [raw/repos/gaussian-splatting.md]                         
----                      
+tags: [3dgs, gaussian-splatting, repository, python, pytorch, radiance-field]
+sources: [https://github.com/graphdeco-inria/gaussian-splatting]
+---
+
 # Gaussian Splatting Reference Implementation
-Official authors' implementation of \"3D Gaussian Splatting for Real-Time Radiance Field Rendering\" (SIGGRAPH 2023) from Inria/GraphDeco.
-## Overview
-| Attribute | Value | |-----------|-------| | Stars | ~8,700+ | | Language | Python (PyTorch) + C++/CUDA | | License | MIT | | GitNexus | 339 symbols, 831 edges, 26 clusters, 28 flows |## Architecture### 4 Main Components1. **PyTorch Optimizer** — Produces 3D Gaussian models from SfM inputs2. **Network Viewer** — Visualizes the optimization process in real-time3. **OpenGL Viewer** — Real-time rendering of trained models4. **Converter Script** — Converts images to optimization-ready SfM datasets## Technical Details### Hardware Requirements- CUDA-ready GPU (Compute Capability 7.0+)
-- 24 GB VRAM for paper-quality training### Software Stack- PyTorch + CUDA extensions- Conda for environment management- C++ Compiler (Visual Studio 2019 / GCC)- CUDA SDK 11.8### Key Files| File | Purpose | |------|---------| | `train.py` | Main training script | | `render.py` | Rendering utilities | | `gaussian_renderer/` | CUDA rendering kernel | | `scene/` | Scene representation | | `utils/` | Helper utilities |## Capabilities- Real-time rendering at 30+ fps (1080p)- State-of-the-art visual quality- Training in 15-30 minutes- Support for depth regularization, anti-aliasing, exposure compensation- OpenXR VR support### Variants & ExtensionsThe community has built numerous extensions on this foundation:- **4D Gaussian Splatting:** Dynamic scenes over time- **Text-to-3D:** Diffusion models + 3DGS- **Sparse View Reconstruction:** Fewer input images needed- **Compression:** Reduced file sizes (QUEEN, etc.)## Related Projects- [[splat-webgl]] — WebGL viewer for browsers- [[awesome-3dgs]] — Paper collection- [[gaussian-gaussian-impl]] — For comparison## References- [GitHub](https://github.com/graphdeco-inria/gaussian-splatting)- [Project Page](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/)- [Paper PDF](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/3d_gaussian_splatting_high.pdf)
+
+This is the reference repository for the original 3D Gaussian Splatting method from Inria/GraphDeco. It is the implementation baseline for much of the later 3DGS ecosystem.
+
+## Technical Shape
+
+- Python and PyTorch training stack
+- CUDA/OpenGL rendering components
+- Scripts for optimization, rendering, and scene conversion
+
+## Why It Matters
+
+- Defines the baseline implementation of the original method
+- Acts as the source project many later forks and extensions build on
+- Connects the 3DGS paper to a practical training and rendering workflow
+
+## Related Projects
+
+- [[3d-gaussian-splatting]] - Concept page for the rendering method
+- [[splat-webgl]] - Browser-oriented viewer
+- [[awesome-3dgs]] - Curated ecosystem and paper list
+
+## References
+
+- [GitHub Repository](https://github.com/graphdeco-inria/gaussian-splatting)
+- [Project Page](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/)

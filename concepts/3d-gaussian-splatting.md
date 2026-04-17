@@ -1,78 +1,64 @@
----                      
+---
 title: 3D Gaussian Splatting
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-04-17
 type: concept
-tags: [3dgs, gaussian-splatting, radiance-field, nerf, view-synthesis, 3d-reconstruction]                      
-sources: [raw/papers/3d-gaussian-splatting-2023.md]                      
----                  
+tags: [3dgs, gaussian-splatting, radiance-field, nerf, view-synthesis, 3d-reconstruction]
+sources: [https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/, https://github.com/graphdeco-inria/gaussian-splatting]
+---
+
 # 3D Gaussian Splatting
 
-3D Gaussian Splatting is a real-time radiance field rendering technique that represents scenes as 3D Gaussians, enabling high-quality novel view synthesis at 30+ fps in 1080p resolution. Published at SIGGRAPH 2023, it represents a breakthrough in neural rendering by combining the quality of NeRF with real-time performance.
+3D Gaussian Splatting is a real-time radiance field rendering technique that represents scenes as optimized 3D Gaussians. It is notable because it closes much of the quality gap with NeRF-style methods while supporting interactive rendering speeds.
 
-## Core Concept
+## Core Idea
 
-Instead of using neural networks to represent the scene (like NeRF), 3D Gaussian Splatting uses **3D Gaussians** — ellipsoidal probability distributions — to represent the scene geometry and appearance. Each Gaussian has:
-- **Position (mean):** 3D coordinates (x, y, z)
-- **Covariance (shape):** 3x3 symmetric matrix representing scale and rotation
-- **Appearance (color):** Spherical harmonics coefficients for view-dependent color
-- **Opacity:** Transparency value
+Instead of storing a scene only as dense voxels or a neural field, 3D Gaussian Splatting uses anisotropic Gaussians with position, covariance, color, and opacity. This makes rendering more direct and avoids spending compute on large empty regions.
 
-## Key Innovations
+## Why It Matters
 
-### 1. From Points to Gaussians
-Starting from sparse SfM (Structure from Motion) points, the method initializes 3D Gaussians that preserve desirable properties of continuous volumetric radiance fields while avoiding computation in empty space.
+- Delivers high-quality novel view synthesis
+- Supports real-time or near-real-time rendering
+- Works well as a bridge between reconstruction and deployable rendering systems
 
-### 2. Anisotropic Covariance Optimization
-Unlike previous point-based methods that used spherical representations, 3D GS optimizes anisotropic covariance to accurately represent complex scene geometry.
-
-### 3. Visibility-Aware Rendering
-A fast rendering algorithm that supports anisotropic splatting and accelerates both training and enables real-time rendering.
-
-## Performance Comparison
+## Performance Profile
 
 | Method | Training Time | Rendering Speed | Quality |
-|--------|---------------|-----------------|---------||
-| NeRF | 2-4 days | ~10 sec/frame | Excellent |
-| Instant-NGP | ~5 min | ~60 fps | Good |
-| **3D Gaussian Splatting** | ~15-30 min | **30+ fps** | Excellent |
+|--------|---------------|-----------------|---------|
+| NeRF | 2-4 days | Slow per-frame rendering | Excellent |
+| Instant-NGP | Minutes | Very fast | Good |
+| 3D Gaussian Splatting | 15-30 min | 30+ fps class rendering | Excellent |
 
-## GitNexus Analyzed Repositories
+## Related Repositories
 
-### [[gaussian-splatting-refimpl]]
-Original reference implementation from Inria/GraphDeco
-- 339 symbols | 831 edges | 26 clusters | 28 flows
-- Python/PyTorch + CUDA extensions
+### [[gaussian-impl]]
+
+Reference implementation for the original approach, centered on Python, PyTorch, and CUDA extensions.
 
 ### [[splat-webgl]]
-WebGL browser-based viewer
-- 40 symbols | 92 edges | 4 clusters | 2 flows
-- Pure JavaScript, no dependencies
+
+Browser-based WebGL viewer for Gaussian splat scenes.
 
 ### [[awesome-3dgs]]
-Curated paper list and resources
-- 227 symbols | 524 edges | 16 clusters | 20 flows
+
+Curated index of papers, implementations, and research directions built on top of 3DGS.
 
 ## Use Cases
 
-| Industry | Application |
-|----------|-------------|
-| **VR/AR** | Real-time scene capture and rendering |
-| **Gaming** | Photorealistic environment scanning |
-| **Film** | Virtual production, set extensions |
-| **Robotics** | Scene reconstruction for navigation |
-| **Cultural Heritage** | 3D preservation of artifacts |
-| **E-commerce** | Product visualization |
+- Real-time scene capture and rendering
+- Photorealistic environment reconstruction
+- Virtual production and digital sets
+- Robotics and navigation scene understanding
+- 3D cultural heritage preservation
 
 ## Related Concepts
 
-- [[nerf|NeRF]] — Neural Radiance Fields (precursor technology)
-- [[durable-execution]] — Analogous concept: state persistence in computation
-- [[view-synthesis]] — Generating novel views from known viewpoints
-- [[point-cloud]] — Related 3D representation
+- [[nerf]] - The main predecessor in neural radiance field rendering
+- [[view-synthesis]] - The task 3DGS is often evaluated against
+- [[point-cloud]] - A simpler geometric representation used in adjacent pipelines
 
 ## References
 
-- [Original Paper (SIGGRAPH 2023)](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/)
-- [GitHub Repository](https://github.com/graphdeco-inria/gaussian-splatting)
-- [Video](https://youtu.be/T_kXY43VZnk)
+- [Original Paper](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/)
+- [Reference Repository](https://github.com/graphdeco-inria/gaussian-splatting)
+- [Project Video](https://youtu.be/T_kXY43VZnk)

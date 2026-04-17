@@ -1,21 +1,19 @@
 # Obsidian Setup
 
-This wiki is designed to work as an Obsidian vault.
+This repository is designed to work as an Obsidian vault.
 
 ## Quick Start
 
-1. Open `/root/wiki` as a vault in Obsidian
-2. Wikilinks are enabled by default ✓
-3. Install **Dataview** plugin for queries (optional)
+1. Open this repository root as a vault in Obsidian.
+2. Keep wikilinks enabled.
+3. Install **Dataview** if you want query views.
 
 ## Recommended Settings
 
-- **Attachment folder**: Set to `raw/assets/`
-- **Default location for new attachments**: In the attachment folder above
+- Set the attachment folder to `raw/assets/`.
+- Keep new attachments inside that folder.
 
-## Dataview Queries
-
-Example queries you can use with the Dataview plugin:
+## Example Dataview Queries
 
 ```dataview
 TABLE title, type, tags FROM "entities" WHERE contains(tags, "temporal")
@@ -25,23 +23,8 @@ TABLE title, type, tags FROM "entities" WHERE contains(tags, "temporal")
 LIST FROM "concepts" WHERE contains(tags, "durable-execution")
 ```
 
-## Headless Sync (Optional)
+## Notes
 
-For server/headless machines, see SCHEMA.md for `obsidian-headless` setup instructions.
-
-## Wiki Structure
-
-```
-wiki/
-├── SCHEMA.md           # Conventions, structure rules, tag taxonomy
-├── index.md            # Content catalog with one-line summaries
-├── log.md              # Chronological action log
-├── raw/                # Immutable source material
-│   ├── articles/
-│   ├── papers/
-│   └── assets/         # Images → reference as ![[image.png]]
-├── entities/           # Entity pages (people, orgs, products)
-├── concepts/           # Concept/topic pages
-├── comparisons/        # Side-by-side analyses
-└── queries/            # Filed query results
-```
+- `index.md` is the top-level catalog.
+- `log.md` records compile and ingest changes.
+- Topic sub-wikis live under `research/` with supporting pages in `entities/` and `concepts/`.

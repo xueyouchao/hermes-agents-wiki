@@ -1,0 +1,225 @@
+{
+  "main": {
+    "id": "355cf70352714685",
+    "type": "split",
+    "children": [
+      {
+        "id": "45d7bdbccedcdce9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "aecd5f1eef497410",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "index.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "index"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "8599964c9d849dca",
+    "type": "split",
+    "children": [
+      {
+        "id": "7063d4926db8349b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "bdc10a20c5778f48",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "7ffea86646926733",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "3bc5078789d91674",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "137ef1e95b529da8",
+    "type": "split",
+    "children": [
+      {
+        "id": "fddfcf411b2cadca",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fbdf1fdd0b78201c",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "index.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for index"
+            }
+          },
+          {
+            "id": "bece3bdd33a06849",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "index.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from index"
+            }
+          },
+          {
+            "id": "35ae5613531914eb",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "ad6b6ed521816c9a",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "dbbf5999d2093c27",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "index.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of index"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "aecd5f1eef497410",
+  "lastOpenFiles": [
+    "concepts/nvidia/audio2face-3d-sdk.md",
+    "entities/splat-webgl.md",
+    "entities/sourcegraph-public-snapshot.md",
+    "entities/neo4j.md",
+    "entities/graphify.md",
+    "entities/gaussian-impl.md",
+    "entities/code2vec.md",
+    "entities/awesome-3dgs.md",
+    "entities/autoresearch.md",
+    "concepts/view-synthesis.md",
+    "concepts/point-cloud.md",
+    "concepts/nerf.md",
+    "concepts/3d-gaussian-splatting.md",
+    "comparisons/knowledge-graph-tools-llm-retrieval.md",
+    "research/nvidia/nvidia-ai-apps-rtx-pcs-overview.md",
+    "index.md",
+    "concepts/nvidia/cuda-programming.md",
+    "concepts/nvidia/llm-deployment-on-rtx-pcs.md",
+    "concepts/nvidia/windows-ml-integration.md",
+    "concepts/nvidia/tensorrt-optimization.md",
+    "concepts/temporal/persistence.md",
+    "concepts/temporal/cluster.md",
+    "concepts/temporal/compensation.md",
+    "concepts/temporal/replay.md",
+    "research/aws/aws-research.md",
+    "entities/karpathy/andrej-karpathy.md",
+    "research/karpathy",
+    "concepts/karpathy",
+    "entities/karpathy",
+    "research/temporal",
+    "research/aws",
+    "concepts/temporal",
+    "entities/temporal",
+    "entities/aws",
+    "entities/nvidia",
+    "concepts/nvidia"
+  ]
+}

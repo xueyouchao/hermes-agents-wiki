@@ -1,92 +1,62 @@
----
-title: Log - NVIDIA AI Apps for RTX PCs Wiki
-created: 2026-04-17
-updated: 2026-04-17
-type: log
----
+# Wiki Log
 
-## [2026-04-17] Research | NVIDIA AI Apps for RTX PCs SDKs and Models
+> Chronological record of all wiki actions. Append-only.
+> Format: `## [YYYY-MM-DD] action | subject`
+> Actions: ingest, update, query, lint, create, archive, delete
+> When this file exceeds 500 entries, rotate: rename to log-YYYY.md, start fresh.
 
-### Ingest
-- Researched NVIDIA AI Apps for RTX PCs SDKs and Models technology
-- Analyzed official NVIDIA Developer documentation from https://developer.nvidia.com/ai-apps-for-rtx-pcs/sdks-models
-- Explored llama.cpp integration with RTX GPUs for local LLM inference
-- Examined TensorRT for Windows ML capabilities and performance optimizations
-- Reviewed Windows ML integration patterns and transformer model deployment
+## [2026-04-16] create | Wiki initialized
+- Domain: Temporal and durable execution ecosystem
+- Structure created with SCHEMA.md, index.md, log.md
+- Raw source directories: articles/, papers/, transcripts/, assets/
+- Created initial wiki pages: temporal, temporal-cloud, durable-execution, workflow, activity, self-hosted-temporal
+- Added OBSIDIAN-SETUP.md for vault configuration
 
-### Pages Created
-1. **NVIDIA AI Apps for RTX PCs SDKs and Models Overview** (concept)
-   - Comprehensive overview of NVIDIA AI SDKs, models, and development tools
-   - Coverage of DLSS, OptiX, RTX Kit, ACE, Audio2Face, Maxine, and more
-   - Performance benchmarks and use cases
-   - ~6,900 bytes
+## [2026-04-16] ingest | AWS Services (15 new entities)
+- Created entity pages for 15 popular AWS services:
+  - aws-ec2.md, aws-lambda.md, aws-s3.md, aws-dynamodb.md
+  - aws-rds.md, aws-vpc.md, aws-cloudfront.md, aws-iam.md
+  - aws-route53.md, aws-sns.md, aws-sqs.md
+  - aws-ecs.md, aws-eks.md, amazon-sagemaker.md
+- Updated SCHEMA.md tag taxonomy with aws service tags
+- Updated index.md with all new pages (now 31 total)
+- Sources: AWS official product pages (2026)
 
-2. **NVIDIA AI Apps for RTX PCs - Technical Details** (entity)
-   - Detailed technical specifications and implementation guidance
-   - Two-stage TensorRT compilation (AOT + JIT) process
-   - llama.cpp integration details and performance metrics
-   - Quantization strategies and model optimization techniques
-   - ~7,100 bytes
+## [2026-04-16] ingest | Amazon Bedrock (AgentCore)
+- Created entity page: aws-bedrock.md
+- Documented AgentCore platform: Runtime, Gateway, Memory, Identity, Specialized Tools
+- Included capabilities: Model Distillation (500% faster, 75% cheaper), Prompt Routing (30% cost reduction), Guardrails (88% harmful content blocked)
+- Added customer success: Robinhood (80% cost reduction), Epsilon (months to weeks)
+- Related: [[amazon-sagemaker|SageMaker]], [[aws-lambda|Lambda]], [[aws-iam|IAM]]
 
-3. **Index** (summary)
-   - Navigation hub linking all wiki pages with learning paths
-   - Organized by core technologies, getting started, and industry applications
-   - Cross-references to related concepts and documentation
-   - ~3,000 bytes
+## [2026-04-17] compare | Knowledge Graph Tools for LLM Retrieval
+- Created comparison page: comparisons/knowledge-graph-tools-llm-retrieval.md
+- Updated index.md with new comparison entry
+- Added total page count update to index.md
 
-4. **Log** (log)
-   - Documentation of research and creation process
-   - Tracks all changes and updates
-   - ~1,900 bytes
+## [2026-04-17] update | Restore whole-wiki index and fold in NVIDIA research
+- Restored the root index.md as the top-level catalog for the full Hermes Agents wiki
+- Moved NVIDIA-specific research notes into research/nvidia/
+- Moved NVIDIA concept and entity pages into concepts/nvidia/ and entities/nvidia/
+- Added [[nvidia-research]] as the renamed hub for NVIDIA material
+- Updated SCHEMA.md so NVIDIA applied AI research is part of the vault domain
 
-### Key Findings
-- **Ecosystem Scale**: NVIDIA provides one of the largest AI SDK ecosystems for PC development
-- **Performance**: 100+ million RTX AI PCs installed worldwide with up to 3,352 TOPS
-- **Adoption**: 600+ AI apps and games already integrated with RTX optimizations
-- **Frameworks**: Support for TensorRT, Windows ML, llama.cpp, and major AI tools
-- **Hardware**: AI Tensor Cores with support for FP4, INT4, INT8, BF16, FP16, FP32
-- **Throughput**: llama.cpp achieves ~150 tokens/second on RTX 4090
+## [2026-04-17] update | Create AWS and Temporal sub-wikis
+- Moved AWS entity pages into entities/aws/
+- Moved Temporal entity pages into entities/temporal/
+- Moved Temporal concept pages into concepts/temporal/
+- Added [[aws-research]] and [[temporal-research]] as sub-wiki hub pages
+- Kept the root index.md as the single top-level catalog for the whole vault
 
-### Technical Highlights
-- **Two-stage TensorRT compilation**: AOT (CPU) + JIT (GPU) for optimal performance
-- **GPU-accelerated LLM inference**: llama.cpp with CUDA backend optimization
-- **Windows ML standardized API**: Unified deployment across Windows platforms
-- **Quantization support**: FP4 enables next-gen models like FLUX-1.dev on consumer GPUs
-- **Dynamic shapes**: Support for diffusion models with unlimited dimensions
+## [2026-04-17] update | Create Karpathy repository sub-wiki
+- Moved Karpathy repository pages into entities/karpathy/
+- Moved the Karpathy overview page into concepts/karpathy/
+- Added [[karpathy-research]] as the Karpathy sub-wiki hub
+- Recorded the sub-wiki layout in SCHEMA.md
 
-### Resources Added
-- NVIDIA Developer Program access and documentation
-- NGC Model Catalog for pre-optimized RTX models
-- Technical blogs and API references
-- Performance benchmarks and optimization guides
-- Integration examples for Python and C++
-
-### Next Steps
-- Add more detailed implementation examples for each SDK
-- Include specific use case walkthroughs (video, 3D design, productivity)
-- Document build and deployment processes for llama.cpp and TensorRT
-- Add troubleshooting guides for common integration issues
-- Update with latest NVIDIA announcements and roadmap information
-- Explore NIM microservices integration for AI apps
-
-## Wiki Maintenance
-
-### Structure
-- **Entity pages**: Detailed technical specifications (e.g., NVIDIA AI Apps for RTX PCs - Technical Details)
-- **Concept pages**: Technology overviews and use cases (e.g., NVIDIA AI Apps for RTX PCs SDKs and Models Overview)
-- **Index pages**: Navigation and learning paths (e.g., Index)
-- **Log pages**: Change tracking and history (e.g., Log)
-
-### Conventions
-- File names: lowercase, hyphens, no spaces
-- YAML frontmatter with title, created, updated, type, tags, sources
-- Cross-references using [[page-name]] syntax
-- Minimum 2 outbound links per page
-- Update timestamp on each modification
-
-### Quality Standards
-- All content sourced from official NVIDIA Developer documentation
-- Verified technical specifications and performance data
-- Practical implementation examples and code snippets
-- Comprehensive cross-referencing between related topics
-- Regular updates to reflect latest technology developments
+## [2026-04-17] compile | Normalize links, sources, and topic structure
+- Added missing concept pages for Temporal recovery terms, NVIDIA RTX deployment topics, and 3D graphics foundations
+- Rewrote malformed or duplicate pages including the stray Karpathy duplicate and the broken fVDB overview
+- Replaced placeholder source paths with real URLs where the vault already depended on external source material
+- Rebuilt index.md as a topic-first catalog that lists the current pages once under domain groupings
+- Reduced unresolved wikilinks to schema examples only, then updated SCHEMA.md wording to remove those false positives
