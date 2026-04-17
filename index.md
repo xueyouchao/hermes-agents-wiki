@@ -1,49 +1,84 @@
-# Wiki Index
+# NVIDIA AI Research Wiki
 
-> Content catalog. Every wiki page listed under its type with a one-line summary.
-> Read this first to find relevant pages for any query.
-> Last updated: 2026-04-17 | Total pages: 33
+## NVIDIA AI Apps for RTX PCs
 
-## Entities
-- [[andrej-karpathy]] - AI researcher, Tesla/OpenAI, Stanford
-- [[char-rnn]] - Character-level RNN (Lua/Torch) - 12k stars
-- [[llm-c]] - LLM training in pure C/CUDA - 29.5k stars
-- [[micrograd]] - Tiny autograd engine - 15.4k stars
-- [[minbpe]] - Minimal BPE tokenization - 10.4k stars
-- [[mingpt]] - Minimal PyTorch GPT - 24.1k stars
-- [[nanoGPT]] - Fastest GPT training - 56.7k stars
-- [[nanochat]] - Budget ChatGPT on $100 hardware - 52k stars
-- [[autoresearch]] - Autonomous AI agent research - 73k stars
-- [[temporal]] - Open-source durable execution platform
-- [[temporal-cloud]] - Managed Temporal service offering
-- [[aws-ec2]] - Elastic Compute Cloud - virtual servers in AWS
-- [[aws-lambda]] - Serverless compute service
-- [[aws-s3]] - Simple Storage Service - object storage
-- [[aws-dynamodb]] - Fully managed NoSQL database
-- [[aws-rds]] - Relational Database Service
-- [[aws-vpc]] - Virtual Private Cloud - isolated networks
-- [[aws-cloudfront]] - Content Delivery Network (CDN)
-- [[aws-iam]] - Identity and Access Management
-- [[aws-route53]] - Domain Name System (DNS) service
-- [[aws-sns]] - Simple Notification Service - pub/sub messaging
-- [[aws-sqs]] - Simple Queue Service - message queuing
-- [[aws-ecs]] - Elastic Container Service - container orchestration
-- [[aws-eks]] - Elastic Kubernetes Service - managed Kubernetes
-- [[amazon-sagemaker]] - Machine learning platform
-- [[aws-bedrock]] - Fully managed generative AI service with AgentCore
-- [[blueprint-index]] - Consolidated 3DGS application ideas and blueprints
+- [[NVIDIA AI Apps for RTX PCs SDKs and Models Overview]] - Comprehensive overview of NVIDIA's AI SDKs, models, and development tools for RTX PCs
+- [[NVIDIA AI Apps for RTX PCs - Technical Details]] - Detailed technical specifications, implementation guides, and performance benchmarks
 
-## Concepts
-- [[activity]] - Failure-prone functions with automatic retries
-- [[durable-execution]] - Programming model with automatic state persistence
-- [[self-hosted-temporal]] - Self-managed Temporal deployment
-- [[workflow]] - Durable fault-tolerant business logic code
+## Core Technologies
 
-## Comparisons
-- [[knowledge-graph-tools-llm-retrieval]] - Comparison of Sourcegraph, Graphify, Neo4j, and Code2Vec for knowledge graph construction and LLM retrieval
+### AI SDKs and Frameworks
+- [[TensorRT Optimization]] - NVIDIA's high-performance deep learning inference optimizer
+- [[Windows ML Integration]] - Windows-native AI model deployment and optimization
+- [[LLM Deployment on RTX PCs]] - Large language model deployment strategies and best practices
 
-## Meta
-- [[OBSIDIAN-SETUP]] - Instructions for using this wiki as an Obsidian vault
-- [[karpathy-repos]] - Overview of Andrej Karpathy's repositories
+### Graphics and 3D
+- [[NVIDIA RTX AI Toolkit]] - Complete development toolkit for AI-enhanced graphics applications
+- [[CUDA Programming]] - GPU programming fundamentals for AI workloads
+- [[Deep Learning Super Sampling (DLSS)]] - AI-powered graphics enhancement technology
 
-## Queries
+### Generative AI
+- [[LLM Deployment on RTX PCs]] - Practical applications and implementation examples
+- [[Transformer Architectures]] - Understanding and deploying transformer-based models
+- [[NVIDIA ACE]] - Avatar Cloud Engine for digital human applications
+
+## Getting Started
+
+### Development Environment Setup
+- [[NVIDIA Developer Program]] - Access to tools, SDKs, and community support
+- [[NVIDIA Inception Program]] - Startup acceleration and preferred pricing
+- [[NGC Catalog]] - Repository of pre-optimized models for RTX GPUs
+
+### Learning Path
+1. [[NVIDIA AI Apps for RTX PCs SDKs and Models Overview]]
+2. [[NVIDIA AI Apps for RTX PCs - Technical Details]]
+3. [[LLM Deployment on RTX PCs]]
+4. [[TensorRT Optimization]]
+5. [[Windows ML Integration]]
+
+## Industry Applications
+
+### Creative and Design
+- AI-enhanced video editing and rendering
+- 3D design and animation with neural rendering
+- Real-time graphics optimization
+
+### Product Development
+- AI-powered user interfaces and assistants
+- Automated content generation
+- Intelligent recommendation systems
+
+### Research and Development
+- Large language model deployment
+- Computer vision applications
+- Speech recognition and synthesis
+
+## Resources and References
+
+### Documentation
+- Official NVIDIA Developer Documentation
+- Technical blogs and whitepapers
+- API reference guides
+
+### Tools and Utilities
+- Nsight Systems for performance profiling
+- CUDA Toolkit for GPU development
+- Windows ML for deployment
+
+### Community and Support
+- NVIDIA Developer Forums
+- GitHub repositories and samples
+- Developer webinars and training
+
+## Performance Benchmarks
+
+- [[LLM Deployment on RTX PCs#Performance Benchmarks|LLM Throughput]] - Token per second metrics
+- [[TensorRT Optimization#Performance Metrics|Inference Performance]] - GPU utilization and latency
+- [[NVIDIA AI Apps for RTX PCs SDKs and Models Overview#Key Statistics|TOPS Ratings]] - AI compute capabilities
+
+## Related Research
+
+- [[Research: Large Language Models]]
+- [[Research: Computer Vision]]
+- [[Research: Neural Graphics]]
+- [[Research: AI Hardware Optimization]]
