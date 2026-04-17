@@ -31,6 +31,7 @@
 - [[aws-eks]] - Elastic Kubernetes Service - managed Kubernetes
 - [[amazon-sagemaker]] - Machine learning platform
 - [[aws-bedrock]] - Fully managed generative AI service with AgentCore
+- [[blueprint-index]] - Consolidated 3DGS application ideas and blueprints
 
 ## Concepts
 - [[activity]] - Failure-prone functions with automatic retries
