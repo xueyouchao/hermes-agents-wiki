@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "index.md",
+                "file": "concepts/nvidia/audio2face-3d-sdk.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "index"
+              "title": "audio2face-3d-sdk"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 212.5
+    "width": 389.5
   },
   "right": {
     "id": "137ef1e95b529da8",
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "index.md",
+                "file": "concepts/nvidia/audio2face-3d-sdk.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for index"
+              "title": "Backlinks for audio2face-3d-sdk"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "index.md",
+                "file": "concepts/nvidia/audio2face-3d-sdk.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from index"
+              "title": "Outgoing links from audio2face-3d-sdk"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "index.md",
+                "file": "concepts/nvidia/audio2face-3d-sdk.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of index"
+              "title": "Outline of audio2face-3d-sdk"
             }
           }
         ]
@@ -184,8 +184,14 @@
   },
   "active": "aecd5f1eef497410",
   "lastOpenFiles": [
-    "log.md",
+    "concepts/nvidia/cuda-programming.md",
+    "concepts/nvidia/llm-deployment-on-rtx-pcs.md",
+    "concepts/nvidia/npc-dynamic-behavior-ace.md",
+    "concepts/nvidia/rendering-pipeline-integration-ace.md",
+    "concepts/nvidia/tensorrt-optimization.md",
+    "concepts/nvidia/windows-ml-integration.md",
     "index.md",
+    "log.md",
     "concepts/nvidia/audio2face-3d-sdk.md",
     "entities/splat-webgl.md",
     "entities/sourcegraph-public-snapshot.md",
@@ -201,15 +207,9 @@
     "concepts/3d-gaussian-splatting.md",
     "comparisons/knowledge-graph-tools-llm-retrieval.md",
     "research/nvidia/nvidia-ai-apps-rtx-pcs-overview.md",
-    "concepts/nvidia/cuda-programming.md",
-    "concepts/nvidia/llm-deployment-on-rtx-pcs.md",
-    "concepts/nvidia/windows-ml-integration.md",
-    "concepts/nvidia/tensorrt-optimization.md",
     "concepts/temporal/persistence.md",
     "concepts/temporal/cluster.md",
     "concepts/temporal/compensation.md",
-    "concepts/temporal/replay.md",
-    "research/aws/aws-research.md",
     "research/karpathy",
     "concepts/karpathy",
     "entities/karpathy",
