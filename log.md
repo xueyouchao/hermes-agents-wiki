@@ -28,3 +28,7 @@
 - Included capabilities: Model Distillation (500% faster, 75% cheaper), Prompt Routing (30% cost reduction), Guardrails (88% harmful content blocked)
 - Added customer success: Robinhood (80% cost reduction), Epsilon (months to weeks)
 - Related: [[amazon-sagemaker|SageMaker]], [[aws-lambda|Lambda]], [[aws-iam|IAM]]
+## [2026-04-17] compare | Knowledge Graph Tools for LLM Retrieval
+- Created comparison page: comparisons/knowledge-graph-tools-llm-retrieval.md
+- Updated index.md with new comparison entry
+- Added total page count update to index.md

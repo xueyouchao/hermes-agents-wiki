@@ -2,7 +2,7 @@
 
 > Content catalog. Every wiki page listed under its type with a one-line summary.
 > Read this first to find relevant pages for any query.
-> Last updated: 2026-04-16 | Total pages: 32
+> Last updated: 2026-04-17 | Total pages: 33
 
 ## Entities
 - [[andrej-karpathy]] - AI researcher, Tesla/OpenAI, Stanford
@@ -39,6 +39,7 @@
 - [[workflow]] - Durable fault-tolerant business logic code
 
 ## Comparisons
+- [[knowledge-graph-tools-llm-retrieval]] - Comparison of Sourcegraph, Graphify, Neo4j, and Code2Vec for knowledge graph construction and LLM retrieval
 
 ## Meta
 - [[OBSIDIAN-SETUP]] - Instructions for using this wiki as an Obsidian vault
