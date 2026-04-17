@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 212.5
   },
   "right": {
     "id": "137ef1e95b529da8",
@@ -169,8 +169,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -185,6 +184,8 @@
   },
   "active": "aecd5f1eef497410",
   "lastOpenFiles": [
+    "log.md",
+    "index.md",
     "concepts/nvidia/audio2face-3d-sdk.md",
     "entities/splat-webgl.md",
     "entities/sourcegraph-public-snapshot.md",
@@ -200,7 +201,6 @@
     "concepts/3d-gaussian-splatting.md",
     "comparisons/knowledge-graph-tools-llm-retrieval.md",
     "research/nvidia/nvidia-ai-apps-rtx-pcs-overview.md",
-    "index.md",
     "concepts/nvidia/cuda-programming.md",
     "concepts/nvidia/llm-deployment-on-rtx-pcs.md",
     "concepts/nvidia/windows-ml-integration.md",
@@ -210,7 +210,6 @@
     "concepts/temporal/compensation.md",
     "concepts/temporal/replay.md",
     "research/aws/aws-research.md",
-    "entities/karpathy/andrej-karpathy.md",
     "research/karpathy",
     "concepts/karpathy",
     "entities/karpathy",
