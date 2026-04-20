@@ -68,3 +68,11 @@
 - Replaced placeholder source paths with real URLs where the vault already depended on external source material
 - Rebuilt index.md as a topic-first catalog that lists the current pages once under domain groupings
 - Reduced unresolved wikilinks to schema examples only, then updated SCHEMA.md wording to remove those false positives
+
+## [2026-04-20] reorganize | AI/LLM Repositories sub-wiki
+- Created research/ai-repos/ai-repos-research.md as topic hub
+- Created entities/repos/ folder
+- Moved 56 AI/LLM repository files from wiki root to entities/repos/
+- Organized repos into categories: LLM Inference, Frameworks, Agents, Vision, Training, RAG, Research, Other Tools
+- Added [[ai-repos-research]] to Topic Hubs in index.md
+- Added full "AI/LLM Repositories" section to index.md with categorized entries
