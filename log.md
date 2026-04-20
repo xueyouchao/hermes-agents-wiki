@@ -76,3 +76,10 @@
 - Organized repos into categories: LLM Inference, Frameworks, Agents, Vision, Training, RAG, Research, Other Tools
 - Added [[ai-repos-research]] to Topic Hubs in index.md
 - Added full "AI/LLM Repositories" section to index.md with categorized entries
+
+## [2026-04-20] reorganize | 3DGS sub-wiki
+- Created research/3dgs/3dgs-research.md as topic hub
+- Created concepts/3dgs/ folder and moved: 3d-gaussian-splatting.md, nerf.md, point-cloud.md, view-synthesis.md
+- Created entities/3dgs/ folder and moved: awesome-3dgs.md, gaussian-impl.md, splat-webgl.md
+- Added [[3dgs-research]] to Topic Hubs in index.md
+- Updated 3D Graphics section with sub-sections for Concepts and Implementations

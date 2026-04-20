@@ -12,6 +12,7 @@
 - [[temporal-research]] - Temporal platform and durable execution sub-wiki
 - [[nvidia-research]] - NVIDIA RTX AI, ACE, and fVDB sub-wiki
 - [[ai-repos-research]] - AI/LLM repositories (56 repos with 15k+ stars)
+- [[3dgs-research]] - 3D Gaussian Splatting sub-wiki
 
 ## Karpathy
 
@@ -83,10 +84,17 @@
 
 ## 3D Graphics
 
+> Topic Hub: [[3dgs-research]] - 3D Gaussian Splatting sub-wiki
+
+### Concepts
+
 - [[3d-gaussian-splatting]] - Real-time neural rendering technique using optimized Gaussians
 - [[nerf]] - Precursor neural radiance field representation
 - [[view-synthesis]] - Task of generating novel viewpoints
 - [[point-cloud]] - Basic 3D geometric representation
+
+### Implementations
+
 - [[gaussian-impl]] - Reference implementation of the original 3DGS method
 - [[splat-webgl]] - Browser viewer for splat scenes
 - [[awesome-3dgs]] - Curated ecosystem and paper list
