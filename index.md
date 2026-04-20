@@ -167,11 +167,22 @@
 - [[agentscope]] - Multi-agent simulation framework
 - [[kotaemon]] - RAG-based chat UI for documents
 
-### AI Agents
+### AI Agents & Platforms
 
 - [[auto-gpt]] - Autonomous GPT-4 agent
 - [[open-hands]] - AI coding agent platform
 - [[browser-use]] - Browser automation with AI agents
+
+### Managed Agent Platforms (2026)
+
+- [[claude-managed-agents]] - Anthropic's cloud-hosted agent platform
+- [[deep-agents-deploy]] - LangChain's managed agent infrastructure
+- [[openai-agents-sdk]] - OpenAI's agent development framework
+
+### Agent Concepts
+
+- [[agent-platform-landscape]] - 5-tier build-to-buy spectrum
+- [[brain-vs-hands-architecture]] - Decoupled agent architecture
 
 ### Vision & Multi-modal
 

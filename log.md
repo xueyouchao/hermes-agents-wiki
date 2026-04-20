@@ -77,6 +77,20 @@
 - Added [[ai-repos-research]] to Topic Hubs in index.md
 - Added full "AI/LLM Repositories" section to index.md with categorized entries
 
+## [2026-04-20] ingest | Agent Platform Landscape (YouTube)
+- Extracted YouTube video content via Firecrawl: https://www.youtube.com/watch?v=YJCe8hvZrxs
+- Created raw source: raw/transcripts/agent-platform-landscape-2026.md
+- Created entity pages:
+  - entities/ai-platforms/claude-managed-agents.md
+  - entities/ai-platforms/deep-agents-deploy.md
+  - entities/ai-platforms/openai-agents-sdk.md
+- Created concept pages:
+  - concepts/ai-agents/agent-platform-landscape.md
+  - concepts/ai-agents/brain-vs-hands-architecture.md
+- Key content: 5-tier build-to-buy spectrum for agent platforms, Claude Managed Agents vs LangChain Deep Agents vs OpenAI Agents SDK
+- Updated index.md with new sections: Managed Agent Platforms (2026) and Agent Concepts
+- Related: [[langchain]], [[aws-bedrock]], [[auto-gpt]], [[open-hands]]
+
 ## [2026-04-20] reorganize | 3DGS sub-wiki
 - Created research/3dgs/3dgs-research.md as topic hub
 - Created concepts/3dgs/ folder and moved: 3d-gaussian-splatting.md, nerf.md, point-cloud.md, view-synthesis.md
