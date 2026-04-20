@@ -43,6 +43,85 @@ Temporal provides native SDKs for: Python, Go, TypeScript, Ruby, C#, Java, and P
 
 Companies using Temporal include OpenAI, NVIDIA, Salesforce, Netflix, Snap, Cloudflare, and DoorDash.
 
+## Architecture Overview
+
+```mermaid
+flowchart TB
+    subgraph Client["Client Applications"]
+        API[Temporal SDK Client]
+    end
+
+    subgraph Cluster["Temporal Cluster"]
+        FE[Frontend Service]
+        History[History Service]
+        Matching[Matching Service]
+        Worker[Worker Service]
+        DB[(Persistence<br/>Database)]
+    end
+
+    subgraph Workers["Worker Processes"]
+        WW[Workflow Worker]
+        AW[Activity Worker]
+    end
+
+    subgraph TaskQueues["Task Queues"]
+        TQ1[Workflow Task Queue]
+        TQ2[Activity Task Queue]
+    end
+
+    API --> |gRPC| FE
+    FE --> |Route| History
+    FE --> |Route| Matching
+    
+    History <--> |Read/Write| DB
+    Matching <--> |Read/Write| DB
+    
+    History --> |Schedule| TQ1
+    Matching --> |Dispatch| TQ2
+    
+    WW -.-> |Poll| TQ1
+    AW -.-> |Poll| TQ2
+    
+    WW --> |Execute| Workflow
+    AW --> |Execute| Activity
+    
+    Workflow -.-> |1. Call| Activity
+    Activity -.-> |2. Complete| Workflow
+```
+
+## Concepts Map
+
+```mermaid
+flowchart LR
+    subgraph Core["Core Concepts"]
+        DE[Durable<br/>Execution]
+        WF[Workflow]
+        AC[Activity]
+        RP[Replay]
+    end
+
+    subgraph Infrastructure["Infrastructure"]
+        CL[Cluster]
+        PS[Persistence]
+        WH[Workflow<br/>History]
+    end
+
+    subgraph Deployment["Deployment Options"]
+        TC[Temporal<br/>Cloud]
+        SH[Self-Hosted]
+    end
+
+    DE --> WF
+    DE --> AC
+    WF -.-> |calls| AC
+    RP -.-> |restores| WF
+    WF --> |persisted to| WH
+    WH --> PS
+    PS --> CL
+    TC <--> CL
+    SH --> CL
+```
+
 ## Related
 
 - [[durable-execution]] - The core concept behind Temporal

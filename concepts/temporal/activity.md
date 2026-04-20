@@ -38,8 +38,40 @@ Activities should be idempotent since they may execute multiple times due to ret
 ## Relationship to Workflows
 
 Workflows orchestrate activities:
+
+```mermaid
+flowchart LR
+    subgraph Workflow["Workflow Execution"]
+        W1[Start] --> W2[Schedule Activity]
+        W2 --> W3[Wait for Result]
+        W3 --> W4[Continue]
+        W4 --> W5[Complete]
+    end
+
+    subgraph Activity["Activity Execution"]
+        A1[Dispatch to Worker] --> A2[Execute]
+        A2 --> A3{Success?}
+        A3 -->|Yes| A4[Return Result]
+        A3 -->|No| A5[Wait Backoff]
+        A5 --> A1
+    end
+    
+    W2 -.-> |1. Schedule| A1
+    A4 -.-> |2. Complete| W3
 ```
-Workflow calls Activity → Activity executes → Result returned to Workflow
+
+### Retry Flow
+
+```mermaid
+stateDiagram-v2
+    [*] --> Start
+    Start --> Execute: Start Activity
+    Execute --> Success: Complete
+    Execute --> Fail: Error
+    Fail --> Wait: Retry Policy
+    Wait --> Execute: Backoff Complete
+    Fail --> [*]: Max Retries Exceeded
+    Success --> [*]
 ```
 
 If activity fails, it's retried automatically. If workflow fails, it replays from last checkpoint and re-calls activities (which may have already succeeded).

@@ -33,10 +33,53 @@ Scheduled tasks that run on intervals:
 
 ## Key Features
 
-- **Signals**: Async events that can modify workflow state
-- **Timers**: Delayed execution and timeouts
-- **Child Workflows**: Compose complex processes
-- **Queries**: Read-only state inspection
+### Execution Flow
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant W as Workflow
+    participant A as Activity
+    participant T as Temporal Cluster
+    
+    C->>T: Start Workflow
+    T->>W: Create Workflow Execution
+    W->>A: Schedule Activity
+    A->>T: Activity Task
+    T->>A: Dispatch to Worker
+    A-->>T: Activity Result
+    T-->>W: Activity Completion
+    W->>T: Continue Execution
+    T-->>C: Workflow Result
+```
+
+### Signals, Timers, and Child Workflows
+
+```mermaid
+flowchart TB
+    subgraph Workflow["Workflow"]
+        Start((Start))
+        Signal1[Signal: User Input]
+        Timer[Timer: Delay/Wait]
+        Child[Child Workflow]
+        Query[Query: Read State]
+        End((Complete))
+    end
+    
+    Start --> Signal1
+    Signal1 --> Timer
+    Timer --> Child
+    Child --> Query
+    Query --> End
+    
+    Signal1 -.-> |External Event| Signal1
+    Timer -.-> |Fires After Delay| Timer
+    Query -.-> |Read-Only| Query
+```
+
+### Workflow Types
+
+### Long-Running Workflows
 
 ## Related
 
