@@ -105,3 +105,7 @@
 - [[SCHEMA]] - Domain conventions and page rules
 - [[SKILL]] - Legacy local research-generation skill notes
 - [[log]] - Append-only change log for compile and ingest work
+
+## FinTech & AI
+
+- [[polymarket-ai-arbitrage]] - Analysis of AI arbitrage in prediction markets by Nate B. Jones

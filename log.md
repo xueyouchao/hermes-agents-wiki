@@ -18,6 +18,14 @@
   - aws-rds.md, aws-vpc.md, aws-cloudfront.md, aws-iam.md
   - aws-route53.md, aws-sns.md, aws-sqs.md
   - aws-ecs.md, aws-eks.md, amazon-sagemaker.md
+
+## [2026-04-18] ingest | Polymarket AI Arbitrage Video Analysis
+- Analyzed youtube-transcript-api GitHub repository (https://github.com/jdepoix/youtube-transcript-api)
+- Tested transcript fetch on video BiqG3it0gY0 (YouTube API blocked from IP - used web extraction fallback)
+- Created raw source: raw/youtube-polymarket-ai-arbitrage.md
+- Created wiki summary page: polymarket-ai-arbitrage.md
+- Key content: AI arbitrage in prediction markets - $313 to $414K case study, five AI arbitrage gaps, CNC lathe parallel, rolling disruption model
+- Added to index.md under "FinTech & AI" section
 - Updated SCHEMA.md tag taxonomy with aws service tags
 - Updated index.md with all new pages (now 31 total)
 - Sources: AWS official product pages (2026)
