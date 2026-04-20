@@ -108,6 +108,35 @@
 - [[sourcegraph-public-snapshot]] - Sourcegraph public snapshot entity
 - [[knowledge-graph-tools-llm-retrieval]] - Comparison of Graphify, Sourcegraph, Neo4j, and Code2Vec
 
+## Robotics & Embodied AI
+
+> Topic Hub: [[robotics-vla-models]] - Open-source VLA models and ecosystem
+
+### Four Factions
+
+- [[four-factions]] - Analysis of open-source robotics competition
+- [[vla-model]] - Vision-Language-Action fundamentals
+
+### Key Companies & Models
+
+- [[physical-intelligence]] - PI (π₀, π₀.5), $5.6B valuation
+- [[open-vla]] - Stanford/Berkeley 7B model, beat Google's 55B RT-2-X
+- [[octo]] - Universal robot policy model
+- [[nvidia-gr00t]] - NVIDIA's full-stack robot foundation model
+- [[open-x-embodiment]] - The 1M+ trajectory robot data commons
+- [[xiaomi-robotics]] - Xiaomi-Robotics-0.47 with MoT architecture
+- [[ant-group-lingbot]] - Ant Group's cross-form VLA
+
+### Key Researchers
+
+- [[chelsea-finn]] - Stanford professor, PI co-founder
+- [[sergey-levine]] - Berkeley professor, PI co-founder, RL pioneer
+
+### Tools & Infrastructure
+
+- [[lerobot]] - Hugging Face robot training framework
+- [[genesis-robotics]] - CMU-led simulation platform
+
 ## AI/LLM Repositories
 
 > 56 AI/LLM repositories with 15k+ stars, organized by category
