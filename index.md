@@ -3,7 +3,7 @@
 
 > Master catalog for the Hermes Agents wiki.
 > The root index tracks topic hubs first, then supporting pages grouped by domain.
-> Last updated: 2026-04-17
+> Last updated: 2026-04-22
 
 ## Topic Hubs
 
@@ -99,14 +99,29 @@
 - [[splat-webgl]] - Browser viewer for splat scenes
 - [[awesome-3dgs]] - Curated ecosystem and paper list
 
-## Tools And Comparisons
+## Knowledge Graph Tools
 
-- [[autoresearch]] - Autonomous agent research repository
-- [[graphify]] - Knowledge graph tooling entity
-- [[neo4j]] - Graph database entity
-- [[code2vec]] - Code representation learning entity
-- [[sourcegraph-public-snapshot]] - Sourcegraph public snapshot entity
 - [[knowledge-graph-tools-llm-retrieval]] - Comparison of Graphify, Sourcegraph, Neo4j, and Code2Vec
+
+### Tools
+
+- [[entities/knowledge-graph-tools/graphify]] - Knowledge graph tooling entity
+- [[entities/knowledge-graph-tools/neo4j]] - Graph database entity
+- [[entities/knowledge-graph-tools/code2vec]] - Code representation learning entity
+- [[entities/knowledge-graph-tools/sourcegraph-public-snapshot]] - Sourcegraph public snapshot entity
+
+## Karpathy
+
+- [[andrej-karpathy]] - Researcher and educator behind the Karpathy repository set
+- [[karpathy-repos]] - Overview and learning path across the repository collection
+- [[nanogpt]] - GPT pretraining and fine-tuning reference repo
+- [[llm-c]] - Minimal C/CUDA LLM training stack
+- [[mingpt]] - Minimal PyTorch GPT implementation
+- [[minbpe]] - Minimal byte-pair encoding implementation
+- [[micrograd]] - Tiny autograd engine
+- [[char-rnn]] - Character-level recurrent model
+- [[nanochat]] - Local low-cost chat assistant project
+- [[entities/karpathy/autoresearch]] - Autonomous agent research repository
 
 ## Robotics & Embodied AI
 

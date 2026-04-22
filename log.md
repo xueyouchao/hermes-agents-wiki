@@ -97,3 +97,12 @@
 - Created entities/3dgs/ folder and moved: awesome-3dgs.md, gaussian-impl.md, splat-webgl.md
 - Added [[3dgs-research]] to Topic Hubs in index.md
 - Updated 3D Graphics section with sub-sections for Concepts and Implementations
+
+
+## [2026-04-22] reorganize | Knowledge graph tools and autoresearch
+- Created entities/knowledge-graph-tools/ folder
+- Moved code2vec.md, graphify.md, neo4j.md, sourcegraph-public-snapshot.md into entities/knowledge-graph-tools/
+- Moved autoresearch.md into entities/karpathy/ (properly placing it in the karpathy sub-wiki)
+- Updated index.md with new section and correct wikilinks for all moved files
+- Updated comparisons/knowledge-graph-tools-llm-retrieval.md with correct wikilinks
+- Updated log.md Last updated date

@@ -133,7 +133,7 @@ graphify add https://example.com/video  # Videos
 
 ## Related Resources
 
-- Graphify: https://github.com/safishamsi/graphify
-- Sourcegraph: https://github.com/sourcegraph/sourcegraph-public-snapshot
-- Neo4j: https://github.com/neo4j/neo4j
-- Code2Vec: https://github.com/tech-srl/code2vec
+- Graphify: [[entities/knowledge-graph-tools/graphify]]
+- Sourcegraph: [[entities/knowledge-graph-tools/sourcegraph-public-snapshot]]
+- Neo4j: [[entities/knowledge-graph-tools/neo4j]]
+- Code2Vec: [[entities/knowledge-graph-tools/code2vec]]
