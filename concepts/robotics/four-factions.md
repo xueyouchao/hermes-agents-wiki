@@ -13,12 +13,12 @@ The open-source robotics VLA model landscape can be divided into four major fact
 
 ## Overview
 
-| Faction | Representatives | Philosophy |
-|---------|-----------------|------------|
-| Academic | OpenVLA, Octo | Knowledge sharing, innovation |
-| Big Tech Ecosystem | NVIDIA GR00T, Google Gemini Robotics | Ecosystem control |
-| Chinese Players | Xiaomi, Ant Group, Zibojubot | Rule participation |
-| Technical Excellence | π₀ from Physical Intelligence | Performance optimization |
+| Faction              | Representatives                      | Philosophy                    |
+| -------------------- | ------------------------------------ | ----------------------------- |
+| Academic             | OpenVLA, Octo                        | Knowledge sharing, innovation |
+| Big Tech Ecosystem   | NVIDIA GR00T, Google Gemini Robotics | Ecosystem control             |
+| Chinese Players      | Xiaomi, Ant Group, Zibojubot         | Rule participation            |
+| Technical Excellence | π₀ from Physical Intelligence        | Performance optimization      |
 
 ---
 
@@ -62,12 +62,12 @@ OpenVLA's 16.5% success rate improvement over Google's 55B RT-2-X demonstrates t
 
 ### Comparison: NVIDIA vs. Google
 
-| Aspect | NVIDIA GR00T | Google Gemini |
-|--------|--------------|---------------|
-| Approach | Full stack | Platform (Android for robots) |
-| Hardware | Proprietary only | Hardware agnostic |
-| Latest | N1.6 (CES 2026) | Gemini Robotics |
-| Partner | Various humanoid companies | Boston Dynamics (Atlas) |
+| Aspect   | NVIDIA GR00T               | Google Gemini                 |
+| -------- | -------------------------- | ----------------------------- |
+| Approach | Full stack                 | Platform (Android for robots) |
+| Hardware | Proprietary only           | Hardware agnostic             |
+| Latest   | N1.6 (CES 2026)            | Gemini Robotics               |
+| Partner  | Various humanoid companies | Boston Dynamics (Atlas)       |
 
 ---
 

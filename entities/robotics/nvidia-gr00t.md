@@ -13,9 +13,9 @@ GR00T N1 is NVIDIA's open humanoid robot foundation model, introduced at GTC 202
 
 ## Release Timeline
 
-| Version | Event | Time |
-|---------|-------|------|
-| GR00T N1 | GTC 2025 (March) | First release |
+| Version    | Event              | Time             |
+| ---------- | ------------------ | ---------------- |
+| GR00T N1   | GTC 2025 (March)   | First release    |
 | GR00T N1.6 | CES 2026 (January) | Latest iteration |
 
 ## Technical Architecture

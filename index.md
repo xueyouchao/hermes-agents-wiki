@@ -137,6 +137,10 @@
 - [[lerobot]] - Hugging Face robot training framework
 - [[genesis-robotics]] - CMU-led simulation platform
 
+### Planning & Cost Analysis
+
+- [[robotics-ai-quickstart-plan]] - Quick-start approaches, cost model, and course design for robotics AI lessons business
+
 ## AI/LLM Repositories
 
 > 56 AI/LLM repositories with 15k+ stars, organized by category
