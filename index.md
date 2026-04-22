@@ -98,6 +98,7 @@
 - [[gaussian-impl]] - Reference implementation of the original 3DGS method
 - [[splat-webgl]] - Browser viewer for splat scenes
 - [[awesome-3dgs]] - Curated ecosystem and paper list
+- [[interiorgs]] - Large-scale indoor scene dataset (1,000 scenes)
 
 ## Tools And Comparisons
 

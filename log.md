@@ -28,7 +28,14 @@
 - Added to index.md under "FinTech & AI" section
 - Updated SCHEMA.md tag taxonomy with aws service tags
 - Updated index.md with all new pages (now 31 total)
-- Sources: AWS official product pages (2026)
+
+## [2026-04-22] ingest | InteriorGS Dataset
+- Analyzed HuggingFace dataset: spatialverse/InteriorGS
+- Created entity page: entities/3dgs/interiorgs.md
+- Created raw source: raw/articles/spatialverse-interiorgs.md
+- Key content: 1,000 indoor 3DGS scenes, 5M+ images, 554K+ object instances, 755 categories
+- Updated 3dgs-research.md to include InteriorGS in implementations
+- Updated index.md with new entity entry
 
 ## [2026-04-16] ingest | Amazon Bedrock (AgentCore)
 - Created entity page: aws-bedrock.md
