@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "45d7bdbccedcdce9",
+        "id": "1e3c478f1d528fe6",
         "type": "tabs",
         "children": [
           {
-            "id": "aecd5f1eef497410",
+            "id": "1d22b6573c0278c6",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "concepts/nvidia/audio2face-3d-sdk.md",
+                "file": "concepts/robotics/four-factions.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "audio2face-3d-sdk"
+              "title": "four-factions"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 389.5
+    "width": 388.5
   },
   "right": {
     "id": "137ef1e95b529da8",
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "concepts/nvidia/audio2face-3d-sdk.md",
+                "file": "concepts/robotics/four-factions.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for audio2face-3d-sdk"
+              "title": "Backlinks for four-factions"
             }
           },
           {
@@ -182,43 +182,43 @@
       "bases:Create new base": false
     }
   },
-  "active": "aecd5f1eef497410",
+  "active": "1d22b6573c0278c6",
   "lastOpenFiles": [
-    "concepts/nvidia/cuda-programming.md",
-    "concepts/nvidia/llm-deployment-on-rtx-pcs.md",
-    "concepts/nvidia/npc-dynamic-behavior-ace.md",
-    "concepts/nvidia/rendering-pipeline-integration-ace.md",
-    "concepts/nvidia/tensorrt-optimization.md",
-    "concepts/nvidia/windows-ml-integration.md",
+    "research/robotics/robotics-ai-quickstart-plan.md",
+    "research/nvidia/documentation-resources.md",
+    "research/nvidia/fvdb-fundamentals.md",
+    "research/nvidia/fvdb-architecture.md",
+    "research/robotics/robotics-vla-models.md",
+    "concepts/temporal/durable-execution.md",
+    "concepts/temporal/compensation.md",
+    "entities/robotics/nvidia-gr00t.md",
+    "concepts/robotics/vla-model.md",
+    "concepts/robotics/four-factions.md",
+    "entities/nvidia/nvidia-ace-for-games.md",
+    "entities/robotics/sergey-levine.md",
+    "entities/robotics/physical-intelligence.md",
+    "entities/repos/agentscope.md",
+    "GitHub Repository Management.md",
     "index.md",
     "log.md",
-    "concepts/nvidia/audio2face-3d-sdk.md",
-    "entities/splat-webgl.md",
-    "entities/sourcegraph-public-snapshot.md",
-    "entities/neo4j.md",
-    "entities/graphify.md",
-    "entities/gaussian-impl.md",
-    "entities/code2vec.md",
-    "entities/awesome-3dgs.md",
-    "entities/autoresearch.md",
-    "concepts/view-synthesis.md",
-    "concepts/point-cloud.md",
-    "concepts/nerf.md",
-    "concepts/3d-gaussian-splatting.md",
-    "comparisons/knowledge-graph-tools-llm-retrieval.md",
-    "research/nvidia/nvidia-ai-apps-rtx-pcs-overview.md",
-    "concepts/temporal/persistence.md",
+    "entities/robotics/octo.md",
+    "entities/robotics/genesis-robotics.md",
+    "concepts/karpathy/karpathy-repos.md",
+    "concepts/ai-agents/agent-platform-landscape.md",
+    "entities/karpathy/andrej-karpathy.md",
+    "SCHEMA.md",
+    "OBSIDIAN-SETUP.md",
     "concepts/temporal/cluster.md",
-    "concepts/temporal/compensation.md",
+    "raw/transcripts/agent-platform-landscape-2026.md",
+    "raw/transcripts",
+    "entities/ai-platforms",
+    "concepts/ai-agents",
+    "AI",
     "research/karpathy",
     "concepts/karpathy",
     "entities/karpathy",
     "research/temporal",
     "research/aws",
-    "concepts/temporal",
-    "entities/temporal",
-    "entities/aws",
-    "entities/nvidia",
-    "concepts/nvidia"
+    "concepts/temporal"
   ]
 }
