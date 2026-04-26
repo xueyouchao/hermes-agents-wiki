@@ -2,7 +2,7 @@
 """Run the trading bot backend server."""
 import os
 import uvicorn
-from backend.models.database import init_db
+from backend.common.models.database import init_db
 
 if __name__ == "__main__":
     print("Initializing database...")

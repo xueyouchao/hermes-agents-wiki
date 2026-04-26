@@ -2,8 +2,8 @@
 import pytest
 from datetime import date
 
-from backend.scanner.opportunity import BracketMarket, OpportunityType
-from backend.scanner.strategy_b import check_cross_bracket_arb, _group_brackets_by_event
+from backend.weather.scanner.opportunity import BracketMarket, OpportunityType
+from backend.weather.scanner.strategy_b import check_cross_bracket_arb, _group_brackets_by_event
 
 
 def make_bracket(
@@ -166,8 +166,8 @@ class TestRiskManager:
 
     def test_approve_good_opportunity(self):
         """Good opportunity should be approved."""
-        from backend.core.risk import RiskManager, RiskLimits
-        from backend.scanner.opportunity import Opportunity
+        from backend.common.risk import RiskManager, RiskLimits
+        from backend.weather.scanner.opportunity import Opportunity
 
         limits = RiskLimits(daily_loss_limit=300, max_trade_size=100)
         rm = RiskManager(limits)
@@ -198,8 +198,8 @@ class TestRiskManager:
 
     def test_reject_when_killed(self):
         """Kill switch should reject all opportunities."""
-        from backend.core.risk import RiskManager
-        from backend.scanner.opportunity import Opportunity
+        from backend.common.risk import RiskManager
+        from backend.weather.scanner.opportunity import Opportunity
 
         rm = RiskManager()
         rm.kill_switch(True)
@@ -219,7 +219,7 @@ class TestRiskManager:
 
     def test_drawdown_halt(self):
         """Drawdown from peak should halt trading."""
-        from backend.core.risk import RiskManager, RiskLimits
+        from backend.common.risk import RiskManager, RiskLimits
 
         limits = RiskLimits(max_drawdown_pct=0.10, daily_loss_limit=10000)
         rm = RiskManager(limits=limits, bankroll=1000.0)
@@ -232,7 +232,7 @@ class TestRiskManager:
 
     def test_consecutive_loss_halt(self):
         """Consecutive losses should halt trading."""
-        from backend.core.risk import RiskManager, RiskLimits
+        from backend.common.risk import RiskManager, RiskLimits
 
         limits = RiskLimits(max_consecutive_losses=3, daily_loss_limit=10000)
         rm = RiskManager(limits=limits)
@@ -244,14 +244,14 @@ class TestRiskManager:
 
     def test_rolling_window_loss_halt(self):
         """Rolling window loss should halt trading."""
-        from backend.core.risk import RiskManager, RiskLimits
+        from backend.common.risk import RiskManager, RiskLimits
         from datetime import datetime, timezone, timedelta
 
         limits = RiskLimits(rolling_loss_limit=50.0, rolling_loss_window_hours=4, daily_loss_limit=10000)
         rm = RiskManager(limits=limits)
 
         # Add a recent large loss
-        from backend.core.risk import TradeRecord
+        from backend.common.risk import TradeRecord
         rm._daily_stats.trade_records.append(
             TradeRecord(ticker="TEST", side="yes", size=1, cost=1.0, pnl=-60.0)
         )
@@ -262,8 +262,8 @@ class TestRiskManager:
 
     def test_fee_adjusted_edge_rejection(self):
         """Opportunities with edge below min_edge after fees should be rejected."""
-        from backend.core.risk import RiskManager, RiskLimits
-        from backend.scanner.opportunity import Opportunity
+        from backend.common.risk import RiskManager, RiskLimits
+        from backend.weather.scanner.opportunity import Opportunity
 
         limits = RiskLimits(min_edge=0.03, fee_rate_per_contract=0.01)
         rm = RiskManager(limits=limits)
@@ -287,7 +287,7 @@ class TestRiskManager:
 
     def test_auto_cancel_on_kill_switch(self):
         """Kill switch should trigger auto-cancel of registered orders."""
-        from backend.core.risk import RiskManager
+        from backend.common.risk import RiskManager
 
         rm = RiskManager()
         rm.register_order_for_cancel("order-123")
@@ -305,7 +305,7 @@ class TestRiskManager:
 
     def test_daily_trade_count_limit(self):
         """Daily trade count limit should block trading."""
-        from backend.core.risk import RiskManager, RiskLimits
+        from backend.common.risk import RiskManager, RiskLimits
 
         limits = RiskLimits(max_daily_trades=3, daily_loss_limit=10000)
         rm = RiskManager(limits=limits)
@@ -317,8 +317,8 @@ class TestRiskManager:
 
     def test_size_below_one_rejected(self):
         """Position size below 1 contract should be rejected (no floor-of-1 override)."""
-        from backend.core.risk import RiskManager, RiskLimits
-        from backend.scanner.opportunity import Opportunity
+        from backend.common.risk import RiskManager, RiskLimits
+        from backend.weather.scanner.opportunity import Opportunity
 
         limits = RiskLimits(max_trade_size=0.5, daily_loss_limit=10000)
         rm = RiskManager(limits=limits)

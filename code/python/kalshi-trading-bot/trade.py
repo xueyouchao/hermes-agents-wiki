@@ -53,8 +53,8 @@ def parse_args():
 
 async def run_once(simulation: bool, strategy_b_only: bool, cities: str = None):
     """Run a single scan cycle and print results."""
-    from backend.trader import TradingEngine
-    from backend.exchange.kalshi import KalshiExchange
+    from backend.common.trader import TradingEngine
+    from backend.common.exchange.kalshi import KalshiExchange
 
     engine = TradingEngine(
         exchange=KalshiExchange(),
@@ -62,7 +62,7 @@ async def run_once(simulation: bool, strategy_b_only: bool, cities: str = None):
     )
 
     if strategy_b_only:
-        from backend.scanner.strategy_b import scan_strategy_b
+        from backend.weather.scanner.strategy_b import scan_strategy_b
         logger.info("Running Strategy B scan only...")
         opportunities = await scan_strategy_b(engine.exchange)
         print(f"\n{'='*60}")
@@ -101,7 +101,7 @@ async def run_once(simulation: bool, strategy_b_only: bool, cities: str = None):
 
 async def run_status():
     """Check positions and balance on Kalshi."""
-    from backend.exchange.kalshi import KalshiExchange
+    from backend.common.exchange.kalshi import KalshiExchange
 
     exchange = KalshiExchange()
 
@@ -126,15 +126,15 @@ async def run_status():
 
 async def run_scheduled(simulation: bool):
     """Start the scheduler and run indefinitely."""
-    from backend.core.scheduler_v2 import start_scheduler, stop_scheduler, log_event
+    from backend.weather.core.weather_scheduler import start_scheduler, stop_scheduler, log_event
 
     # Override simulation mode in settings for scheduler
     if simulation:
         # Settings are already set from .env, but let's be explicit
-        from backend.config import settings
+        from backend.common.config import settings
         settings.SIMULATION_MODE = True
     else:
-        from backend.config import settings
+        from backend.common.config import settings
         settings.SIMULATION_MODE = False
         logger.warning("!!! LIVE TRADING MODE — REAL MONEY AT RISK !!!")
 

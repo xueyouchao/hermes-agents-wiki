@@ -7,11 +7,11 @@ import asyncio
 from datetime import date
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from backend.exchange.base import ExchangeClient, OrderResult, OrderSide, OrderType, OrderBook, Position, Balance
-from backend.scanner.opportunity import BracketMarket, Opportunity, OpportunityType, OpportunityStatus
-from backend.scanner.strategy_b import check_cross_bracket_arb
-from backend.core.risk import RiskManager, RiskLimits
-from backend.trader import TradingEngine
+from backend.common.exchange.base import ExchangeClient, OrderResult, OrderSide, OrderType, OrderBook, Position, Balance
+from backend.weather.scanner.opportunity import BracketMarket, Opportunity, OpportunityType, OpportunityStatus
+from backend.weather.scanner.strategy_b import check_cross_bracket_arb
+from backend.common.risk import RiskManager, RiskLimits
+from backend.common.trader import TradingEngine
 
 
 class MockExchange(ExchangeClient):
@@ -69,7 +69,7 @@ class TestTradingEnginePipeline:
     @pytest.mark.asyncio
     async def test_strategy_b_scan_with_mock_exchange(self):
         """Strategy B scanner finds arbitrage with mock market data."""
-        from backend.scanner.strategy_b import scan_strategy_b
+        from backend.weather.scanner.strategy_b import scan_strategy_b
 
         exchange = MockExchange()
         opportunities = await scan_strategy_b(exchange)
@@ -110,7 +110,7 @@ class TestTradingEnginePipeline:
             ],
         )
         # Patch at the module where it's imported in trader.py
-        with patch("backend.trader.scan_all", return_value=[mock_opp]):
+        with patch("backend.common.trader.scan_all", return_value=[mock_opp]):
             results = await engine.run_cycle()
 
         assert len(results) == 1
@@ -151,7 +151,7 @@ class TestTradingEnginePipeline:
             ],
         )
 
-        with patch("backend.trader.scan_all", return_value=[mock_opp]):
+        with patch("backend.common.trader.scan_all", return_value=[mock_opp]):
             results = await engine.run_cycle()
 
         assert len(results) == 1
@@ -233,7 +233,7 @@ class TestTradingEnginePipeline:
             ],
         )
 
-        with patch("backend.trader.scan_all", return_value=[mock_opp]):
+        with patch("backend.common.trader.scan_all", return_value=[mock_opp]):
             results = await engine.run_cycle()
 
         # All 6 bracket orders should be placed (concurrently via asyncio.gather)
