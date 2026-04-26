@@ -1,4 +1,12 @@
-"""Configuration settings for the BTC 5-min trading bot."""
+"""Configuration settings for the Weather Arbitrage Trading Bot.
+
+Kalshi-first weather prediction market bot with strategies:
+  A: Ultra-low bracket (ensemble confirms misprice)
+  B: Cross-bracket sum arbitrage (pure price — Phase 1)
+  C: Ensemble edge (model vs market disagreement)
+
+Uses Kalshi CFTC-regulated exchange via RSA-PSS auth.
+"""
 import os
 from pydantic_settings import BaseSettings
 from typing import Optional
@@ -17,6 +25,7 @@ class Settings(BaseSettings):
     KALSHI_API_KEY_ID: Optional[str] = None
     KALSHI_PRIVATE_KEY_PATH: Optional[str] = None
     KALSHI_ENABLED: bool = True
+    KALSHI_FEE_RATE: float = 0.0           # Fee per contract (adjust when Kalshi adds fees)
 
     # AI API Keys
     GROQ_API_KEY: Optional[str] = None

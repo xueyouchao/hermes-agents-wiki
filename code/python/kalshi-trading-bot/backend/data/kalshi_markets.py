@@ -128,9 +128,10 @@ async def fetch_kalshi_weather_markets(
                     yes_price = (m.get("yes_ask") or 0) / 100.0
                     no_price = (m.get("no_ask") or 0) / 100.0
 
-                    # Fallback to last/mid prices
+                    # Need an ask price to trade — don't fall back to last_price
+                    # (that was a bug: last_price is not what we'd pay to buy)
                     if yes_price <= 0:
-                        yes_price = (m.get("last_price") or 50) / 100.0
+                        continue
                     if no_price <= 0:
                         no_price = 1.0 - yes_price
 

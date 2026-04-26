@@ -1,7 +1,7 @@
 """Opportunity model — represents a tradeable signal detected by the scanner."""
 
 from dataclasses import dataclass, field
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from enum import Enum
 from typing import List, Optional
 
@@ -73,6 +73,9 @@ class Opportunity:
     kelly_fraction: float = 0.0
     suggested_size: float = 0.0
 
+    # Execution direction (explicit, not parsed from reasoning)
+    direction: str = "yes"    # "yes" or "no" — which side to buy
+
     # Strategy-specific data
     brackets: List[BracketMarket] = field(default_factory=list)
     model_probability: Optional[float] = None  # For strategies A and C
@@ -81,10 +84,15 @@ class Opportunity:
     ensemble_std: Optional[float] = None         # For strategies A and C
     ensemble_members: int = 0
 
+    # Scanner diagnostics
+    skip_reasons: List[str] = field(default_factory=list)  # Why markets were skipped
+    markets_scanned: int = 0
+    markets_skipped: int = 0
+
     # Status and metadata
     status: OpportunityStatus = OpportunityStatus.DETECTED
     reasoning: str = ""
-    detected_at: datetime = field(default_factory=datetime.utcnow)
+    detected_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     order_ids: List[str] = field(default_factory=list)  # Track placed orders
 
     @property
@@ -104,3 +112,20 @@ class Opportunity:
             OpportunityStatus.DETECTED,
             OpportunityStatus.VALIDATED,
         )
+
+    @property
+    def net_edge_after_fees(self) -> float:
+        """Edge after subtracting fees. Used for final profit calc."""
+        # Fee model: Kalshi currently charges $0 but this may change
+        from backend.config import settings
+        fee_per_contract = getattr(settings, 'KALSHI_FEE_RATE', 0.0)
+        total_fees = len(self.brackets) * fee_per_contract
+        return max(0.0, self.edge - total_fees)
+
+    @property
+    def roi_pct(self) -> float:
+        """Return on investment percentage for this opportunity."""
+        if self.total_cost <= 0:
+            return 0.0
+        net_profit = self.edge_dollars
+        return (net_profit / self.total_cost) * 100.0

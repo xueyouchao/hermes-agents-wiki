@@ -5,13 +5,15 @@ This is the orchestrator that:
 2. Passes each opportunity through the risk manager
 3. Executes approved opportunities via the exchange client
 4. Handles partial fills and order reconciliation
-5. Logs all decisions for audit
+5. Auto-cancels orders when risk halt triggers
+6. Logs all decisions for audit
 
 Designed to be called by APScheduler at regular intervals, or manually
 via CLI/API.
 """
+import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, List, Optional, Tuple
 
 from backend.config import settings
@@ -27,6 +29,9 @@ from backend.scanner.opportunity import (
 from backend.scanner.opportunity_scanner import scan_all, scan_strategy_b
 
 logger = logging.getLogger("trading_bot")
+
+# Timeout for individual order placement (seconds)
+ORDER_TIMEOUT_SECONDS = 10
 
 
 class TradingEngine:
@@ -70,11 +75,19 @@ class TradingEngine:
         """
         self._cycle_count += 1
         cycle_id = self._cycle_count
-        cycle_start = datetime.utcnow()
+        cycle_start = datetime.now(timezone.utc)
 
         logger.info("=" * 60)
         logger.info(f"TRADING CYCLE #{cycle_id} START | sim={self.simulation_mode}")
         logger.info("=" * 60)
+
+        # Step 0: Check if trading is allowed at all
+        is_allowed, halt_reason = self.risk_manager.is_trading_allowed()
+        if not is_allowed:
+            logger.warning(f"Trading halted: {halt_reason}")
+            # Auto-cancel any open orders when risk halt is active
+            await self._auto_cancel_on_halt()
+            return self._make_cycle_results(cycle_id, cycle_start, [])
 
         # Step 1: Scan for opportunities
         logger.info("Step 1: Scanning markets...")
@@ -90,11 +103,22 @@ class TradingEngine:
 
         logger.info(f"Found {len(opportunities)} opportunities")
 
-        # Step 2: Risk check each opportunity
+        # Step 2: Fetch current positions for concentration check
+        current_positions: Dict[str, float] = {}
+        try:
+            positions = await self.exchange.get_positions()
+            for pos in positions:
+                current_positions[pos.ticker] = pos.size * pos.avg_price
+        except Exception as e:
+            logger.warning(f"Could not fetch positions for concentration check: {e}")
+
+        # Step 3: Risk check each opportunity
         logger.info("Step 2: Risk managing opportunities...")
         approved = []
         for opp in opportunities:
-            is_allowed, adjusted_size, reason = self.risk_manager.approve_opportunity(opp)
+            is_allowed, adjusted_size, reason = self.risk_manager.approve_opportunity(
+                opp, current_positions
+            )
             if is_allowed:
                 opp.suggested_size = adjusted_size
                 opp.status = OpportunityStatus.VALIDATED
@@ -114,15 +138,22 @@ class TradingEngine:
             logger.info("No opportunities approved after risk check.")
             return self._make_cycle_results(cycle_id, cycle_start, opportunities)
 
-        # Step 3: Execute approved opportunities
+        # Step 4: Execute approved opportunities
         logger.info(f"Step 3: Executing {len(approved)} approved opportunities...")
         execution_results = []
 
         for opp in approved:
+            # Re-check trading allowed before each execution
+            is_allowed, reason = self.risk_manager.is_trading_allowed()
+            if not is_allowed:
+                logger.warning(f"Trading halted mid-cycle: {reason}")
+                await self._auto_cancel_on_halt()
+                break
+
             result = await self._execute_opportunity(opp)
             execution_results.append(result)
 
-        # Step 4: Summary
+        # Step 5: Summary
         executed = sum(1 for r in execution_results if r.get("executed", False))
         simulated = sum(1 for r in execution_results if r.get("simulated", False))
         total_edge = sum(r.get("edge_dollars", 0) for r in execution_results)
@@ -137,6 +168,30 @@ class TradingEngine:
         logger.info("=" * 60)
 
         return self._make_cycle_results(cycle_id, cycle_start, opportunities, execution_results)
+
+    async def _auto_cancel_on_halt(self):
+        """Auto-cancel all tracked orders when a risk halt is triggered."""
+        order_ids = self.risk_manager.get_orders_to_cancel()
+        if not order_ids:
+            return
+
+        logger.info(f"Auto-cancelling {len(order_ids)} tracked orders on risk halt...")
+        cancelled = []
+        for order_id in order_ids:
+            try:
+                success = await asyncio.wait_for(
+                    self.exchange.cancel_order(order_id),
+                    timeout=5.0,
+                )
+                if success:
+                    cancelled.append(order_id)
+                    logger.info(f"  Cancelled order {order_id}")
+            except (asyncio.TimeoutError, Exception) as e:
+                logger.error(f"  Failed to cancel order {order_id}: {e}")
+
+        self.risk_manager.clear_cancelled_orders(cancelled)
+        if cancelled:
+            logger.info(f"Successfully cancelled {len(cancelled)}/{len(order_ids)} orders")
 
     async def _execute_opportunity(self, opp: Opportunity) -> dict:
         """Execute a single approved opportunity.
@@ -164,7 +219,8 @@ class TradingEngine:
             logger.info(
                 f"  [SIM] Would execute {opp.opportunity_type.value}: "
                 f"{opp.series_ticker} {opp.target_date} "
-                f"edge={opp.edge:.1%} cost=${opp.total_cost:.4f}"
+                f"edge={opp.edge:.1%} cost=${opp.total_cost:.4f} "
+                f"ROI={opp.roi_pct:.1f}%"
             )
 
             # In simulation, still log what we would have done
@@ -182,10 +238,10 @@ class TradingEngine:
                         f"x {opp.suggested_size}"
                     )
             else:
-                # Strategy A or C — single market
+                # Strategy A or C — use explicit direction field
                 result["orders"].append({
                     "ticker": opp.series_ticker,
-                    "side": "yes",
+                    "side": opp.direction,
                     "price": opp.total_cost,
                     "size": opp.suggested_size,
                     "simulated": True,
@@ -209,32 +265,47 @@ class TradingEngine:
         """Execute Strategy B — buy YES on every bracket in the event.
 
         This is the core arbitrage execution:
-        1. Buy YES on all brackets at their ask price
+        1. Buy YES on all brackets at their ask price concurrently
         2. Use IOC (immediate-or-cancel) for speed
         3. If any bracket fails to fill enough, we have partial arb
-        4. Log results for reconciliation
+        4. Auto-cancel remaining if critical bracket fails
+        5. Log results for reconciliation
         """
         opp.status = OpportunityStatus.EXECUTING
         filled_brackets = 0
         total_cost = 0.0
 
-        for bracket in opp.brackets:
-            price = bracket.yes_price
-            size = opp.suggested_size
+        # Place all bracket orders concurrently for speed
+        async def _place_bracket_order(bracket: BracketMarket) -> Tuple[BracketMarket, OrderResult]:
+            """Place a single bracket order with timeout."""
+            try:
+                order_result = await asyncio.wait_for(
+                    self.exchange.place_order(
+                        ticker=bracket.ticker,
+                        side=OrderSide.YES,
+                        price=bracket.yes_price,
+                        size=opp.suggested_size,
+                        order_type=OrderType.IOC,
+                    ),
+                    timeout=ORDER_TIMEOUT_SECONDS,
+                )
+                return bracket, order_result
+            except asyncio.TimeoutError:
+                return bracket, OrderResult(success=False, error="Order timed out")
+            except Exception as e:
+                return bracket, OrderResult(success=False, error=str(e))
 
-            order_result: OrderResult = await self.exchange.place_order(
-                ticker=bracket.ticker,
-                side=OrderSide.YES,
-                price=price,
-                size=size,
-                order_type=OrderType.IOC,  # Immediate or cancel for arb
-            )
+        # Execute all orders concurrently
+        order_tasks = [_place_bracket_order(b) for b in opp.brackets]
+        order_results = await asyncio.gather(*order_tasks)
 
+        # Process results
+        for bracket, order_result in order_results:
             order_dict = {
                 "ticker": bracket.ticker,
                 "side": "yes",
-                "price": price,
-                "size": size,
+                "price": bracket.yes_price,
+                "size": opp.suggested_size,
                 "order_id": order_result.order_id,
                 "filled_size": order_result.filled_size,
                 "filled_price": order_result.filled_price,
@@ -248,11 +319,14 @@ class TradingEngine:
                 filled_brackets += 1
                 total_cost += order_result.filled_price * order_result.filled_size
 
-                # Track order for potential cancellation
+                # Register order for potential auto-cancel on risk halt
+                if order_result.order_id:
+                    self.risk_manager.register_order_for_cancel(order_result.order_id)
+
                 if order_result.remaining_size > 0:
                     logger.warning(
                         f"  Partial fill on {bracket.ticker}: "
-                        f"{order_result.filled_size}/{size} @ {order_result.filled_price:.2f}"
+                        f"{order_result.filled_size}/{opp.suggested_size} @ {order_result.filled_price:.2f}"
                     )
 
                 # Record in risk manager
@@ -265,11 +339,8 @@ class TradingEngine:
                 logger.error(
                     f"  Order FAILED for {bracket.ticker}: {order_result.error}"
                 )
-                # In Strategy B, if one bracket fails, we have incomplete arb.
-                # The remaining filled brackets will still likely pay out,
-                # but we've lost the guaranteed-profit structure.
-                # Log it and continue — the risk manager tracks exposure.
 
+        # Determine final status
         if filled_brackets == len(opp.brackets):
             opp.status = OpportunityStatus.COMPLETE
             result["executed"] = True
@@ -279,7 +350,7 @@ class TradingEngine:
             )
         elif filled_brackets > 0:
             opp.status = OpportunityStatus.PARTIAL
-            opp.order_ids = [o.get("order_id", "") for o in result["orders"]]
+            opp.order_ids = [o.get("order_id", "") for o in result["orders"] if o.get("order_id")]
             result["executed"] = True
             logger.warning(
                 f"  Strategy B PARTIAL: {filled_brackets}/{len(opp.brackets)} brackets filled"
@@ -291,17 +362,27 @@ class TradingEngine:
         return result
 
     async def _execute_single_market(self, opp: Opportunity, result: dict) -> dict:
-        """Execute a single-market trade (Strategy A or C)."""
-        # Determine side based on direction
-        side = OrderSide.YES if opp.reasoning and "YES" in opp.reasoning.upper() else OrderSide.NO
+        """Execute a single-market trade (Strategy A or C).
 
-        order_result: OrderResult = await self.exchange.place_order(
-            ticker=opp.series_ticker,
-            side=side,
-            price=opp.total_cost,
-            size=opp.suggested_size,
-            order_type=OrderType.LIMIT,
-        )
+        Uses the explicit `direction` field on the Opportunity object.
+        """
+        side = OrderSide(opp.direction)  # "yes" or "no"
+
+        try:
+            order_result: OrderResult = await asyncio.wait_for(
+                self.exchange.place_order(
+                    ticker=opp.series_ticker,
+                    side=side,
+                    price=opp.total_cost,
+                    size=opp.suggested_size,
+                    order_type=OrderType.LIMIT,
+                ),
+                timeout=ORDER_TIMEOUT_SECONDS,
+            )
+        except asyncio.TimeoutError:
+            return {**result, "error": "Order timed out"}
+        except Exception as e:
+            return {**result, "error": str(e)}
 
         result["orders"].append({
             "ticker": opp.series_ticker,
@@ -319,6 +400,8 @@ class TradingEngine:
         if order_result.success:
             opp.status = OpportunityStatus.EXECUTING
             result["executed"] = True
+            if order_result.order_id:
+                self.risk_manager.register_order_for_cancel(order_result.order_id)
             self.risk_manager.record_trade(
                 ticker=opp.series_ticker,
                 size=int(order_result.filled_size),
@@ -379,7 +462,7 @@ class TradingEngine:
             exec_result = None
             if execution_results:
                 for er in execution_results:
-                    if er.get("series_ticker") == opp.series_ticker:
+                    if er.get("series_ticker") == opp.series_ticker and str(er.get("target_date")) == str(opp.target_date):
                         exec_result = er
                         break
 
@@ -397,6 +480,8 @@ class TradingEngine:
                 "status": opp.status.value,
                 "num_brackets": opp.num_brackets,
                 "reasoning": opp.reasoning[:200] if opp.reasoning else "",
+                "skip_reasons": opp.skip_reasons[:10] if opp.skip_reasons else [],
+                "roi_pct": opp.roi_pct,
                 "execution": exec_result,
             })
 

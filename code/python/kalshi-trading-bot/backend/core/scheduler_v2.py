@@ -6,7 +6,7 @@ Single process, asyncio event loop — no distributed coordination needed.
 """
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -32,7 +32,7 @@ def log_event(event_type: str, message: str, data: dict = None):
     """Log an event for terminal display."""
     global event_log
     event = {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "type": event_type,
         "message": message,
         "data": data or {}

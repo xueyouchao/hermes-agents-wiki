@@ -265,3 +265,8 @@ class KalshiExchange(ExchangeClient):
         except Exception as e:
             logger.error(f"Get open orders failed: {e}")
             return []
+
+    async def close(self):
+        """Close the underlying HTTP client session."""
+        await self._client.close()
+        self._pending_orders.clear()

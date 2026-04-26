@@ -133,3 +133,8 @@ class ExchangeClient(ABC):
         for a weather event to check if sum(YES prices) < $1.00.
         """
         ...
+
+    @abstractmethod
+    async def close(self):
+        """Close the exchange client and release resources (HTTP sessions, etc)."""
+        ...
