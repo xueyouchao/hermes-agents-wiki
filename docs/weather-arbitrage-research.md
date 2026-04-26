@@ -419,3 +419,89 @@ irregularly — sometimes hours or days late. The bot closes that gap.
 This is the same principle as the existing speed-gap arbitrage in the
 main branch — but applied to a market segment where the gap is MUCH wider
 and the competition is MUCH thinner.
+
+## 13. Kalshi vs. Polymarket — Can the Same Strategy Work on Both?
+
+### Kalshi Overview
+
+Kalshi is a CFTC-regulated US prediction market. **US persons CAN legally trade on it.**
+No VPN needed, no geo-blocking, fully compliant.
+
+API: `https://api.elections.kalshi.com/trade-api/v2/` (public, no auth for reads)
+
+### Kalshi Weather Markets — Live Data (Apr 26, 2026)
+
+**66 total temperature series** — both high and low temps.
+
+Example: NYC High Temp Apr 26, 2026
+
+```
+Bracket         YES Bid/Ask    NO Bid/Ask     Volume
+59° or above    0.10/0.11      0.89/0.90      $11,988
+57° to 58°      0.27/0.28      0.72/0.73      $11,011
+55° to 56°      0.36/0.37      0.63/0.64      $7,669
+53° to 54°      0.18/0.19      0.81/0.82      $7,439
+51° to 52°      0.07/0.08      0.92/0.93      $8,747
+50° or below    0.03/0.04      0.96/0.97      $9,430
+```
+
+**Mutually exclusive**: exactly one bracket resolves to YES.
+
+### Key Differences
+
+| Aspect              | Polymarket                      | Kalshi                           |
+|---------------------|--------------------------------|----------------------------------|
+| US Access           | BLOCKED (CFTC restriction)    | LEGAL for US persons             |
+| API Auth            | API key required for trading   | API key required for trading     |
+| Market Model        | Independent binary per bracket | Mutually exclusive brackets      |
+| Bracket Width       | 1°C or 2°F                    | 2°F bands (50°/51-52/53-54/etc)  |
+| Cities Available    | 50+ global cities              | ~20 US cities only                |
+| Typical Volume      | $10-46K per city/day           | $7-12K per city/day              |
+| Resolution Source   | Variable per market            | NWS Climatological Report (official) |
+| Spread Quality      | Often has YES+NO < $1.00      | Tighter spreads (more efficient) |
+| Extreme Brackets    | Priced down to 0.1¢           | Starts at 3-4¢ minimums           |
+| Fee Structure       | No trading fees (rewards)      | Quadratic fee (small)            |
+
+### Strategy Viability on Kalshi
+
+**Strategy A (ColdMath): HARDER on Kalshi**
+- Kalshi's minimum bracket prices start at ~3¢ (not 0.1¢ like Polymarket)
+- 2°F bracket width vs 1°C (≈1.8°F) on Polymarket = less extreme outliers
+- Markets are more efficient because US persons can trade legally (no geo-block = more participants)
+- Edge is smaller but still present for extreme brackets (e.g., "59° or above" at 10¢ when model says 5%)
+
+**Strategy B (Spread Arb): ALSO HARDER on Kalshi**
+- Kalshi uses mutually exclusive brackets — the math is different from Polymarket
+- On Kalshi: you don't buy YES+NO on the SAME bracket (that's just $1.00)
+- Instead you exploit mispricing ACROSS brackets where implied probabilities don't sum to 100%
+- Example: all 6 brackets' YES prices should sum to ~$1.00; if they sum to $0.92, buying all YES sides = 8¢ guaranteed profit
+- This exists on Kalshi but the spread is typically smaller ($0.02-0.05 vs $0.10-0.20 on Polymarket)
+
+**Kalshi-specific edge: Official NWS Resolution**
+- All Kalshi NYC contracts resolve to NWS Central Park reading
+- You know the EXACT resolution source
+- You can monitor the NWS preliminary data BEFORE it becomes official
+- This creates a small but reliable confirmation edge near resolution time
+
+### Recommendation: Run BOTH
+
+```
+┌────────────────────────────────────────────────────┐
+│              Combined Weather Bot                    │
+│                                                      │
+│  Polymarket (non-US VPS)  ←→  Kalshi (US/any VPS)  │
+│    Strategy A: 0.1-2¢ brackets                       │
+│    Strategy B: YES+NO spread arb                     │
+│    Cities: 50+ global                                │
+│                                                      │
+│    Strategy A: 3-10¢ extreme brackets                │
+│    Strategy B: cross-bracket sum < $1 arb            │
+│    Cities: ~20 US cities                             │
+│    NWS confirmation edge                             │
+└────────────────────────────────────────────────────┘
+```
+
+- **Polymarket**: Higher return/edge, broader cities, requires non-US VPS
+- **Kalshi**: Lower edge but US-legal, NWS resolution clarity, good for confirmation signals
+- Use Kalshi's NWS resolution data to validate Polymarket weather signals
+- Diversify across both platforms = more markets = more volume = more compounding
