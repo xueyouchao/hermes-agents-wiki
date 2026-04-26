@@ -1,5 +1,0 @@
-# Weather Arbitrage Bot - Dependencies
-
-requests>=2.31.0
-scipy>=1.11.0
-py-clob-client>=0.0.1   # Polymarket Python SDK (uncomment for live trading)
