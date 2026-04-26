@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="goGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#22c55e;stop-opacity:0.05" />
+    </linearGradient>
+    <linearGradient id="pyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0.05" />
+    </linearGradient>
+    <linearGradient id="temporalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:0.05" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="900" fill="url(#bgGrad)" rx="8"/>
+  
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" fill="#e2e8f0" font-family="monospace" font-size="22" font-weight="bold">
+    Polymarket AI Arbitrage System — Architecture Overview
+  </text>
+  
+  <!-- Go Engine Block -->
+  <rect x="40" y="70" width="540" height="400" rx="10" fill="url(#goGrad)" stroke="#22c55e" stroke-width="2"/>
+  <text x="60" y="100" fill="#4ade80" font-family="monospace" font-size="14" font-weight="bold">
+    Go Engine (Core Execution Path)
+  </text>
+  
+  <!-- Go Components -->
+  <rect x="60" y="115" width="140" height="50" rx="6" fill="#0f172a" stroke="#22c55e" stroke-width="1"/>
+  <text x="130" y="145" text-anchor="middle" fill="#86efac" font-family="monospace" font-size="11">Price Consumer</text>
+  
+  <rect x="220" y="115" width="140" height="50" rx="6" fill="#0f172a" stroke="#22c55e" stroke-width="1"/>
+  <text x="290" y="145" text-anchor="middle" fill="#86efac" font-family="monospace" font-size="11">Spread Calculator</text>
+  
+  <rect x="380" y="115" width="140" height="50" rx="6" fill="#0f172a" stroke="#22c55e" stroke-width="1"/>
+  <text x="450" y="145" text-anchor="middle" fill="#86efac" font-family="monospace" font-size="11">Opportunity Screener</text>
+  
+  <rect x="60" y="185" width="200" height="50" rx="6" fill="#0f172a" stroke="#22c55e" stroke-width="1"/>
+  <text x="160" y="215" text-anchor="middle" fill="#86efac" font-family="monospace" font-size="11">Execution Router</text>
+  
+  <rect x="280" y="185" width="200" height="50" rx="6" fill="#0f172a" stroke="#22c55e" stroke-width="1"/>
+  <text x="380" y="215" text-anchor="middle" fill="#86efac" font-family="monospace" font-size="11">Risk Manager</text>
+  
+  <rect x="60" y="255" width="200" height="50" rx="6" fill="#0f172a" stroke="#22c55e" stroke-width="1"/>
+  <text x="160" y="285" text-anchor="middle" fill="#86efac" font-family="monospace" font-size="11">Trade Executor</text>
+  
+  <rect x="280" y="255" width="200" height="50" rx="6" fill="#0f172a" stroke="#22c55e" stroke-width="1"/>
+  <text x="380" y="285" text-anchor="middle" fill="#86efac" font-family="monospace" font-size="11">Event Store (Postgres)</text>
+  
+  <rect x="60" y="325" width="420" height="50" rx="6" fill="#0f172a" stroke="#22c55e" stroke-width="1"/>
+  <text x="270" y="355" text-anchor="middle" fill="#86efac" font-family="monospace" font-size="11">Temporal Worker (durable execution + saga compensation)</text>
+  
+  <rect x="60" y="395" width="420" height="50" rx="6" fill="#0f172a" stroke="#22c55e" stroke-width="1"/>
+  <text x="270" y="425" text-anchor="middle" fill="#86efac" font-family="monospace" font-size="11">gRPC Client → Python AI Bridge</text>
+  
+  <!-- Arrow: Go -> Temp -->
+  <line x1="270" y1="355" x2="570" y2="355" stroke="#22c55e" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  
+  <!-- Python AI Bridge Block -->
+  <rect x="620" y="70" width="540" height="400" rx="10" fill="url(#pyGrad)" stroke="#3b82f6" stroke-width="2"/>
+  <text x="640" y="100" fill="#60a5fa" font-family="monospace" font-size="14" font-weight="bold">
+    Python AI Bridge (Signal Generation Path)
+  </text>
+  
+  <rect x="640" y="115" width="200" height="50" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+  <text x="740" y="145" text-anchor="middle" fill="#93c5fd" font-family="monospace" font-size="11">News/Feed Scraper</text>
+  
+  <rect x="860" y="115" width="200" height="50" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+  <text x="960" y="145" text-anchor="middle" fill="#93c5fd" font-family="monospace" font-size="11">Signal Interpreter (LLM)</text>
+  
+  <rect x="640" y="185" width="420" height="50" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+  <text x="850" y="215" text-anchor="middle" fill="#93c5fd" font-family="monospace" font-size="11">LangChain ArbitrageAgent (reasoning + knowledge gaps)</text>
+  
+  <rect x="640" y="255" width="200" height="50" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+  <text x="740" y="285" text-anchor="middle" fill="#93c5fd" font-family="monospace" font-size="11">Signal Ranking (XGBoost)</text>
+  
+  <rect x="860" y="255" width="200" height="50" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+  <text x="960" y="285" text-anchor="middle" fill="#93c5fd" font-family="monospace" font-size="11">FastAPI (Health/Metrics)</text>
+  
+  <rect x="640" y="325" width="420" height="50" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+  <text x="850" y="355" text-anchor="middle" fill="#93c5fd" font-family="monospace" font-size="11">gRPC Server (streaming signals to Go)</text>
+  
+  <!-- Temporal Block -->
+  <rect x="320" y="500" width="560" height="120" rx="10" fill="url(#temporalGrad)" stroke="#f59e0b" stroke-width="2" filter="url(#glow)"/>
+  <text x="600" y="530" text-anchor="middle" fill="#fcd34d" font-family="monospace" font-size="14" font-weight="bold">
+    Temporal Orchestration (Durable Execution + Saga)
+  </text>
+  <text x="600" y="560" text-anchor="middle" fill="#fde68a" font-family="monospace" font-size="11">
+    OpportunityExecutionWF | SignalProcessingWF | SettlementSaga
+  </text>
+  <text x="600" y="585" text-anchor="middle" fill="#fde68a" font-family="monospace" font-size="11">
+    RetryPolicy: 500ms initial, 3 max attempts | NonRetryable: RiskError
+  </text>
+  
+  <!-- External APIs -->
+  <rect x="40" y="660" width="260" height="80" rx="8" fill="#1e1b4b" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="170" y="695" text-anchor="middle" fill="#c4b5fd" font-family="monospace" font-size="12" font-weight="bold">Polymarket API</text>
+  <text x="170" y="720" text-anchor="middle" fill="#c4b5fd" font-family="monospace" font-size="10">WS + REST | USDC Contracts</text>
+  
+  <rect x="330" y="660" width="260" height="80" rx="8" fill="#1e1b4b" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="460" y="695" text-anchor="middle" fill="#c4b5fd" font-family="monospace" font-size="12" font-weight="bold">Binance / OKX</text>
+  <text x="460" y="720" text-anchor="middle" fill="#c4b5fd" font-family="monospace" font-size="10">Spot + Futures | U-Margined</text>
+  
+  <rect x="620" y="660" width="260" height="80" rx="8" fill="#1e1b4b" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="750" y="695" text-anchor="middle" fill="#c4b5fd" font-family="monospace" font-size="12" font-weight="bold">OpenRouter / Anthropic</text>
+  <text x="750" y="720" text-anchor="middle" fill="#c4b5fd" font-family="monospace" font-size="10">Claude Sonnet 4 | Low temp reasoning</text>
+  
+  <rect x="900" y="660" width="260" height="80" rx="8" fill="#1e1b4b" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="1030" y="695" text-anchor="middle" fill="#c4b5fd" font-family="monospace" font-size="12" font-weight="bold">Postgres + Redis</text>
+  <text x="1030" y="720" text-anchor="middle" fill="#c4b5fd" font-family="monospace" font-size="10">Event Store + State Cache</text>
+  
+  <!-- Connecting lines -->
+  <line x1="170" y1="165" x2="170" y2="660" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrowPurple)"/>
+  <line x1="460" y1="165" x2="460" y2="660" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrowPurple)"/>
+  <line x1="960" y1="165" x2="960" y2="660" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrowPurple)"/>
+  <line x1="1100" y1="395" x2="1100" y2="660" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrowPurple)"/>
+  
+  <line x1="270" y1="375" x2="570" y2="500" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <line x1="600" y1="620" x2="600" y2="660" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowYellow)"/>
+  
+  <!-- Arrow markers -->
+  <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L0,6 L9,3 z" fill="#22c55e" />
+  </marker>
+  <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L0,6 L9,3 z" fill="#3b82f6" />
+  </marker>
+  <marker id="arrowPurple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L0,6 L9,3 z" fill="#a78bfa" />
+  </marker>
+  <marker id="arrowYellow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L0,6 L9,3 z" fill="#f59e0b" />
+  </marker>
+  
+  <!-- Legend -->
+  <rect x="40" y="780" width="1120" height="90" rx="8" fill="#020617" stroke="#475569" stroke-width="1"/>
+  <text x="60" y="810" fill="#94a3b8" font-family="monospace" font-size="12">Legend:</text>
+  <rect x="60" y="825" width="12" height="12" fill="#22c55e" rx="2"/><text x="80" y="835" fill="#94a3b8" font-family="monospace" font-size="11"> Go (core execution, sub-ms goroutines, compile-time DI via Wire)</text>
+  <rect x="60" y="845" width="12" height="12" fill="#3b82f6" rx="2"/><text x="80" y="855" fill="#94a3b8" font-family="monospace" font-size="11"> Python (AI signal generation, LangChain agents, gRPC bridge)</text>
+  <rect x="400" y="825" width="12" height="12" fill="#f59e0b" rx="2"/><text x="420" y="835" fill="#94a3b8" font-family="monospace" font-size="11"> Temporal (durable execution, saga pattern, 2.7s TTL guarantee)</text>
+  <rect x="400" y="845" width="12" height="12" fill="#a78bfa" rx="2"/><text x="420" y="855" fill="#94a3b8" font-family="monospace" font-size="11"> External APIs (Polymarket, Binance, Anthropic, Postgres, Redis)</text>
+</svg>
