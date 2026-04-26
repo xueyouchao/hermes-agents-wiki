@@ -1,18 +1,17 @@
 @startuml architecture-overview
-!theme cerulean
 skinparam componentStyle rectangle
-skinparam backgroundColor #1a1a2e
-skinparam fontColor #e0e0e0
-skinparam arrowColor #4fc3f7
-skinparam componentBackgroundColor #16213e
-skinparam componentBorderColor #4fc3f7
-skinparam componentFontColor #e0e0e0
-skinparam packageBackgroundColor #0f3460
-skinparam packageBorderColor #4fc3f7
-skinparam packageFontColor #e0e0e0
-skinparam noteBackgroundColor #1a1a2e
-skinparam noteBorderColor #f39c12
-skinparam noteFontColor #f39c12
+skinparam backgroundColor white
+skinparam fontColor black
+skinparam arrowColor #1565c0
+skinparam componentBackgroundColor #e3f2fd
+skinparam componentBorderColor #1565c0
+skinparam componentFontColor black
+skinparam packageBackgroundColor #f5f5f5
+skinparam packageBorderColor #1565c0
+skinparam packageFontColor black
+skinparam noteBackgroundColor #fff8e1
+skinparam noteBorderColor #f57f17
+skinparam noteFontColor #333333
 
 title Weather Arbitrage Trading Bot — Architecture Overview
 

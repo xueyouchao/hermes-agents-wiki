@@ -1,17 +1,16 @@
 @startuml trading-cycle-sequence
-!theme cerulean
-skinparam backgroundColor #1a1a2e
-skinparam fontColor #e0e0e0
-skinparam arrowColor #4fc3f7
-skinparam lifelineBorderColor #4fc3f7
-skinparam participantBackgroundColor #16213e
-skinparam participantBorderColor #4fc3f7
-skinparam participantFontColor #e0e0e0
-skinparam noteBackgroundColor #1a1a2e
-skinparam noteBorderColor #f39c12
-skinparam noteFontColor #f39c12
-skinparam dividerBackgroundColor #0f3460
-skinparam dividerFontColor #e0e0e0
+skinparam backgroundColor white
+skinparam fontColor black
+skinparam arrowColor #1565c0
+skinparam lifelineBorderColor #1565c0
+skinparam participantBackgroundColor #e3f2fd
+skinparam participantBorderColor #1565c0
+skinparam participantFontColor black
+skinparam noteBackgroundColor #fff8e1
+skinparam noteBorderColor #f57f17
+skinparam noteFontColor #333333
+skinparam dividerBackgroundColor #e3f2fd
+skinparam dividerFontColor black
 
 title Strategy B — Trading Cycle Sequence Diagram
 
