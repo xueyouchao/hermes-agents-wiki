@@ -1,0 +1,206 @@
+[
+  {
+    "name": "BTC Trading",
+    "slug": "btc-trading",
+    "files": [
+      "code/python/kalshi-trading-bot/backend/btc/core/btc_scheduler.py",
+      "code/python/kalshi-trading-bot/backend/btc/core/signals.py",
+      "code/python/kalshi-trading-bot/backend/btc/data/btc_markets.py",
+      "code/python/kalshi-trading-bot/backend/btc/data/crypto.py"
+    ]
+  },
+  {
+    "name": "Weather Trading",
+    "slug": "weather-trading",
+    "files": [
+      "code/python/kalshi-trading-bot/backend/weather/core/weather_scheduler.py",
+      "code/python/kalshi-trading-bot/backend/weather/core/weather_signals.py",
+      "code/python/kalshi-trading-bot/backend/weather/data/weather.py",
+      "code/python/kalshi-trading-bot/backend/weather/data/weather_markets.py",
+      "code/python/kalshi-trading-bot/backend/weather/scanner/opportunity.py",
+      "code/python/kalshi-trading-bot/backend/weather/scanner/opportunity_scanner.py",
+      "code/python/kalshi-trading-bot/backend/weather/scanner/strategy_b.py"
+    ]
+  },
+  {
+    "name": "AI Analysis",
+    "slug": "ai-analysis",
+    "files": [
+      "code/python/kalshi-trading-bot/backend/common/ai/base.py",
+      "code/python/kalshi-trading-bot/backend/common/ai/claude.py",
+      "code/python/kalshi-trading-bot/backend/common/ai/groq.py",
+      "code/python/kalshi-trading-bot/backend/common/ai/ollama.py",
+      "code/python/kalshi-trading-bot/backend/common/ai/logger.py"
+    ]
+  },
+  {
+    "name": "API Layer",
+    "slug": "api-layer",
+    "files": [
+      "code/python/kalshi-trading-bot/backend/common/api/main.py"
+    ]
+  },
+  {
+    "name": "Exchange Integration",
+    "slug": "exchange-integration",
+    "files": [
+      "code/python/kalshi-trading-bot/backend/common/exchange/base.py",
+      "code/python/kalshi-trading-bot/backend/common/exchange/kalshi.py"
+    ]
+  },
+  {
+    "name": "Data Access",
+    "slug": "data-access",
+    "files": [
+      "code/python/kalshi-trading-bot/backend/common/data/kalshi_client.py",
+      "code/python/kalshi-trading-bot/backend/common/data/kalshi_markets.py",
+      "code/python/kalshi-trading-bot/backend/common/data/markets.py"
+    ]
+  },
+  {
+    "name": "Risk Management",
+    "slug": "risk-management",
+    "files": [
+      "code/python/kalshi-trading-bot/backend/common/risk.py"
+    ]
+  },
+  {
+    "name": "Trading Engine",
+    "slug": "trading-engine",
+    "files": [
+      "code/python/kalshi-trading-bot/backend/common/trader.py",
+      "code/python/kalshi-trading-bot/backend/common/settlement.py"
+    ]
+  },
+  {
+    "name": "Database",
+    "slug": "database",
+    "files": [
+      "code/python/kalshi-trading-bot/backend/common/models/database.py"
+    ]
+  },
+  {
+    "name": "Configuration",
+    "slug": "configuration",
+    "files": [
+      "code/python/kalshi-trading-bot/backend/common/config.py"
+    ]
+  },
+  {
+    "name": "Frontend",
+    "slug": "frontend",
+    "files": [
+      "code/python/kalshi-trading-bot/frontend/src/App.tsx",
+      "code/python/kalshi-trading-bot/frontend/src/api.ts",
+      "code/python/kalshi-trading-bot/frontend/src/types.ts",
+      "code/python/kalshi-trading-bot/frontend/src/utils.ts",
+      "code/python/kalshi-trading-bot/frontend/src/main.tsx",
+      "code/python/kalshi-trading-bot/frontend/src/index.css",
+      "code/python/kalshi-trading-bot/frontend/src/components/CalibrationPanel.tsx",
+      "code/python/kalshi-trading-bot/frontend/src/components/EdgeDistribution.tsx",
+      "code/python/kalshi-trading-bot/frontend/src/components/EquityChart.tsx",
+      "code/python/kalshi-trading-bot/frontend/src/components/FilterBar.tsx",
+      "code/python/kalshi-trading-bot/frontend/src/components/GlobeView.tsx",
+      "code/python/kalshi-trading-bot/frontend/src/components/MicrostructurePanel.tsx",
+      "code/python/kalshi-trading-bot/frontend/src/components/SignalsTable.tsx",
+      "code/python/kalshi-trading-bot/frontend/src/components/StatsCards.tsx",
+      "code/python/kalshi-trading-bot/frontend/src/components/Terminal.tsx",
+      "code/python/kalshi-trading-bot/frontend/src/components/TradesTable.tsx",
+      "code/python/kalshi-trading-bot/frontend/src/components/WeatherPanel.tsx"
+    ]
+  },
+  {
+    "name": "CLI Entry Points",
+    "slug": "cli-entry-points",
+    "files": [
+      "code/python/kalshi-trading-bot/main.py",
+      "code/python/kalshi-trading-bot/run.py",
+      "code/python/kalshi-trading-bot/trade.py"
+    ]
+  },
+  {
+    "name": "Other",
+    "slug": "other",
+    "files": [],
+    "children": [
+      {
+        "name": "Other — python",
+        "slug": "other-python",
+        "files": [
+          "code/python/kalshi-trading-bot/ARCHITECTURE.md",
+          "code/python/kalshi-trading-bot/Procfile",
+          "code/python/kalshi-trading-bot/README.md",
+          "code/python/kalshi-trading-bot/RESEARCH.md",
+          "code/python/kalshi-trading-bot/VALIDATED_RESEARCH.md",
+          "code/python/kalshi-trading-bot/backend/__init__.py",
+          "code/python/kalshi-trading-bot/backend/btc/__init__.py",
+          "code/python/kalshi-trading-bot/backend/btc/core/__init__.py",
+          "code/python/kalshi-trading-bot/backend/btc/data/__init__.py",
+          "code/python/kalshi-trading-bot/backend/common/__init__.py",
+          "code/python/kalshi-trading-bot/backend/common/ai/__init__.py",
+          "code/python/kalshi-trading-bot/backend/common/api/__init__.py",
+          "code/python/kalshi-trading-bot/backend/common/data/__init__.py",
+          "code/python/kalshi-trading-bot/backend/common/exchange/__init__.py",
+          "code/python/kalshi-trading-bot/backend/common/models/__init__.py",
+          "code/python/kalshi-trading-bot/backend/weather/__init__.py",
+          "code/python/kalshi-trading-bot/backend/weather/core/__init__.py",
+          "code/python/kalshi-trading-bot/backend/weather/data/__init__.py",
+          "code/python/kalshi-trading-bot/backend/weather/scanner/__init__.py",
+          "code/python/kalshi-trading-bot/docs/diagrams/architecture-overview.puml",
+          "code/python/kalshi-trading-bot/docs/diagrams/trading-cycle-sequence.puml",
+          "code/python/kalshi-trading-bot/frontend/index.html",
+          "code/python/kalshi-trading-bot/frontend/package.json",
+          "code/python/kalshi-trading-bot/frontend/postcss.config.js",
+          "code/python/kalshi-trading-bot/frontend/tailwind.config.js",
+          "code/python/kalshi-trading-bot/frontend/tsconfig.json",
+          "code/python/kalshi-trading-bot/frontend/tsconfig.node.json",
+          "code/python/kalshi-trading-bot/frontend/vercel.json",
+          "code/python/kalshi-trading-bot/frontend/vite.config.ts",
+          "code/python/kalshi-trading-bot/railway.json",
+          "code/python/kalshi-trading-bot/requirements.txt",
+          "code/python/kalshi-trading-bot/tests/test_strategy_b.py",
+          "code/python/kalshi-trading-bot/tests/test_trading_pipeline.py",
+          "code/python/kalshi-trading-bot/vercel.json"
+        ]
+      },
+      {
+        "name": "Other — 04-26",
+        "slug": "other-04-26",
+        "files": [
+          "docs/04-26/01-raw-guillermo-eguilaz-polymarket-weather-bot.md",
+          "docs/04-26/02-raw-suislanchez-polymarket-kalshi-weather-bot.md",
+          "docs/04-26/03-entity-guillermo-bot-analysis.md",
+          "docs/04-26/04-entity-suislanchez-bot-analysis.md",
+          "docs/04-26/05-concept-weather-trading-strategies.md",
+          "docs/04-26/06-comparison-bot-reliability-profit-risk.md",
+          "docs/04-26/07-final-implementation-plan.md",
+          "docs/04-26/08-phase1-phase2-build-progress.md",
+          "docs/04-26/09-risk-scanning-code-review.md"
+        ]
+      },
+      {
+        "name": "Other — docs",
+        "slug": "other-docs",
+        "files": [
+          "docs/business-assessment.md",
+          "docs/ddd-domain-model.md",
+          "docs/ollama-setup.md",
+          "docs/system-architecture.md",
+          "docs/weather-arbitrage-research.md"
+        ]
+      },
+      {
+        "name": "Other — reviews",
+        "slug": "other-reviews",
+        "files": [
+          "docs/reviews/2026-04-25/architecture-review-glm-5.1.md",
+          "docs/reviews/2026-04-25/architecture-review-minimax27.md",
+          "docs/reviews/2026-04-25/consolidated-action-plan.md",
+          "docs/reviews/2026-04-25/review-combined.md",
+          "docs/reviews/2026-04-25/review-deepseek-v4-flash.md",
+          "docs/reviews/2026-04-25/review-glm-5.1.md"
+        ]
+      }
+    ]
+  }
+]
