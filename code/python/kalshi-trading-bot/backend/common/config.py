@@ -27,11 +27,15 @@ class Settings(BaseSettings):
     KALSHI_ENABLED: bool = True
     KALSHI_FEE_RATE: float = 0.0           # Fee per contract (adjust when Kalshi adds fees)
 
-    # AI API Keys
-    GROQ_API_KEY: Optional[str] = None
+    # AI / Ollama Configuration
+    OLLAMA_BASE_URL: str = "http://localhost:11434/v1"   # Ollama OpenAI-compatible endpoint
+    OLLAMA_ANALYSIS_MODEL: str = "glm-5.1:cloud"           # Primary analysis model
+    OLLAMA_CLASSIFY_MODEL: str = "minimax-m2.7:cloud"    # Fast classification model
+    OLLAMA_API_KEY: str = ""                               # Empty for local Ollama; set if using cloud
 
-    # AI Model Configuration
-    GROQ_MODEL: str = "llama-3.1-8b-instant"
+    # Backward compat (kept for API endpoints that reference these)
+    GROQ_API_KEY: Optional[str] = None
+    GROQ_MODEL: str = "minimax-m2.7:cloud"
 
     # AI Feature Flags
     AI_LOG_ALL_CALLS: bool = True

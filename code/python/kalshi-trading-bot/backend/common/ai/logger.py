@@ -41,6 +41,8 @@ class AICallLogger:
         "claude-sonnet-4-20250514": {"input": 3.0, "output": 15.0},
         "claude-3-5-sonnet-20241022": {"input": 3.0, "output": 15.0},
         "claude-3-opus-20240229": {"input": 15.0, "output": 75.0},
+        "glm-5.1:cloud": {"input": 0.15, "output": 0.60},       # Ollama cloud pricing
+        "minimax-m2.7:cloud": {"input": 0.10, "output": 0.40},   # Ollama cloud pricing
         "llama-3.1-70b-versatile": {"input": 0.59, "output": 0.79},
         "llama-3.1-8b-instant": {"input": 0.05, "output": 0.08},
         "mixtral-8x7b-32768": {"input": 0.24, "output": 0.24},
@@ -79,7 +81,7 @@ class AICallLogger:
         Log an AI API call.
 
         Args:
-            provider: "claude" or "groq"
+            provider: "claude", "groq", or "ollama"
             model: Model name/ID
             prompt: Input prompt
             response: Model response
