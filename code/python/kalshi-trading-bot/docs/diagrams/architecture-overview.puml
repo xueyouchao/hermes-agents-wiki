@@ -1,0 +1,96 @@
+@startuml architecture-overview
+!theme cerulean
+skinparam componentStyle rectangle
+skinparam backgroundColor #1a1a2e
+skinparam fontColor #e0e0e0
+skinparam arrowColor #4fc3f7
+skinparam componentBackgroundColor #16213e
+skinparam componentBorderColor #4fc3f7
+skinparam componentFontColor #e0e0e0
+skinparam packageBackgroundColor #0f3460
+skinparam packageBorderColor #4fc3f7
+skinparam packageFontColor #e0e0e0
+skinparam noteBackgroundColor #1a1a2e
+skinparam noteBorderColor #f39c12
+skinparam noteFontColor #f39c12
+
+title Weather Arbitrage Trading Bot — Architecture Overview
+
+package "CLI / Entry" as cli {
+    component [trade.py\nCLI Runner] as trade
+    note right of trade : --sim --once\n--strategy-b --status
+}
+
+package "Scheduler" as sched {
+    component [scheduler_v2.py\nAPScheduler] as scheduler
+    component [Strategy B Job\n2-min interval] as job_b
+    component [Full Scan Job\n5-min interval] as job_full
+    component [Heartbeat Job\n60-sec interval] as job_hb
+    scheduler <-- job_b
+    scheduler <-- job_full
+    scheduler <-- job_hb
+}
+
+package "Trading Engine" as engine_pkg {
+    component [TradingEngine\nOrchestrator] as engine
+    note right of engine : run_cycle()\nscan → approve → execute\nauto-cancel on halt
+}
+
+package "Scanner" as scanner_pkg {
+    component [OpportunityScanner] as opp_scanner
+    component [StrategyBScanner\nCross-bracket sum arb] as strat_b
+    component [Strategy A Scanner\n(Phase 2)] as strat_a
+    component [Strategy C Scanner\n(Phase 2)] as strat_c
+    opp_scanner <-- strat_b
+    opp_scanner <-- strat_a
+    opp_scanner <-- strat_c
+}
+
+package "Risk Manager" as risk_pkg {
+    component [RiskManager] as risk
+    note right of risk : Daily loss limit\nDrawdown from peak\nConsecutive losses\nRolling window loss\nFee-adjusted edge\nLiquidity filter\nKill switch + auto-cancel\nPortfolio exposure cap
+}
+
+package "Exchange Layer" as exchange_pkg {
+    interface ExchangeClient as api
+    component [KalshiExchange] as kalshi
+    component [PolymarketExchange\n(Phase 2 stub)] as polymarket
+    kalshi ..|> api
+    polymarket ..|> api
+}
+
+package "Kalshi Client" as kalshi_pkg {
+    component [KalshiClient\nRSA-PSS Auth\nShared httpx session\nExponential backoff] as client
+    component [kalshi_markets.py\nMarket data parsing] as markets
+}
+
+package "Data Models" as data_pkg {
+    component [Opportunity\nBracketMarket] as models
+}
+
+database "Kalshi API\ntrade-api/v2" as kalshi_api
+
+trade --> scheduler : start
+trade --> engine : --once
+job_b --> engine : run_cycle()
+job_full --> engine : run_cycle()
+job_hb --> risk : is_trading_allowed()
+
+engine --> opp_scanner : scan_all()
+engine --> risk : approve_opportunity()
+engine --> api : place_order()\ncancel_order()
+
+opp_scanner --> strat_b : scan_strategy_b()
+strat_b --> api : get_event_markets()
+strat_b --> models : Opportunity
+
+risk <-- models : edge, brackets, volume
+risk --> engine : approved/rejected
+
+kalshi --> client : post/get/delete
+kalshi --> markets : market data
+client --> kalshi_api : HTTPS + RSA-PSS
+
+api <-- kalshi
+
+@enduml

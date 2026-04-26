@@ -1,0 +1,157 @@
+@startuml trading-cycle-sequence
+!theme cerulean
+skinparam backgroundColor #1a1a2e
+skinparam fontColor #e0e0e0
+skinparam arrowColor #4fc3f7
+skinparam lifelineBorderColor #4fc3f7
+skinparam participantBackgroundColor #16213e
+skinparam participantBorderColor #4fc3f7
+skinparam participantFontColor #e0e0e0
+skinparam noteBackgroundColor #1a1a2e
+skinparam noteBorderColor #f39c12
+skinparam noteFontColor #f39c12
+skinparam dividerBackgroundColor #0f3460
+skinparam dividerFontColor #e0e0e0
+
+title Strategy B — Trading Cycle Sequence Diagram
+
+participant "APScheduler" as sched
+participant "TradingEngine" as engine
+participant "RiskManager" as risk
+participant "OpportunityScanner" as scanner
+participant "StrategyBScanner" as strat_b
+participant "KalshiExchange" as exchange
+participant "KalshiClient\n(httpx pool)" as client
+participant "Kalshi API" as api
+
+== Phase 1: Scan ==
+
+sched -> engine : run_cycle()
+activate engine
+
+engine -> risk : is_trading_allowed()
+activate risk
+risk --> engine : (True, "OK")
+deactivate risk
+
+alt "Trading halted"
+    risk --> engine : (False, reason)
+    engine -> exchange : auto_cancel_on_halt()
+    engine --> sched : [] (empty results)
+end
+
+engine -> scanner : scan_all(exchange)
+activate scanner
+
+scanner -> strat_b : scan_strategy_b(exchange)
+activate strat_b
+
+loop For each city (nyc, chicago, miami, LA, denver)
+    strat_b -> exchange : get_event_markets(series_ticker)
+    exchange -> client : GET /markets?series_ticker=...&status=open
+    client -> api : HTTPS + RSA-PSS signature
+    activate client
+    api --> client : {markets: [...]}
+    client --> exchange : raw_markets
+    deactivate client
+    exchange --> strat_b : raw_markets
+
+    strat_b -> strat_b : _extract_bracket_markets()\n(use ASK prices, filter spread/volume)
+    strat_b -> strat_b : _group_brackets_by_event()
+end
+
+loop For each event
+    strat_b -> strat_b : check_cross_bracket_arb()\nsum(yes_ask) < $1.00 ?\nedge - fees >= min_edge ?
+    alt "Arbitrage found"
+        strat_b -> strat_b : create Opportunity(\nedge=fee_adjusted,\nROI=..., skip_reasons=[...])
+    else "No arb or edge too small"
+        strat_b -> strat_b : append to skip_reasons
+    end
+end
+
+strat_b --> scanner : List[Opportunity]
+deactivate strat_b
+
+scanner --> engine : all_opportunities (sorted by edge)
+deactivate scanner
+
+== Phase 2: Risk Check ==
+
+engine -> exchange : get_positions()
+exchange --> engine : positions[]
+
+loop For each opportunity
+    engine -> risk : approve_opportunity(opp, positions)
+    activate risk
+
+    risk -> risk : Check daily loss limit
+    risk -> risk : Check drawdown from peak
+    risk -> risk : Check consecutive losses
+    risk -> risk : Check rolling window loss
+    risk -> risk : Check fee-adjusted edge >= min_edge
+    risk -> risk : Check concentration (event % of bankroll)
+    risk -> risk : Check portfolio exposure cap
+    risk -> risk : Check liquidity filter (bracket volume)
+    risk -> risk : Check spread filter
+    risk -> risk : Compute position size (Kelly / concentration cap)
+
+    alt "Approved"
+        risk --> engine : (True, adjusted_size, "Approved")
+    else "Rejected"
+        risk --> engine : (False, 0, reason)
+    end
+    deactivate risk
+end
+
+== Phase 3: Execute ==
+
+loop For each approved opportunity
+    engine -> risk : is_trading_allowed()  [re-check before each]
+
+    alt "Strategy B — Concurrent Bracket Orders"
+        engine -> engine : asyncio.gather(\n  place_bracket_order(b1),\n  place_bracket_order(b2),\n  ...\n  place_bracket_order(bN)\n)
+        
+        par "Bracket 1"
+            engine -> exchange : place_order(ticker, YES, ask, size, IOC)
+            exchange -> client : POST /portfolio/orders\n{limit_price: cents, count: N}
+            client -> api : HTTPS + RSA-PSS
+            api --> client : {order_id, filled_count}
+            client --> exchange : OrderResult
+            exchange --> engine : (filled_size, filled_price)
+        else "Bracket 2"
+            engine -> exchange : place_order(...)
+            exchange --> engine : OrderResult
+        else "Bracket N"
+            engine -> exchange : place_order(...)
+            exchange --> engine : OrderResult
+        end
+
+        engine -> risk : record_trade(ticker, size, cost)
+        engine -> risk : register_order_for_cancel(order_id)
+
+        alt "All brackets filled"
+            engine -> engine : status = COMPLETE
+        else "Partial fill"
+            engine -> engine : status = PARTIAL\nlog warning
+        else "0 brackets filled"
+            engine -> engine : status = CANCELLED\nlog error
+        end
+
+    else "Strategy A/C — Single Market"
+        engine -> exchange : place_order(ticker, direction, price, size, LIMIT)
+        exchange --> engine : OrderResult
+        engine -> risk : record_trade()
+    end
+end
+
+engine -> engine : _make_cycle_results()\nedge_dollars, ROI, skip_reasons
+
+engine --> sched : results[]
+deactivate engine
+
+== Heartbeat (parallel) ==
+
+sched -> risk : is_trading_allowed()
+risk --> sched : (allowed, reason, daily_stats)
+
+@enduml
