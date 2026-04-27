@@ -1,5 +1,5 @@
 """Database models and connection for BTC 5-min trading bot."""
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime, Boolean, JSON, text
 from sqlalchemy.ext.declarative import declarative_base
@@ -13,6 +13,18 @@ engine = create_engine(
     settings.DATABASE_URL,
     connect_args={"check_same_thread": False} if "sqlite" in settings.DATABASE_URL else {}
 )
+
+# Enable WAL mode for SQLite to allow concurrent reads during writes
+if "sqlite" in settings.DATABASE_URL:
+    from sqlalchemy import event
+
+    @event.listens_for(engine, "connect")
+    def _set_sqlite_pragma(dbapi_connection, connection_record):
+        cursor = dbapi_connection.cursor()
+        cursor.execute("PRAGMA journal_mode=WAL")
+        cursor.execute("PRAGMA busy_timeout=5000")
+        cursor.close()
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
@@ -32,7 +44,7 @@ class Trade(Base):
     direction = Column(String)  # "up" or "down"
     entry_price = Column(Float)
     size = Column(Float)
-    timestamp = Column(DateTime, default=datetime.utcnow)
+    timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
     # Settlement
     settled = Column(Boolean, default=False)
@@ -52,7 +64,7 @@ class BtcPriceSnapshot(Base):
     __tablename__ = "btc_price_snapshots"
 
     id = Column(Integer, primary_key=True, index=True)
-    timestamp = Column(DateTime, default=datetime.utcnow, index=True)
+    timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc), index=True)
     price = Column(Float)
     source = Column(String, default="coingecko")
 
@@ -78,7 +90,7 @@ class Signal(Base):
     market_ticker = Column(String, index=True)
     platform = Column(String)
     market_type = Column(String, default="btc", index=True)  # "btc" or "weather"
-    timestamp = Column(DateTime, default=datetime.utcnow, index=True)
+    timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc), index=True)
 
     direction = Column(String)
     model_probability = Column(Float)
@@ -106,7 +118,7 @@ class AILog(Base):
     __tablename__ = "ai_logs"
 
     id = Column(Integer, primary_key=True, index=True)
-    timestamp = Column(DateTime, default=datetime.utcnow, index=True)
+    timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc), index=True)
     provider = Column(String, index=True)
     model = Column(String)
 
@@ -129,7 +141,7 @@ class ScanLog(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     run_id = Column(String, unique=True, index=True)
-    started_at = Column(DateTime, default=datetime.utcnow)
+    started_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     completed_at = Column(DateTime, nullable=True)
 
     categories_scanned = Column(JSON)

@@ -1,6 +1,7 @@
 """BTC 5-minute trading scheduler — runs BTC market scanning, settlement, and heartbeats."""
 import asyncio
-from datetime import datetime, timedelta
+from collections import deque
+from datetime import datetime, timedelta, timezone
 from typing import List, Optional
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.interval import IntervalTrigger
@@ -18,22 +19,18 @@ logger = logging.getLogger("trading_bot")
 scheduler: Optional[AsyncIOScheduler] = None
 
 # Event log for terminal display (in-memory, last 200 events)
-event_log: List[dict] = []
-MAX_LOG_SIZE = 200
+event_log = deque(maxlen=200)
 
 
 def log_event(event_type: str, message: str, data: dict = None):
     """Log an event for terminal display."""
     event = {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "type": event_type,
         "message": message,
         "data": data or {}
     }
     event_log.append(event)
-
-    while len(event_log) > MAX_LOG_SIZE:
-        event_log.pop(0)
 
     log_func = {
         "error": logger.error,
@@ -49,7 +46,7 @@ def log_event(event_type: str, message: str, data: dict = None):
 
 def get_recent_events(limit: int = 50) -> List[dict]:
     """Get recent events for terminal display."""
-    return event_log[-limit:]
+    return list(event_log)[-limit:]
 
 
 async def scan_and_trade_job():
@@ -89,7 +86,7 @@ async def scan_and_trade_job():
             MAX_TOTAL_PENDING = settings.MAX_TOTAL_PENDING_TRADES
 
             # --- Daily loss circuit breaker ---
-            today_start = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+            today_start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
             daily_pnl = db.query(func.coalesce(func.sum(Trade.pnl), 0.0)).filter(
                 Trade.settled == True,
                 Trade.settlement_time >= today_start
@@ -167,7 +164,7 @@ async def scan_and_trade_job():
                     }
                 )
 
-            state.last_run = datetime.utcnow()
+            state.last_run = datetime.now(timezone.utc)
             db.commit()
 
             if trades_executed > 0:
@@ -296,7 +293,7 @@ async def weather_scan_and_trade_job():
                     }
                 )
 
-            state.last_run = datetime.utcnow()
+            state.last_run = datetime.now(timezone.utc)
             db.commit()
 
             if trades_executed > 0:

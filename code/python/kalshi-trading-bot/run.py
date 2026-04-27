@@ -13,7 +13,7 @@ if __name__ == "__main__":
     print(f"API docs available at http://127.0.0.1:{port}/docs")
 
     uvicorn.run(
-        "backend.api.main:app",
+        "backend.common.api.main:app",
         host="127.0.0.1",
         port=port,
         reload=os.environ.get("RAILWAY_ENVIRONMENT") is None

@@ -3,9 +3,24 @@
 Builds on backend.data.kalshi_client.KalshiClient for RSA-PSS auth and
 HTTP transport, adding order placement, cancellation, positions, and
 orderbook queries needed for live trading.
+
+Retry strategy:
+  - KalshiClient._request_with_retry handles HTTP-level retries (429, 5xx, ConnectError)
+  - This layer adds application-level retry on transient order placement failures
+    using tenacity, covering cases where the Kalshi API returns an error response
+    that indicates a transient condition (e.g., "market temporarily paused").
+  - Validation errors (bad price, size) are NOT retried — they fail immediately.
 """
 import logging
 from typing import Dict, List, Optional
+
+from tenacity import (
+    retry,
+    stop_after_attempt,
+    wait_exponential,
+    retry_if_exception,
+    before_sleep_log,
+)
 
 from backend.common.exchange.base import (
     Balance,
@@ -22,6 +37,36 @@ from backend.common.data.kalshi_client import KalshiClient
 logger = logging.getLogger("trading_bot")
 
 
+# ---------------------------------------------------------------------------
+# Retry helpers
+# ---------------------------------------------------------------------------
+
+class TransientExchangeError(Exception):
+    """Raised when an exchange call fails with a transient/retriable error.
+
+    Examples: market temporarily paused, internal server error on order
+    placement that slipped through KalshiClient's HTTP retry, etc.
+    Non-transient errors (validation, insufficient funds) should NOT raise
+    this — they should return OrderResult(success=False) immediately.
+    """
+    pass
+
+
+def _is_transient_error(exc: BaseException) -> bool:
+    """Return True if the exception indicates a transient failure worth retrying."""
+    return isinstance(exc, (TransientExchangeError,))
+
+
+# Retry decorator for order placement: 3 attempts, exponential backoff 0.5s→2s
+_order_retry = retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=0.5, min=0.5, max=4.0),
+    retry=retry_if_exception(_is_transient_error),
+    before_sleep=before_sleep_log(logger, logging.WARNING),
+    reraise=True,
+)
+
+
 class KalshiExchange(ExchangeClient):
     """Kalshi implementation of the ExchangeClient interface.
 
@@ -31,13 +76,12 @@ class KalshiExchange(ExchangeClient):
 
     def __init__(self):
         self._client = KalshiClient()
-        # Track placed order IDs so we can cancel on abort
-        self._pending_orders: Dict[str, str] = {}  # order_id -> ticker
 
     # ----------------------------------------------------------------
-    # Order placement
+    # Order placement (with application-level retry)
     # ----------------------------------------------------------------
 
+    @_order_retry
     async def place_order(
         self,
         ticker: str,
@@ -46,7 +90,7 @@ class KalshiExchange(ExchangeClient):
         size: float,
         order_type: OrderType = OrderType.LIMIT,
     ) -> OrderResult:
-        """Place an order on Kalshi.
+        """Place an order on Kalshi with automatic retry on transient failures.
 
         Kalshi API: POST /portfolio/orders with JSON body:
         - market_ticker: ticker
@@ -54,6 +98,11 @@ class KalshiExchange(ExchangeClient):
         - limit_price: price in cents (integer 1-99)
         - count: number of contracts
         - order_type: "limit" or "ioc"
+
+        Retry policy:
+          - TransientExchangeError: retried up to 3 times with backoff
+          - Validation errors (bad price, size): fail immediately
+          - Other errors: fail immediately (return OrderResult with error)
         """
         # Convert dollars to cents for Kalshi API
         price_cents = int(round(price * 100))
@@ -83,7 +132,7 @@ class KalshiExchange(ExchangeClient):
             filled_price_cents = result.get("filled_price", 0)
 
             if order_id:
-                self._pending_orders[order_id] = ticker
+                pass  # Order placed successfully
 
             return OrderResult(
                 success=True,
@@ -94,24 +143,68 @@ class KalshiExchange(ExchangeClient):
             )
         except Exception as e:
             error_msg = str(e)
-            logger.error(f"Kalshi order failed: {ticker} {side.value} {count}@{price_cents}c — {error_msg}")
-            return OrderResult(success=False, error=error_msg)
+            # Classify: transient vs permanent
+            transient_keywords = [
+                "temporarily paused",
+                "temporarily unavailable",
+                "rate limit",
+                "timeout",
+                "connection",
+                "internal server error",
+                "502",
+                "503",
+                "504",
+                "service unavailable",
+            ]
+            is_transient = any(kw in error_msg.lower() for kw in transient_keywords)
+
+            if is_transient:
+                # Raise so tenacity can retry
+                logger.warning(
+                    f"Transient Kalshi order error: {ticker} {side.value} "
+                    f"{count}@{price_cents}c — {error_msg} (will retry)"
+                )
+                raise TransientExchangeError(
+                    f"Transient error placing order {ticker}: {error_msg}"
+                ) from e
+            else:
+                # Permanent error — return failure, don't retry
+                logger.error(
+                    f"Kalshi order failed (permanent): {ticker} {side.value} "
+                    f"{count}@{price_cents}c — {error_msg}"
+                )
+                return OrderResult(success=False, error=error_msg)
 
     # ----------------------------------------------------------------
-    # Order cancellation
+    # Order cancellation (with retry for robustness during rollback)
     # ----------------------------------------------------------------
 
+    @_order_retry
     async def cancel_order(self, order_id: str) -> bool:
-        """Cancel an open order on Kalshi.
+        """Cancel an open order on Kalshi with retry on transient failures.
 
         DELETE /portfolio/orders/{order_id}
+
+        Retry policy:
+          - TransientExchangeError: retried up to 3 times
+          - "not found" errors: return True (order already cancelled/filled)
+          - Other errors: return False after retries exhausted
         """
         try:
             await self._client.delete(f"/portfolio/orders/{order_id}")
-            self._pending_orders.pop(order_id, None)
             return True
         except Exception as e:
-            logger.error(f"Cancel order {order_id} failed: {e}")
+            error_msg = str(e).lower()
+            # "not found" means it's already gone — that's OK
+            if "not found" in error_msg or "does not exist" in error_msg:
+                logger.info(f"Cancel order {order_id}: already gone (not found)")
+                return True
+            # Transient error — raise for retry
+            if any(kw in error_msg for kw in ["timeout", "connection", "502", "503", "504", "service unavailable"]):
+                logger.warning(f"Transient cancel error for order {order_id}: {e} (will retry)")
+                raise TransientExchangeError(f"Transient error cancelling order {order_id}: {e}") from e
+            # Permanent error
+            logger.error(f"Cancel order {order_id} failed (permanent): {e}")
             return False
 
     async def cancel_all_orders(self, ticker: Optional[str] = None) -> int:
@@ -293,7 +386,21 @@ class KalshiExchange(ExchangeClient):
             logger.error(f"Get open orders failed: {e}")
             raise ExchangeError(f"Failed to get open orders: {e}") from e
 
+    async def get_order_status(self, order_id: str) -> Optional[dict]:
+        """Get status of a specific order by ID.
+        
+        GET /portfolio/orders/{order_id}
+        
+        Returns dict with 'status', 'filled_count', 'filled_price' keys,
+        or None if the order is not found.
+        """
+        try:
+            return await self._client.get(f"/portfolio/orders/{order_id}")
+        except Exception as e:
+            if "not found" in str(e).lower():
+                return None
+            raise ExchangeError(f"Failed to get order status for {order_id}: {e}") from e
+
     async def close(self):
         """Close the underlying HTTP client session."""
         await self._client.close()
-        self._pending_orders.clear()

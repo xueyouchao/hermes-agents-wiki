@@ -309,13 +309,13 @@ class RiskManager:
             kelly_size = opp.suggested_size * self.limits.kelly_fraction_cap
             adjusted_size = min(kelly_size, self.limits.max_trade_size)
 
-        # Reject if below 1 contract (don't floor to 1 — that bypasses sizing)
+        # Reject if below 1 contract after truncation (don't floor to 1 — that bypasses sizing)
+        # Truncate to integer contracts first, then check
+        adjusted_size = int(adjusted_size)
         if adjusted_size < 1:
             return False, 0.0, (
-                f"Position size {adjusted_size:.2f} below minimum 1 contract"
+                f"Position size {adjusted_size} below minimum 1 contract after truncation"
             )
-
-        adjusted_size = int(adjusted_size)
 
         return True, adjusted_size, "Approved"
 

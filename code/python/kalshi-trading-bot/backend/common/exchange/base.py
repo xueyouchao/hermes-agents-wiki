@@ -147,3 +147,12 @@ class ExchangeClient(ABC):
     async def close(self):
         """Close the exchange client and release resources (HTTP sessions, etc)."""
         ...
+
+    async def get_order_status(self, order_id: str) -> Optional[dict]:
+        """Get status of a specific order by ID.
+        
+        Returns dict with at least 'status', 'filled_count', 'filled_price' keys,
+        or None if the order is not found.
+        Subclasses should override this with their exchange-specific implementation.
+        """
+        raise NotImplementedError("Subclass must implement get_order_status")

@@ -7,6 +7,7 @@ from typing import List, Optional
 import asyncio
 import json
 import os
+import hmac
 
 from backend.common.config import settings
 from backend.common.models.database import (
@@ -25,9 +26,10 @@ app = FastAPI(
     version="3.0.0"
 )
 
+_cors_origins = os.getenv("CORS_ALLOWED_ORIGINS", "*").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_cors_origins,
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -61,7 +63,7 @@ async def api_key_auth(request: Request, call_next):
     # Check X-API-Key header first, then ?api_key= query param
     provided_key = request.headers.get("X-API-Key", "") or request.query_params.get("api_key", "")
 
-    if provided_key != expected_key:
+    if not hmac.compare_digest(provided_key, expected_key):
         return JSONResponse(
             status_code=401,
             content={"detail": "Invalid or missing API key. Use X-API-Key header or ?api_key= param."},
@@ -1053,7 +1055,8 @@ async def websocket_events(websocket: WebSocket):
     expected_key = os.getenv("DASHBOARD_API_KEY", "").strip()
     if expected_key:
         provided_key = websocket.query_params.get("api_key", "")
-        if provided_key != expected_key:
+        import hmac
+        if not hmac.compare_digest(provided_key, expected_key):
             await websocket.close(code=4001, reason="Invalid API key")
             return
 

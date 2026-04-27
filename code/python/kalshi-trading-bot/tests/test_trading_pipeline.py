@@ -42,7 +42,13 @@ class MockExchange(ExchangeClient):
         return Balance(total=10000.0, available=8000.0, invested=2000.0)
 
     async def get_orderbook(self, ticker, depth=10):
-        return OrderBook(ticker=ticker, bids=[{"price": 0.08, "size": 100}], asks=[{"price": 0.10, "size": 100}], best_bid=0.08, best_ask=0.10, spread=0.02, mid_price=0.09)
+        return OrderBook(ticker=ticker, bids=[], asks=[], best_bid=0.0, best_ask=0.0, spread=0.0, mid_price=0.0)
+
+    async def get_open_orders(self, ticker=None):
+        return []
+
+    async def get_order_status(self, order_id):
+        return {"status": "filled", "filled_count": 1, "filled_price": 10}
 
     async def get_market(self, ticker):
         return {"ticker": ticker, "yes_ask": 10, "no_ask": 90}

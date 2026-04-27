@@ -115,11 +115,15 @@ class Opportunity:
 
     @property
     def net_edge_after_fees(self) -> float:
-        """Edge after subtracting fees. Used for final profit calc."""
-        # Fee model: Kalshi currently charges $0 but this may change
+        """Edge after subtracting fees.
+
+        WARNING: This property re-computes fees. If opp.edge is already
+        fee-adjusted (as it is for Strategy B), using both opp.edge and
+        this property results in double fee deduction. Use with caution.
+        """
         from backend.common.config import settings
         fee_per_contract = getattr(settings, 'KALSHI_FEE_RATE', 0.0)
-        total_fees = len(self.brackets) * fee_per_contract
+        total_fees = len(self.brackets) * fee_per_contract * max(1, self.suggested_size)
         return max(0.0, self.edge - total_fees)
 
     @property

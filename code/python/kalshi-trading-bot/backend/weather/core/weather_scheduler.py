@@ -6,6 +6,7 @@ Single process, asyncio event loop — no distributed coordination needed.
 """
 import asyncio
 import logging
+from collections import deque
 from datetime import datetime, timezone
 from typing import List, Optional
 
@@ -13,7 +14,6 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 
 from backend.common.config import settings
-from backend.weather.scanner.opportunity import OpportunityStatus
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("trading_bot")
@@ -25,13 +25,11 @@ scheduler: Optional[AsyncIOScheduler] = None
 engine = None
 
 # Event log for terminal display (in-memory, last 200 events)
-event_log: List[dict] = []
-MAX_LOG_SIZE = 200
+event_log = deque(maxlen=200)
 
 
 def log_event(event_type: str, message: str, data: dict = None):
     """Log an event for terminal display."""
-    global event_log
     event = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "type": event_type,
@@ -39,9 +37,6 @@ def log_event(event_type: str, message: str, data: dict = None):
         "data": data or {}
     }
     event_log.append(event)
-
-    while len(event_log) > MAX_LOG_SIZE:
-        event_log.pop(0)
 
     log_func = {
         "error": logger.error,
@@ -57,7 +52,7 @@ def log_event(event_type: str, message: str, data: dict = None):
 
 def get_recent_events(limit: int = 50) -> List[dict]:
     """Get recent events for terminal display."""
-    return event_log[-limit:]
+    return list(event_log)[-limit:]
 
 
 # ---------------------------------------------------------------
@@ -89,12 +84,15 @@ async def weather_arbitrage_job():
 
     Uses shared lock with strategy_b_job to prevent concurrent Strategy B execution.
     """
-    # Prevent concurrent execution with strategy_b_job
-    if _get_strategy_b_lock().locked():
+    # Prevent concurrent execution with strategy_b_job — try-acquire without blocking
+    lock = _get_strategy_b_lock()
+    try:
+        await asyncio.wait_for(lock.acquire(), timeout=0.01)
+    except asyncio.TimeoutError:
         log_event("info", "Weather arbitrage scan skipped — Strategy B lock held")
         return
 
-    async with _get_strategy_b_lock():
+    try:
         log_event("info", "Weather arbitrage scan starting...")
 
         try:
@@ -133,6 +131,8 @@ async def weather_arbitrage_job():
         except Exception as e:
             log_event("error", f"Weather arbitrage scan error: {str(e)}")
             logger.exception("Error in weather_arbitrage_job")
+    finally:
+        lock.release()
 
 
 async def strategy_b_job():
@@ -141,66 +141,35 @@ async def strategy_b_job():
 
     Pure price check — no weather data needed, so it's fast.
     Uses shared lock with weather_arbitrage_job to prevent concurrent execution.
-    Now actually executes trades through the risk manager + trading engine,
-    instead of just logging opportunities.
+    Routes through TradingEngine.run_cycle() for consistent risk checks.
     """
-    # Prevent concurrent execution with weather_arbitrage_job
-    if _get_strategy_b_lock().locked():
+    # Prevent concurrent execution with weather_arbitrage_job — try-acquire without blocking
+    lock = _get_strategy_b_lock()
+    try:
+        await asyncio.wait_for(lock.acquire(), timeout=0.01)
+    except asyncio.TimeoutError:
         log_event("info", "Strategy B fast scan skipped — lock held")
         return
 
-    async with _get_strategy_b_lock():
+    try:
         log_event("info", "Strategy B fast scan...")
-
         try:
-            from backend.common.trader import TradingEngine
-            from backend.common.exchange.kalshi import KalshiExchange
-            from backend.weather.scanner.strategy_b import scan_strategy_b
-
-            # Reuse shared exchange instance if engine exists
             global engine
-            exchange = engine.exchange if engine else KalshiExchange()
-            opportunities = await scan_strategy_b(exchange)
-
-            if opportunities:
-                # Initialize engine if needed
-                if engine is None:
-                    engine = TradingEngine()
-
-                # Risk-check each opportunity before execution
-                current_positions: dict = {}
-                try:
-                    positions = await exchange.get_positions()
-                    for pos in positions:
-                        current_positions[pos.ticker] = pos.size * pos.avg_price
-                except Exception:
-                    pass  # Positions check is best-effort
-
-                for opp in opportunities:
-                    approved, adjusted_size, reason = engine.risk_manager.approve_opportunity(
-                        opp, current_positions
-                    )
-                    if approved:
-                        opp.suggested_size = adjusted_size
-                        opp.status = OpportunityStatus.VALIDATED
-                        log_event("success",
-                            f"Strategy B APPROVED: {opp.series_ticker} {opp.target_date} "
-                            f"edge={opp.edge:.1%} size={adjusted_size} | {reason}"
-                        )
-                        result = await engine._execute_opportunity(opp)
-                        if result.get("executed") or result.get("simulated"):
-                            log_event("trade", f"Strategy B executed: {opp.series_ticker}", result)
-                    else:
-                        log_event("info",
-                            f"Strategy B REJECTED: {opp.series_ticker} — {reason}"
-                        )
-
-            else:
-                log_event("info", "Strategy B: no arbitrage this cycle")
-
+            if engine is None:
+                from backend.common.trader import TradingEngine
+                engine = TradingEngine()
+            results = await engine.run_cycle(strategies=["strategy_b"])
+            executed = sum(1 for r in results if r.get("execution", {}).get("executed", False))
+            simulated = sum(1 for r in results if r.get("execution", {}).get("simulated", False))
+            log_event("data",
+                f"Strategy B scan complete: {executed} executed, {simulated} simulated",
+                {"executed": executed, "simulated": simulated},
+            )
         except Exception as e:
             log_event("error", f"Strategy B scan error: {str(e)}")
             logger.exception("Error in strategy_b_job")
+    finally:
+        lock.release()
 
 
 async def heartbeat_job():
@@ -247,11 +216,22 @@ def start_scheduler():
     from backend.common.trader import TradingEngine
     engine = TradingEngine()
 
-    # Reconcile any open positions from a previous session
-    # (non-blocking — just logs state)
-    logger.info("Reconciling positions from previous session...")
-    # Note: reconcile_positions needs Kalshi credentials, so we skip
-    # in simulation mode or if no credentials
+    # Reconcile any open positions from a previous session.
+    # This detects orphaned Strategy B positions (partial bracket fills
+    # from before a crash) and attempts to flatten them.
+    logger.info("Running startup position reconciliation...")
+    try:
+        # Create a one-off task for reconciliation (it's async, scheduler not started yet)
+        import asyncio
+        loop = asyncio.get_event_loop()
+        if loop.is_running():
+            # Already in an async context — schedule it
+            asyncio.create_task(engine.reconcile_positions())
+        else:
+            # Not yet in async context — will run on first cycle
+            logger.info("Reconciliation will run after event loop starts")
+    except Exception as e:
+        logger.warning(f"Could not schedule position reconciliation: {e}")
 
     scheduler = AsyncIOScheduler()
 
