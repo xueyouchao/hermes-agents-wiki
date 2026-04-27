@@ -10,6 +10,15 @@ from enum import Enum
 from typing import Dict, List, Optional
 
 
+class ExchangeError(Exception):
+    """Raised when an exchange API call fails.
+
+    Callers should catch this to handle transient failures (retries,
+    circuit breakers) separately from silent empty returns.
+    """
+    pass
+
+
 class OrderSide(str, Enum):
     YES = "yes"
     NO = "no"

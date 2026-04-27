@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     KALSHI_API_KEY_ID: Optional[str] = None
     KALSHI_PRIVATE_KEY_PATH: Optional[str] = None
     KALSHI_ENABLED: bool = True
-    KALSHI_FEE_RATE: float = 0.0           # Fee per contract (adjust when Kalshi adds fees)
+    KALSHI_FEE_RATE: float = 0.01          # Kalshi fee per contract: $0.01 (1 cent) per contract per trade
 
     # AI / Ollama Configuration
     OLLAMA_BASE_URL: str = "http://localhost:11434/v1"   # Ollama OpenAI-compatible endpoint

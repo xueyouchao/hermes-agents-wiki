@@ -10,6 +10,7 @@ from typing import Dict, List, Optional
 from backend.common.exchange.base import (
     Balance,
     ExchangeClient,
+    ExchangeError,
     OrderBook,
     OrderResult,
     OrderSide,
@@ -135,6 +136,8 @@ class KalshiExchange(ExchangeClient):
         """Get all open positions from Kalshi.
 
         GET /portfolio/settlements
+
+        Raises ExchangeError on API failure (instead of silently returning []).
         """
         try:
             data = await self._client.get("/portfolio/settlements")
@@ -154,12 +157,14 @@ class KalshiExchange(ExchangeClient):
             return positions
         except Exception as e:
             logger.error(f"Get positions failed: {e}")
-            return []
+            raise ExchangeError(f"Failed to get positions: {e}") from e
 
     async def get_balance(self) -> Balance:
         """Get account balance from Kalshi.
 
         GET /portfolio/balance
+
+        Raises ExchangeError on API failure (instead of silently returning empty Balance).
         """
         try:
             data = await self._client.get("/portfolio/balance")
@@ -171,7 +176,7 @@ class KalshiExchange(ExchangeClient):
             )
         except Exception as e:
             logger.error(f"Get balance failed: {e}")
-            return Balance()
+            raise ExchangeError(f"Failed to get balance: {e}") from e
 
     # ----------------------------------------------------------------
     # Market data
@@ -181,6 +186,8 @@ class KalshiExchange(ExchangeClient):
         """Get order book for a Kalshi market.
 
         GET /markets/{ticker}/orderbook
+
+        Raises ExchangeError on API failure.
         """
         try:
             data = await self._client.get(f"/markets/{ticker}/orderbook", params={"depth": depth})
@@ -199,20 +206,24 @@ class KalshiExchange(ExchangeClient):
                 spread=best_ask - best_bid if best_bid and best_ask else 0.0,
                 mid_price=(best_bid + best_ask) / 2 if best_bid and best_ask else 0.0,
             )
+        except ExchangeError:
+            raise  # Re-raise our own errors
         except Exception as e:
             logger.error(f"Get orderbook for {ticker} failed: {e}")
-            return OrderBook(ticker=ticker)
+            raise ExchangeError(f"Failed to get orderbook for {ticker}: {e}") from e
 
     async def get_market(self, ticker: str) -> dict:
         """Get market details from Kalshi.
 
         GET /markets/{ticker}
+
+        Raises ExchangeError on API failure.
         """
         try:
             return await self._client.get(f"/markets/{ticker}")
         except Exception as e:
             logger.error(f"Get market {ticker} failed: {e}")
-            return {}
+            raise ExchangeError(f"Failed to get market {ticker}: {e}") from e
 
     async def get_event_markets(self, series_ticker: str) -> List[dict]:
         """Get all markets (brackets) under a series.
@@ -222,6 +233,10 @@ class KalshiExchange(ExchangeClient):
 
         GET /markets?series_ticker=...&status=open
         Handles cursor-based pagination.
+
+        Raises ExchangeError if any pagination page fails, rather than
+        silently returning a partial bracket set that would break the
+        arbitrage guarantee.
         """
         markets = []
         cursor = None
@@ -239,7 +254,16 @@ class KalshiExchange(ExchangeClient):
                 data = await self._client.get("/markets", params=params)
             except Exception as e:
                 logger.error(f"Get event markets for {series_ticker} failed: {e}")
-                break
+                if markets:
+                    # We already have partial data — this is dangerous.
+                    # A partial bracket set could hide brackets that would
+                    # break the arbitrage guarantee. Raise instead.
+                    raise ExchangeError(
+                        f"Partial data for {series_ticker}: {len(markets)} markets "
+                        f"fetched before failure ({e}). Cannot safely use "
+                        f"partial bracket set for Strategy B."
+                    ) from e
+                raise ExchangeError(f"Failed to get markets for {series_ticker}: {e}") from e
 
             batch = data.get("markets", [])
             markets.extend(batch)
@@ -255,7 +279,10 @@ class KalshiExchange(ExchangeClient):
     # ----------------------------------------------------------------
 
     async def get_open_orders(self, ticker: Optional[str] = None) -> List[dict]:
-        """Get open orders, optionally filtered by ticker."""
+        """Get open orders, optionally filtered by ticker.
+
+        Raises ExchangeError on API failure.
+        """
         try:
             params = {}
             if ticker:
@@ -264,7 +291,7 @@ class KalshiExchange(ExchangeClient):
             return data.get("orders", [])
         except Exception as e:
             logger.error(f"Get open orders failed: {e}")
-            return []
+            raise ExchangeError(f"Failed to get open orders: {e}") from e
 
     async def close(self):
         """Close the underlying HTTP client session."""

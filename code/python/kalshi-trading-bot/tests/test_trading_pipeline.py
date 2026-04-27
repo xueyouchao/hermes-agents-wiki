@@ -48,14 +48,19 @@ class MockExchange(ExchangeClient):
         return {"ticker": ticker, "yes_ask": 10, "no_ask": 90}
 
     async def get_event_markets(self, series_ticker):
-        """Return mock markets for NYC high temp — 6 brackets with sum(YES) < 1.0"""
+        """Return mock markets for NYC high temp — 6 brackets with sum(YES) < 1.0
+
+        Prices in cents: 3 + 8 + 15 + 30 + 12 + 8 = 76 cents → sum = 0.76
+        Raw edge = 1.0 - 0.76 = 0.24
+        After 6 * $0.01 fees = 0.06, net edge = 0.18
+        """
         return [
             {"ticker": "KXHIGHNY-26MAY01-B32.5", "yes_ask": 3, "yes_bid": 2, "no_ask": 97, "last_price": 3, "volume": 200, "open_interest": 50},
-            {"ticker": "KXHIGHNY-26MAY01-B45.5", "yes_ask": 10, "yes_bid": 9, "no_ask": 90, "last_price": 10, "volume": 300, "open_interest": 80},
-            {"ticker": "KXHIGHNY-26MAY01-B58.5", "yes_ask": 25, "yes_bid": 24, "no_ask": 75, "last_price": 25, "volume": 500, "open_interest": 120},
+            {"ticker": "KXHIGHNY-26MAY01-B45.5", "yes_ask": 8, "yes_bid": 7, "no_ask": 92, "last_price": 8, "volume": 300, "open_interest": 80},
+            {"ticker": "KXHIGHNY-26MAY01-B58.5", "yes_ask": 15, "yes_bid": 14, "no_ask": 85, "last_price": 15, "volume": 500, "open_interest": 120},
             {"ticker": "KXHIGHNY-26MAY01-B71.5", "yes_ask": 30, "yes_bid": 29, "no_ask": 70, "last_price": 30, "volume": 400, "open_interest": 100},
-            {"ticker": "KXHIGHNY-26MAY01-B84.5", "yes_ask": 15, "yes_bid": 14, "no_ask": 85, "last_price": 15, "volume": 250, "open_interest": 60},
-            {"ticker": "KXHIGHNY-26MAY01-T84.5", "yes_ask": 11, "yes_bid": 10, "no_ask": 89, "last_price": 11, "volume": 150, "open_interest": 40},
+            {"ticker": "KXHIGHNY-26MAY01-B84.5", "yes_ask": 12, "yes_bid": 11, "no_ask": 88, "last_price": 12, "volume": 250, "open_interest": 60},
+            {"ticker": "KXHIGHNY-26MAY01-T84.5", "yes_ask": 8, "yes_bid": 7, "no_ask": 92, "last_price": 8, "volume": 150, "open_interest": 40},
         ]
 
     async def close(self):
@@ -74,14 +79,15 @@ class TestTradingEnginePipeline:
         exchange = MockExchange()
         opportunities = await scan_strategy_b(exchange)
 
-        # With mock data: sum(YES) = 0.03 + 0.10 + 0.25 + 0.30 + 0.15 + 0.11 = 0.94
-        # Edge = 1.0 - 0.94 = 0.06 = 6%
+        # With mock data: sum(YES) = 0.03 + 0.08 + 0.15 + 0.30 + 0.12 + 0.08 = 0.76
+        # Raw edge = 1.0 - 0.76 = 0.24
+        # After 6 * $0.01 fees = 0.06, net edge = 0.24 - 0.06 = 0.18
         # MockExchange returns same data for all 5 cities, so we get 5 arbs
         assert len(opportunities) == 5  # One per city
         opp = opportunities[0]
         assert opp.opportunity_type == OpportunityType.STRATEGY_B
-        assert abs(opp.yes_sum - 0.94) < 0.01
-        assert abs(opp.edge - 0.06) < 0.01
+        assert abs(opp.yes_sum - 0.76) < 0.01
+        assert abs(opp.edge - 0.18) < 0.01  # Fee-adjusted edge
 
     @pytest.mark.asyncio
     async def test_full_cycle_simulation_mode(self):

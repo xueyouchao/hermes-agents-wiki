@@ -15,6 +15,7 @@ from typing import Dict, List, Optional, Tuple
 
 from backend.common.config import settings
 from backend.weather.scanner.opportunity import Opportunity, OpportunityType
+from backend.common.alerting import alert_risk_halt, alert_daily_reset
 
 logger = logging.getLogger("trading_bot")
 
@@ -47,7 +48,7 @@ class RiskLimits:
     max_bracket_spread: float = 0.10          # Skip brackets with > 10c spread
 
     # Fee modeling
-    fee_rate_per_contract: float = 0.0         # Kalshi fee per contract (0 for now, adjust later)
+    fee_rate_per_contract: float = 0.01    # Kalshi fee: 1 cent per contract per trade (matches settings.KALSHI_FEE_RATE)
 
 
 @dataclass
@@ -101,6 +102,7 @@ class RiskManager:
     - Position size relative to order book depth
     - Portfolio-level exposure cap
     - Kill switch with auto-cancel
+    - Automatic daily stats reset at UTC midnight
     """
 
     def __init__(self, limits: RiskLimits = None, bankroll: float = None):
@@ -110,6 +112,37 @@ class RiskManager:
         self._bankroll_peak = bankroll or settings.INITIAL_BANKROLL  # High-water mark
         self._bankroll_override = bankroll  # Allow test injection
         self._order_ids_to_cancel: List[str] = []  # Orders to cancel on halt
+        self._last_reset_date: str = ""  # Track last reset date for daily rollover
+
+    def _check_day_reset(self):
+        """Reset daily stats if the UTC date has changed since last reset.
+
+        Called automatically at the start of is_trading_allowed() and
+        record_trade(). This ensures daily loss limits, trade counts, and
+        consecutive loss counters reset each UTC day instead of accumulating
+        indefinitely.
+        """
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        if self._last_reset_date and today != self._last_reset_date:
+            # Preserve high-water mark across resets (bankroll peak is not daily)
+            prev_bankroll = self.bankroll + self._daily_stats.realized_pnl
+            logger.info(
+                f"Daily stats reset: {self._last_reset_date} → {today} | "
+                f"Prev day P&L: ${self._daily_stats.realized_pnl:.2f} | "
+                f"Trades: {self._daily_stats.trades_executed}"
+            )
+            alert_daily_reset(
+                yesterday_pnl=self._daily_stats.realized_pnl,
+                trades=self._daily_stats.trades_executed,
+                date_str=self._last_reset_date,
+            )
+            self._daily_stats = DailyStats()
+            # Carry forward bankroll peak if we're above it
+            if prev_bankroll > self._bankroll_peak:
+                self._bankroll_peak = prev_bankroll
+            self._last_reset_date = today
+        elif not self._last_reset_date:
+            self._last_reset_date = today
 
     @property
     def bankroll(self) -> float:
@@ -121,11 +154,18 @@ class RiskManager:
 
         Returns (allowed, reason) tuple.
         """
+        self._check_day_reset()  # Roll over daily stats if date changed
+
         if self._killed:
+            alert_risk_halt("Kill switch activated")
             return False, "Kill switch activated"
 
         # Daily loss limit (flat cap)
         if self._daily_stats.realized_pnl <= -self.limits.daily_loss_limit:
+            alert_risk_halt(
+                f"Daily loss limit reached: ${abs(self._daily_stats.realized_pnl):.2f}",
+                details={"pnl": self._daily_stats.realized_pnl, "limit": self.limits.daily_loss_limit},
+            )
             return False, f"Daily loss limit reached: ${abs(self._daily_stats.realized_pnl):.2f}"
 
         # Daily trade count
@@ -137,6 +177,10 @@ class RiskManager:
         if self._bankroll_peak > 0 and current_bankroll < self._bankroll_peak:
             drawdown = (self._bankroll_peak - current_bankroll) / self._bankroll_peak
             if drawdown >= self.limits.max_drawdown_pct:
+                alert_risk_halt(
+                    f"Drawdown limit: {drawdown:.1%} from peak ${self._bankroll_peak:.2f}",
+                    details={"drawdown_pct": drawdown, "peak": self._bankroll_peak, "current": current_bankroll},
+                )
                 return False, (
                     f"Drawdown limit: {drawdown:.1%} from peak "
                     f"${self._bankroll_peak:.2f}"
@@ -144,6 +188,10 @@ class RiskManager:
 
         # Consecutive losses
         if self._daily_stats.consecutive_losses >= self.limits.max_consecutive_losses:
+            alert_risk_halt(
+                f"Consecutive loss limit: {self._daily_stats.consecutive_losses} losses in a row",
+                details={"consecutive_losses": self._daily_stats.consecutive_losses},
+            )
             return False, (
                 f"Consecutive loss limit: {self._daily_stats.consecutive_losses} "
                 f"losses in a row"
@@ -199,19 +247,12 @@ class RiskManager:
         if len(self._daily_stats.positions_opened) >= self.limits.max_pending_trades:
             return False, 0.0, "Too many pending positions"
 
-        # Check minimum edge (fee-adjusted for Strategy B)
-        if opp.opportunity_type == OpportunityType.STRATEGY_B and opp.brackets:
-            # Subtract fees from edge
-            total_fees = len(opp.brackets) * self.limits.fee_rate_per_contract
-            fee_adjusted_edge = opp.edge - total_fees
-            if fee_adjusted_edge < self.limits.min_edge:
-                return False, 0.0, (
-                    f"Fee-adjusted edge {fee_adjusted_edge:.1%} below minimum "
-                    f"{self.limits.min_edge:.1%} (fees={total_fees:.4f})"
-                )
-        else:
-            if opp.edge < self.limits.min_edge:
-                return False, 0.0, f"Edge {opp.edge:.1%} below minimum {self.limits.min_edge:.1%}"
+        # Check minimum edge
+        # NOTE: For Strategy B, opp.edge is already fee-adjusted by the scanner
+        # (check_cross_bracket_arb subtracts fees at line 246-248).
+        # We do NOT subtract fees again here — that would be a double deduction.
+        if opp.edge < self.limits.min_edge:
+            return False, 0.0, f"Edge {opp.edge:.1%} below minimum {self.limits.min_edge:.1%}" 
 
         # Check concentration (same event = same city + same date)
         event_key = f"{opp.city_key}_{opp.target_date}"
@@ -287,6 +328,8 @@ class RiskManager:
             cost: Total cost of the trade
             pnl: Realized P&L from settlement (0 for opening trades)
         """
+        self._check_day_reset()  # Roll over daily stats if date changed
+
         record = TradeRecord(
             ticker=ticker,
             side="yes",

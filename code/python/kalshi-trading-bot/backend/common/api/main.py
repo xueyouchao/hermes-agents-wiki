@@ -33,6 +33,42 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# API key authentication middleware
+# Pass ?api_key=xxx or header X-API-Key to authenticate.
+# Reads the expected key from DASHBOARD_API_KEY env var (or settings).
+# If no key is configured, all requests are allowed (local dev mode).
+from starlette.requests import Request
+from starlette.responses import JSONResponse
+
+
+@app.middleware("http")
+async def api_key_auth(request: Request, call_next):
+    """Require API key for all endpoints except /docs, /redoc, /openapi.json."""
+    # Public paths (Swagger UI, health check)
+    # NOTE: /ws/events is NOT public — it leaks all trading data.
+    # WebSocket auth is enforced inside the handler itself (query param).
+    public_paths = {"/docs", "/redoc", "/openapi.json", "/health"}
+
+    if request.url.path in public_paths:
+        return await call_next(request)
+
+    expected_key = os.getenv("DASHBOARD_API_KEY", "").strip()
+
+    # If no key is configured, allow all access (local dev mode)
+    if not expected_key:
+        return await call_next(request)
+
+    # Check X-API-Key header first, then ?api_key= query param
+    provided_key = request.headers.get("X-API-Key", "") or request.query_params.get("api_key", "")
+
+    if provided_key != expected_key:
+        return JSONResponse(
+            status_code=401,
+            content={"detail": "Invalid or missing API key. Use X-API-Key header or ?api_key= param."},
+        )
+
+    return await call_next(request)
+
 
 # WebSocket connection manager
 class ConnectionManager:
@@ -287,6 +323,12 @@ async def shutdown():
 @app.get("/")
 async def root():
     return {"status": "ok", "message": "BTC 5-Min Trading Bot API v3.0", "simulation_mode": settings.SIMULATION_MODE}
+
+
+@app.get("/health")
+async def health_check():
+    """Unauthenticated health check endpoint for monitoring."""
+    return {"status": "healthy", "timestamp": datetime.utcnow().isoformat()}
 
 
 @app.get("/api/health")
@@ -1007,6 +1049,14 @@ async def get_dashboard(db: Session = Depends(get_db)):
 
 @app.websocket("/ws/events")
 async def websocket_events(websocket: WebSocket):
+    # WebSocket auth: check api_key query parameter
+    expected_key = os.getenv("DASHBOARD_API_KEY", "").strip()
+    if expected_key:
+        provided_key = websocket.query_params.get("api_key", "")
+        if provided_key != expected_key:
+            await websocket.close(code=4001, reason="Invalid API key")
+            return
+
     await ws_manager.connect(websocket)
 
     try:
@@ -1044,4 +1094,4 @@ async def websocket_events(websocket: WebSocket):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", "8000")))
+    uvicorn.run(app, host="127.0.0.1", port=int(os.getenv("PORT", "8000")))

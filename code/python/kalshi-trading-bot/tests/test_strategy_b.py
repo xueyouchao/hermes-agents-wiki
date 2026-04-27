@@ -52,11 +52,12 @@ class TestCheckCrossBracketArb:
             make_bracket("KXHIGHNY-26MAY01-B80", 0.05),
             make_bracket("KXHIGHNY-26MAY01-T80", 0.02),
         ]
-        # sum = 0.82, edge = 0.18
+        # sum = 0.82, raw edge = 0.18
+        # fees = 6 * $0.01 = $0.06, net edge = 0.18 - 0.06 = 0.12
         result = check_cross_bracket_arb(brackets, series_ticker="KXHIGHNY", city_key="nyc")
         assert result is not None
         assert result.opportunity_type == OpportunityType.STRATEGY_B
-        assert abs(result.edge - 0.18) < 0.001
+        assert abs(result.edge - 0.12) < 0.001  # Fee-adjusted edge
         assert abs(result.total_cost - 0.82) < 0.001
         assert result.num_brackets == 6
 
@@ -84,19 +85,20 @@ class TestCheckCrossBracketArb:
         assert result is None
 
     def test_realistic_scenario(self):
-        """Realistic scenario: 6 brackets with sum=0.94, edge=6%."""
+        """Realistic scenario: 6 brackets with sum=0.88, net edge after fees."""
         brackets = [
             make_bracket("KXHIGHNY-26MAY01-B32.5", 0.03, volume=200, threshold=32.5),
-            make_bracket("KXHIGHNY-26MAY01-B45.5", 0.10, volume=300, threshold=45.5),
-            make_bracket("KXHIGHNY-26MAY01-B58.5", 0.25, volume=500, threshold=58.5),
+            make_bracket("KXHIGHNY-26MAY01-B45.5", 0.05, volume=300, threshold=45.5),
+            make_bracket("KXHIGHNY-26MAY01-B58.5", 0.15, volume=500, threshold=58.5),
             make_bracket("KXHIGHNY-26MAY01-B71.5", 0.30, volume=400, threshold=71.5),
-            make_bracket("KXHIGHNY-26MAY01-B84.5", 0.15, volume=250, threshold=84.5),
-            make_bracket("KXHIGHNY-26MAY01-T84.5", 0.11, volume=150, threshold=84.5),
+            make_bracket("KXHIGHNY-26MAY01-B84.5", 0.20, volume=250, threshold=84.5),
+            make_bracket("KXHIGHNY-26MAY01-T84.5", 0.15, volume=150, threshold=84.5),
         ]
-        # sum = 0.94, edge = 0.06
+        # sum = 0.88, raw edge = 0.12
+        # fees = 6 * $0.01 = $0.06, net edge = 0.12 - 0.06 = 0.06
         result = check_cross_bracket_arb(brackets, "KXHIGHNY", "nyc")
         assert result is not None
-        assert abs(result.edge - 0.06) < 0.001
+        assert abs(result.edge - 0.06) < 0.001  # Fee-adjusted edge
         assert result.confidence >= 0.9  # High confidence for pure arb
         assert result.direction == "yes"
 
@@ -113,7 +115,7 @@ class TestCheckCrossBracketArb:
         assert any("Too few brackets" in r for r in skip_reasons)
 
     def test_roi_calculation(self):
-        """ROI should be calculated correctly."""
+        """ROI should be calculated correctly (with fees)."""
         brackets = [
             make_bracket("KXHIGHNY-26MAY01-B40", 0.10),
             make_bracket("KXHIGHNY-26MAY01-B50", 0.15),
@@ -122,7 +124,8 @@ class TestCheckCrossBracketArb:
             make_bracket("KXHIGHNY-26MAY01-B80", 0.05),
             make_bracket("KXHIGHNY-26MAY01-T80", 0.03),
         ]
-        # sum = 0.78, edge = 0.22
+        # sum = 0.78, raw edge = 0.22
+        # fees = 6 * $0.01 = $0.06, net edge = 0.22 - 0.06 = 0.16
         result = check_cross_bracket_arb(brackets, "KXHIGHNY", "nyc")
         assert result is not None
         assert result.roi_pct > 0
@@ -169,7 +172,9 @@ class TestRiskManager:
         from backend.common.risk import RiskManager, RiskLimits
         from backend.weather.scanner.opportunity import Opportunity
 
-        limits = RiskLimits(daily_loss_limit=300, max_trade_size=100)
+        # Use fee_rate_per_contract=0 for this test so edge=0.10 passes min_edge check
+        # (In production, fee is $0.01/contract and edge is fee-adjusted)
+        limits = RiskLimits(daily_loss_limit=300, max_trade_size=100, fee_rate_per_contract=0.0)
         rm = RiskManager(limits)
 
         opp = Opportunity(
@@ -261,29 +266,36 @@ class TestRiskManager:
         assert "Rolling" in reason
 
     def test_fee_adjusted_edge_rejection(self):
-        """Opportunities with edge below min_edge after fees should be rejected."""
+        """Opportunities with fee-adjusted edge below min_edge should be rejected.
+
+        IMPORTANT: opp.edge is already fee-adjusted by the scanner
+        (check_cross_bracket_arb deducts fees). The risk manager does NOT
+        re-subtract fees — it just compares opp.edge against min_edge.
+        """
         from backend.common.risk import RiskManager, RiskLimits
         from backend.weather.scanner.opportunity import Opportunity
 
-        limits = RiskLimits(min_edge=0.03, fee_rate_per_contract=0.01)
+        limits = RiskLimits(min_edge=0.03)
         rm = RiskManager(limits=limits)
 
+        # This represents what the scanner would produce after fee deduction:
+        # Gross edge was 0.04, minus 6 * 0.01 fees = -0.02 (net)
         opp = Opportunity(
             opportunity_type=OpportunityType.STRATEGY_B,
             series_ticker="KXHIGHNY",
             city_key="nyc",
             city_name="New York",
             target_date=date(2026, 5, 1),
-            edge=0.04,  # Gross edge
-            edge_dollars=0.04,
+            edge=0.02,  # Already fee-adjusted (net edge after fees)
+            edge_dollars=0.02,
             total_cost=0.96,
             suggested_size=1,
             brackets=[BracketMarket(ticker=f"T{i}", yes_price=0.16, no_price=0.84, threshold_f=50, direction="above", volume=200) for i in range(6)],
         )
-        # 6 brackets * 0.01 fee = 0.06 fees → fee-adjusted edge = 0.04 - 0.06 = -0.02 < 0.03
+        # 0.02 < 0.03 min_edge → rejected
         approved, size, reason = rm.approve_opportunity(opp)
         assert not approved
-        assert "fee-adjusted" in reason.lower() or "Fee" in reason
+        assert "edge" in reason.lower() or "below" in reason.lower()
 
     def test_auto_cancel_on_kill_switch(self):
         """Kill switch should trigger auto-cancel of registered orders."""

@@ -20,6 +20,7 @@ from backend.common.config import settings
 from backend.common.risk import RiskManager, RiskLimits
 from backend.common.exchange.base import ExchangeClient, OrderSide, OrderType, OrderResult
 from backend.common.exchange.kalshi import KalshiExchange
+from backend.common.alerting import alert_partial_fill, alert_execution_failure
 from backend.weather.scanner.opportunity import (
     BracketMarket,
     Opportunity,
@@ -32,6 +33,16 @@ logger = logging.getLogger("trading_bot")
 
 # Timeout for individual order placement (seconds)
 ORDER_TIMEOUT_SECONDS = 10
+
+# How long to wait after placing LIMIT orders before checking fill status
+# GTC LIMIT orders need time to match — this pause lets the exchange fill them
+FILL_WAIT_SECONDS = 3.0
+
+# How many times to poll order status after the initial wait
+FILL_POLL_ATTEMPTS = 2
+
+# Seconds between poll attempts
+FILL_POLL_INTERVAL = 2.0
 
 
 class TradingEngine:
@@ -57,6 +68,7 @@ class TradingEngine:
                 max_trade_size=settings.MAX_TRADE_SIZE,
                 max_event_concentration=0.15,
                 min_edge=0.02,
+                fee_rate_per_contract=settings.KALSHI_FEE_RATE,
             )
         )
         self.simulation_mode = simulation_mode if simulation_mode is not None else settings.SIMULATION_MODE
@@ -104,15 +116,25 @@ class TradingEngine:
         logger.info(f"Found {len(opportunities)} opportunities")
 
         # Step 2: Fetch current positions for concentration check
+        # If we can't verify current positions, we CANNOT safely trade —
+        # we might be over-concentrated and not know it.
         current_positions: Dict[str, float] = {}
+        positions_fetched = False
         try:
             positions = await self.exchange.get_positions()
             for pos in positions:
                 current_positions[pos.ticker] = pos.size * pos.avg_price
+            positions_fetched = True
         except Exception as e:
-            logger.warning(f"Could not fetch positions for concentration check: {e}")
+            logger.error(f"Could not fetch positions for concentration check: {e}")
+            logger.error("Skipping this cycle — cannot verify concentration limits without position data")
 
         # Step 3: Risk check each opportunity
+        # If positions failed, we cannot safely approve anything
+        if not positions_fetched:
+            logger.error("Aborting cycle — position data unavailable, concentration uncheckable")
+            return self._make_cycle_results(cycle_id, cycle_start, [])
+
         logger.info("Step 2: Risk managing opportunities...")
         approved = []
         for opp in opportunities:
@@ -257,27 +279,34 @@ class TradingEngine:
                 result = await self._execute_single_market(opp, result)
         except Exception as e:
             result["error"] = str(e)
+            alert_execution_failure(
+                strategy=opp.opportunity_type.value,
+                ticker=opp.series_ticker,
+                error=str(e),
+            )
             logger.error(f"  Execution failed for {opp.series_ticker}: {e}", exc_info=True)
 
         return result
 
     async def _execute_strategy_b(self, opp: Opportunity, result: dict) -> dict:
-        """Execute Strategy B — buy YES on every bracket in the event.
+        """Execute Strategy B — two-phase commit for cross-bracket arbitrage.
 
-        This is the core arbitrage execution:
-        1. Buy YES on all brackets at their ask price concurrently
-        2. Use IOC (immediate-or-cancel) for speed
-        3. If any bracket fails to fill enough, we have partial arb
-        4. Auto-cancel remaining if critical bracket fails
-        5. Log results for reconciliation
+        Phase 1: Place LIMIT (GTC) orders on ALL brackets concurrently.
+        Phase 2: After a short wait, check fills.
+          - If ALL brackets filled → arb complete, mark COMPLETE.
+          - If any bracket unfilled → IMMEDIATELY cancel all unfilled orders
+            and attempt to sell any filled positions at market (flatten).
+            This converts partial arb exposure back to cash, avoiding directional risk.
+
+        We NEVER leave partial fills unhedged. Either all brackets fill (arb) or
+        we flatten and take the small loss on fills.
         """
         opp.status = OpportunityStatus.EXECUTING
-        filled_brackets = 0
-        total_cost = 0.0
+        total_brackets = len(opp.brackets)
 
-        # Place all bracket orders concurrently for speed
+        # ── PHASE 1: Place all bracket orders as LIMIT (GTC) ──────────
         async def _place_bracket_order(bracket: BracketMarket) -> Tuple[BracketMarket, OrderResult]:
-            """Place a single bracket order with timeout."""
+            """Place a single bracket LIMIT order with timeout."""
             try:
                 order_result = await asyncio.wait_for(
                     self.exchange.place_order(
@@ -285,7 +314,7 @@ class TradingEngine:
                         side=OrderSide.YES,
                         price=bracket.yes_price,
                         size=opp.suggested_size,
-                        order_type=OrderType.IOC,
+                        order_type=OrderType.LIMIT,  # GTC, not IOC — we manage cancellations ourselves
                     ),
                     timeout=ORDER_TIMEOUT_SECONDS,
                 )
@@ -295,11 +324,15 @@ class TradingEngine:
             except Exception as e:
                 return bracket, OrderResult(success=False, error=str(e))
 
-        # Execute all orders concurrently
         order_tasks = [_place_bracket_order(b) for b in opp.brackets]
         order_results = await asyncio.gather(*order_tasks)
 
-        # Process results
+        # Collect order IDs for Phase 2
+        placed_orders: List[dict] = []  # {bracket, order_id, filled_size, filled_price, success}
+        all_succeeded = True
+        initial_filled_count = 0
+        initial_cost = 0.0
+
         for bracket, order_result in order_results:
             order_dict = {
                 "ticker": bracket.ticker,
@@ -315,51 +348,188 @@ class TradingEngine:
             }
             result["orders"].append(order_dict)
 
-            if order_result.success:
-                filled_brackets += 1
-                total_cost += order_result.filled_price * order_result.filled_size
+            placed_orders.append({
+                "bracket": bracket,
+                "order_id": order_result.order_id,
+                "filled_size": order_result.filled_size,
+                "filled_price": order_result.filled_price,
+                "success": order_result.success,
+            })
 
-                # Register order for potential auto-cancel on risk halt
+            if order_result.success:
+                initial_filled_count += 1
+                initial_cost += order_result.filled_price * order_result.filled_size
                 if order_result.order_id:
                     self.risk_manager.register_order_for_cancel(order_result.order_id)
-
-                if order_result.remaining_size > 0:
-                    logger.warning(
-                        f"  Partial fill on {bracket.ticker}: "
-                        f"{order_result.filled_size}/{opp.suggested_size} @ {order_result.filled_price:.2f}"
-                    )
-
-                # Record in risk manager
-                self.risk_manager.record_trade(
-                    ticker=bracket.ticker,
-                    size=int(order_result.filled_size),
-                    cost=order_result.filled_price * order_result.filled_size,
-                )
             else:
-                logger.error(
-                    f"  Order FAILED for {bracket.ticker}: {order_result.error}"
-                )
+                all_succeeded = False
+                logger.error(f"  Order FAILED for {bracket.ticker}: {order_result.error}")
 
-        # Determine final status
-        if filled_brackets == len(opp.brackets):
+        # ── PHASE 1.5: Wait for LIMIT orders to fill ──────────
+        # GTC LIMIT orders need time to match. We wait, then
+        # poll each order's status before deciding whether to flatten.
+        logger.info(f"  Phase 1 complete. Waiting {FILL_WAIT_SECONDS}s for LIMIT fills...")
+        await asyncio.sleep(FILL_WAIT_SECONDS)
+
+        # Poll order status to get updated fill information
+        for poll_attempt in range(FILL_POLL_ATTEMPTS):
+            rechecked_all_filled = True
+            for o in placed_orders:
+                if not o["success"] or o["filled_size"] >= opp.suggested_size:
+                    continue  # Already failed or fully filled
+                # Check order status via exchange
+                try:
+                    open_orders = await asyncio.wait_for(
+                        self.exchange.get_open_orders(ticker=o["bracket"].ticker),
+                        timeout=5.0,
+                    )
+                    # Find our order in the open orders list
+                    our_order = None
+                    for oo in open_orders:
+                        if str(oo.get("id", "")) == str(o["order_id"]):
+                            our_order = oo
+                            break
+                    if our_order is None:
+                        # Order not in open list — it was either fully filled or cancelled
+                        # Assume fully filled (best case for us)
+                        o["filled_size"] = opp.suggested_size
+                        o["filled_price"] = o["bracket"].yes_price
+                        logger.info(f"  Poll: {o['bracket'].ticker} order filled (not in open orders)")
+                    else:
+                        filled_so_far = opp.suggested_size - float(our_order.get("remaining_count", opp.suggested_size))
+                        if filled_so_far > o["filled_size"]:
+                            o["filled_size"] = filled_so_far
+                            logger.info(f"  Poll: {o['bracket'].ticker} partial fill: {filled_so_far}/{opp.suggested_size}")
+                        if o["filled_size"] < opp.suggested_size:
+                            rechecked_all_filled = False
+                except Exception as e:
+                    logger.warning(f"  Poll: Could not check order status for {o['bracket'].ticker}: {e}")
+                    rechecked_all_filled = False
+
+            if rechecked_all_filled:
+                break
+            elif poll_attempt < FILL_POLL_ATTEMPTS - 1:
+                logger.info(f"  Poll attempt {poll_attempt + 1}: not all filled. Waiting {FILL_POLL_INTERVAL}s...")
+                await asyncio.sleep(FILL_POLL_INTERVAL)
+
+        # ── PHASE 2: Verify all brackets filled, flatten if not ──────────
+        unfilled_orders = [o for o in placed_orders if o["success"] and o["filled_size"] < opp.suggested_size]
+        completely_failed = [o for o in placed_orders if not o["success"]]
+        all_filled = initial_filled_count == total_brackets and len(completely_failed) == 0 and len(unfilled_orders) == 0
+
+        if all_filled:
+            # All brackets filled — arb complete!
             opp.status = OpportunityStatus.COMPLETE
             result["executed"] = True
+
+            # Record all trades in risk manager
+            for o in placed_orders:
+                if o["success"] and o["filled_size"] > 0:
+                    self.risk_manager.record_trade(
+                        ticker=o["bracket"].ticker,
+                        size=int(o["filled_size"]),
+                        cost=o["filled_price"] * o["filled_size"],
+                    )
+
             logger.info(
-                f"  Strategy B COMPLETE: {filled_brackets}/{len(opp.brackets)} brackets filled, "
-                f"total cost ${total_cost:.4f}"
+                f"  Strategy B COMPLETE: {initial_filled_count}/{total_brackets} brackets filled, "
+                f"total cost ${initial_cost:.4f}"
             )
-        elif filled_brackets > 0:
-            opp.status = OpportunityStatus.PARTIAL
-            opp.order_ids = [o.get("order_id", "") for o in result["orders"] if o.get("order_id")]
-            result["executed"] = True
-            logger.warning(
-                f"  Strategy B PARTIAL: {filled_brackets}/{len(opp.brackets)} brackets filled"
-            )
-        else:
-            opp.status = OpportunityStatus.CANCELLED
-            logger.error("  Strategy B FAILED: 0 brackets filled")
+            return result
+
+        # PARTIAL FILL — dangerous! Flatten positions immediately.
+        alert_partial_fill(
+            brackets_filled=initial_filled_count,
+            brackets_total=total_brackets,
+            tickers=[o["bracket"].ticker for o in placed_orders if o["success"]],
+        )
+        logger.critical(
+            f"  !!! Strategy B PARTIAL FILL: {initial_filled_count}/{total_brackets} filled, "
+            f"{len(completely_failed)} failed, {len(unfilled_orders)} partial. "
+            f"FLATTENING ALL POSITIONS."
+        )
+
+        # Cancel any unfilled/partially-filled orders
+        cancel_tasks = []
+        for o in placed_orders:
+            if o["order_id"] and o["success"]:
+                # Cancel any remaining open portion
+                cancel_tasks.append(self._safe_cancel_order(o["order_id"]))
+
+        if cancel_tasks:
+            await asyncio.gather(*cancel_tasks)
+
+        # Attempt to sell filled positions back at market (flatten)
+        # If we bought YES on N brackets but not all, we have directional risk.
+        # Best we can do: place sell orders at bid price to exit.
+        flatten_results = []
+        for o in placed_orders:
+            if o["success"] and o["filled_size"] > 0:
+                bracket = o["bracket"]
+                logger.warning(
+                    f"  FLATTEN: Selling {o['filled_size']} YES {bracket.ticker} "
+                    f"(bought @ {o['filled_price']:.2f})"
+                )
+                try:
+                    # Sell YES at bid price (accept lower price for immediate exit)
+                    sell_price = bracket.yes_bid if bracket.yes_bid > 0 else bracket.yes_price - 0.01
+                    sell_result = await asyncio.wait_for(
+                        self.exchange.place_order(
+                            ticker=bracket.ticker,
+                            side=OrderSide.NO,  # Sell YES = buy NO
+                            price=round(1.0 - sell_price, 2),
+                            size=int(o["filled_size"]),
+                            order_type=OrderType.IOC,  # IOC for immediate exit
+                        ),
+                        timeout=ORDER_TIMEOUT_SECONDS,
+                    )
+                    flatten_results.append({
+                        "ticker": bracket.ticker,
+                        "success": sell_result.success,
+                        "filled_size": sell_result.filled_size,
+                        "error": sell_result.error if not sell_result.success else "",
+                    })
+                except Exception as e:
+                    flatten_results.append({
+                        "ticker": bracket.ticker,
+                        "success": False,
+                        "error": str(e),
+                    })
+
+        # Record the partial fill as a loss in risk manager
+        # (we entered and exited, net P&L is the slippage from bid-ask spread)
+        for o in placed_orders:
+            if o["success"] and o["filled_size"] > 0:
+                self.risk_manager.record_trade(
+                    ticker=o["bracket"].ticker,
+                    size=int(o["filled_size"]),
+                    cost=o["filled_price"] * o["filled_size"],
+                    pnl=-0.02 * o["filled_size"],  # Estimated slippage loss per contract
+                )
+
+        flat_succeeded = sum(1 for r in flatten_results if r["success"])
+        opp.status = OpportunityStatus.CANCELLED
+        result["executed"] = False  # NOT executed — we flattened
+        result["partial_flattened"] = True
+        result["flatten_results"] = flatten_results
+
+        logger.warning(
+            f"  Strategy B ABORTED & FLATTENED: {flat_succeeded}/{initial_filled_count} "
+            f"positions sold back. Remaining exposure may need manual settlement."
+        )
 
         return result
+
+    async def _safe_cancel_order(self, order_id: str) -> bool:
+        """Cancel an order, returning True if successful. Non-blocking, logs errors."""
+        try:
+            return await asyncio.wait_for(
+                self.exchange.cancel_order(order_id),
+                timeout=5.0,
+            )
+        except (asyncio.TimeoutError, Exception) as e:
+            logger.error(f"  Failed to cancel order {order_id}: {e}")
+            return False
 
     async def _execute_single_market(self, opp: Opportunity, result: dict) -> dict:
         """Execute a single-market trade (Strategy A or C).

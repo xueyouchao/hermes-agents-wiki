@@ -53,6 +53,7 @@ def _get_cities() -> List[str]:
 def _extract_bracket_markets(
     raw_markets: List[dict],
     skip_reasons: Optional[List[str]] = None,
+    filtered_out: Optional[List[dict]] = None,
 ) -> List[BracketMarket]:
     """Convert raw Kalshi market data into BracketMarket objects.
 
@@ -63,9 +64,20 @@ def _extract_bracket_markets(
     - Markets that are too illiquid to trade
 
     Tracks skip_reasons for every filtered market.
+    Also tracks filtered_out brackets that could plausibly resolve YES
+    (ask between 0.02 and 0.98) — these are DANGEROUS to exclude because
+    they break the "one bracket must resolve YES" guarantee.
+
+    Args:
+        raw_markets: Raw market data from Kalshi API
+        skip_reasons: Shared list for tracking why markets were skipped
+        filtered_out: Shared list for tracking filtered-out brackets that
+                      could plausibly resolve YES (dict with ticker + yes_ask)
     """
     if skip_reasons is None:
         skip_reasons = []
+    if filtered_out is None:
+        filtered_out = []
 
     brackets = []
 
@@ -88,14 +100,17 @@ def _extract_bracket_markets(
         # Need an ask price to buy — NEVER fall back to last_price
         if yes_ask <= 0:
             skip_reasons.append(f"No ask price: {ticker}")
+            # No ask = can't buy, not dangerous to exclude
             continue
 
         # Skip effectively-resolved brackets
         if yes_ask > 0.98:
             skip_reasons.append(f"Near-certain YES: {ticker} ask={yes_ask:.2f}")
+            # Prices > 0.98 are effectively resolved — safe to exclude
             continue
         if yes_ask < 0.02:
             skip_reasons.append(f"Near-certain NO: {ticker} ask={yes_ask:.2f}")
+            # Prices < 0.02 are near-impossible outcomes — safe to exclude
             continue
 
         volume = float(m.get("volume", 0) or 0)
@@ -105,6 +120,9 @@ def _extract_bracket_markets(
         spread = yes_ask - yes_bid if yes_bid > 0 else 0
         if spread > MAX_BRACKET_SPREAD:
             skip_reasons.append(f"Spread too wide: {ticker} spread={spread:.2f}")
+            # DANGEROUS: this bracket could resolve YES but we can't trade it
+            # due to spread. This breaks the arbitrage guarantee!
+            filtered_out.append({"ticker": ticker, "yes_ask": yes_ask, "reason": "wide_spread"})
             continue
 
         brackets.append(BracketMarket(
@@ -144,16 +162,87 @@ def _group_brackets_by_event(brackets: List[BracketMarket]) -> Dict[str, List[Br
     return events
 
 
+def _validate_bracket_completeness(
+    brackets: List[BracketMarket],
+    series_ticker: str = "",
+    skip_reasons: Optional[List[str]] = None,
+    min_brackets: int = 4,
+    filtered_out: Optional[List[dict]] = None,
+) -> bool:
+    """Validate that a bracket set has enough brackets for Strategy B.
+
+    Strategy B requires that exactly one bracket resolves YES for a guaranteed
+    $1.00 payout. With too few brackets, the probabilities don't properly cover
+    the outcome space.
+
+    CRITICAL: If any brackets were filtered out that could plausibly resolve YES
+    (yes_ask between 0.02 and 0.98), the arbitrage guarantee is BROKEN. We reject
+    the set because we can't buy YES on a bracket that might resolve YES, meaning
+    we might lose our entire investment.
+
+    Args:
+        brackets: Filtered brackets for one event
+        series_ticker: Series ticker for logging
+        skip_reasons: Shared list for tracking why we skipped
+        min_brackets: Minimum brackets required (default 4)
+        filtered_out: List of filtered-out brackets that could plausibly resolve YES
+
+    Returns:
+        True if the bracket set appears valid, False otherwise.
+    """
+    if skip_reasons is None:
+        skip_reasons = []
+
+    # CRITICAL check: any filtered-out bracket that could plausibly resolve YES
+    # breaks the arbitrage guarantee
+    if filtered_out:
+        dangerous = [f for f in filtered_out if 0.02 <= f.get("yes_ask", 0) <= 0.98]
+        if dangerous:
+            for d in dangerous:
+                skip_reasons.append(
+                    f"DANGEROUS filtered bracket: {d['ticker']} ask={d['yes_ask']:.2f} "
+                    f"({d.get('reason', 'unknown')}) — could resolve YES, breaks arb guarantee"
+                )
+            logger.warning(
+                f"  Bracket completeness FAIL: {series_ticker} — "
+                f"{len(dangerous)} filtered bracket(s) could plausibly resolve YES. "
+                f"Arbitrage guarantee is BROKEN."
+            )
+            return False
+
+    # Minimum bracket count check
+    if len(brackets) < min_brackets:
+        skip_reasons.append(
+            f"Too few brackets for Strategy B: {len(brackets)} < {min_brackets} "
+            f"for {series_ticker}"
+        )
+        return False
+
+    # Log a warning for edge-case small sets (4-5 brackets)
+    if len(brackets) <= 5:
+        logger.info(
+            f"  Small bracket set for {series_ticker}: {len(brackets)} brackets — "
+            f"verify this covers all outcomes"
+        )
+
+    return True
+
+
 def check_cross_bracket_arb(
     brackets: List[BracketMarket],
     series_ticker: str = "",
     city_key: str = "",
     skip_reasons: Optional[List[str]] = None,
+    filtered_out: Optional[List[dict]] = None,
 ) -> Optional[Opportunity]:
     """Check if a set of brackets for one event has cross-bracket arbitrage.
 
     This is the core of Strategy B: compute sum(yes_ask) for all brackets.
     If sum < $1.00, we can buy YES on every bracket and guarantee profit.
+
+    IMPORTANT: Only valid if the bracket set is collectively exhaustive (one bracket
+    WILL resolve YES). Filters (no ask, near-certain, wide spread) can remove
+    brackets, breaking this guarantee. We validate completeness before trading.
 
     Args:
         brackets: All bracket markets for one event (same date, same city)
@@ -171,6 +260,10 @@ def check_cross_bracket_arb(
         skip_reasons.append(
             f"Too few brackets for {series_ticker}: {len(brackets)} < 4"
         )
+        return None
+
+    # ── Completeness check: are we missing brackets? ──
+    if not _validate_bracket_completeness(brackets, series_ticker, skip_reasons, filtered_out=filtered_out):
         return None
 
     # Sort by threshold for readability
@@ -303,7 +396,9 @@ async def scan_strategy_b(
             continue
 
         # Convert to BracketMarket objects (uses ask prices)
-        brackets = _extract_bracket_markets(raw_markets, city_skip_reasons)
+        # Also track filtered-out brackets that could break the arb guarantee
+        city_filtered_out: List[dict] = []
+        brackets = _extract_bracket_markets(raw_markets, city_skip_reasons, city_filtered_out)
         if not brackets:
             logger.info(f"  {city_key}: no valid brackets after filtering")
             total_skip_reasons.extend(city_skip_reasons)
@@ -331,7 +426,8 @@ async def scan_strategy_b(
 
         for event_key, event_brackets in events.items():
             opp = check_cross_bracket_arb(
-                event_brackets, series, city_key, city_skip_reasons
+                event_brackets, series, city_key, city_skip_reasons,
+                filtered_out=city_filtered_out,
             )
             if opp:
                 logger.info(

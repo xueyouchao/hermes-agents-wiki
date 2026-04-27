@@ -230,7 +230,10 @@ async def _fetch_kalshi_resolution(ticker: str) -> Tuple[bool, Optional[float]]:
 async def settle_pending_trades(db: Session) -> List[Trade]:
     """
     Process all pending trades for settlement.
-    Uses REAL market outcomes from Polymarket API.
+
+    Routes each trade to the correct platform (Kalshi or Polymarket) based on
+    the trade's platform attribute. Defaults to 'kalshi' (our primary exchange)
+    if platform is not set, NOT polymarket.
     """
     try:
         pending = db.query(Trade).filter(Trade.settled == False).all()
@@ -247,9 +250,11 @@ async def settle_pending_trades(db: Session) -> List[Trade]:
 
     for trade in pending:
         try:
-            # Route settlement by market type
-            market_type = getattr(trade, 'market_type', 'btc') or 'btc'
-            if market_type == "weather":
+            # Route settlement by market type, defaulting to Kalshi (our primary exchange)
+            market_type = getattr(trade, 'market_type', None) or None
+            platform = getattr(trade, 'platform', None) or 'kalshi'  # Default to kalshi, not polymarket
+
+            if market_type == "weather" or platform == "kalshi":
                 is_settled, settlement_value, pnl = await check_weather_settlement(trade)
             else:
                 is_settled, settlement_value, pnl = await check_market_settlement(trade)

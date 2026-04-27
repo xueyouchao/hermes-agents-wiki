@@ -13,6 +13,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 
 from backend.common.config import settings
+from backend.weather.scanner.opportunity import OpportunityStatus
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("trading_bot")
@@ -63,6 +64,20 @@ def get_recent_events(limit: int = 50) -> List[dict]:
 # Trading jobs
 # ---------------------------------------------------------------
 
+# Lock to prevent Strategy B running concurrently from both jobs.
+# Lazy-initialized: asyncio.Lock() must be created inside a running event loop,
+# so we defer creation until first use.
+_strategy_b_lock: Optional[asyncio.Lock] = None
+
+
+def _get_strategy_b_lock() -> asyncio.Lock:
+    """Get or lazily create the Strategy B lock."""
+    global _strategy_b_lock
+    if _strategy_b_lock is None:
+        _strategy_b_lock = asyncio.Lock()
+    return _strategy_b_lock
+
+
 async def weather_arbitrage_job():
     """
     Main trading job: scan → approve → execute cycle.
@@ -71,45 +86,53 @@ async def weather_arbitrage_job():
     1. Scanner (strategy B, A, C)
     2. Risk manager (position sizing, daily limits)
     3. Exchange client (Kalshi order placement)
+
+    Uses shared lock with strategy_b_job to prevent concurrent Strategy B execution.
     """
-    log_event("info", "Weather arbitrage scan starting...")
+    # Prevent concurrent execution with strategy_b_job
+    if _get_strategy_b_lock().locked():
+        log_event("info", "Weather arbitrage scan skipped — Strategy B lock held")
+        return
 
-    try:
-        global engine
-        if engine is None:
-            from backend.common.trader import TradingEngine
-            engine = TradingEngine()
+    async with _get_strategy_b_lock():
+        log_event("info", "Weather arbitrage scan starting...")
 
-        results = await engine.run_cycle()
+        try:
+            global engine
+            if engine is None:
+                from backend.common.trader import TradingEngine
+                engine = TradingEngine()
 
-        actionable = [r for r in results if r.get("status") in ("validated", "complete", "partial")]
-        executed = [r for r in results if r.get("execution", {}).get("executed", False)]
-        simulated = [r for r in results if r.get("execution", {}).get("simulated", False)]
+            results = await engine.run_cycle()
 
-        log_event("data",
-            f"Scan complete: {len(results)} opps, {len(actionable)} approved, "
-            f"{len(executed)} executed, {len(simulated)} simulated",
-            {
-                "total_opportunities": len(results),
-                "approved": len(actionable),
-                "executed": len(executed),
-                "simulated": len(simulated),
-            }
-        )
+            actionable = [r for r in results if r.get("status") in ("validated", "complete", "partial")]
+            executed = [r for r in results if r.get("execution", {}).get("executed", False)]
+            simulated = [r for r in results if r.get("execution", {}).get("simulated", False)]
 
-        for r in executed:
-            strategy = r.get("opportunity_type", "unknown")
-            ticker = r.get("series_ticker", "?")
-            date = r.get("target_date", "?")
-            edge = r.get("edge", 0)
-            log_event("trade",
-                f"[{strategy.upper()}] {ticker} {date} — edge={edge:.1%}",
-                r
+            log_event("data",
+                f"Scan complete: {len(results)} opps, {len(actionable)} approved, "
+                f"{len(executed)} executed, {len(simulated)} simulated",
+                {
+                    "total_opportunities": len(results),
+                    "approved": len(actionable),
+                    "executed": len(executed),
+                    "simulated": len(simulated),
+                }
             )
 
-    except Exception as e:
-        log_event("error", f"Weather arbitrage scan error: {str(e)}")
-        logger.exception("Error in weather_arbitrage_job")
+            for r in executed:
+                strategy = r.get("opportunity_type", "unknown")
+                ticker = r.get("series_ticker", "?")
+                date = r.get("target_date", "?")
+                edge = r.get("edge", 0)
+                log_event("trade",
+                    f"[{strategy.upper()}] {ticker} {date} — edge={edge:.1%}",
+                    r
+                )
+
+        except Exception as e:
+            log_event("error", f"Weather arbitrage scan error: {str(e)}")
+            logger.exception("Error in weather_arbitrage_job")
 
 
 async def strategy_b_job():
@@ -117,38 +140,67 @@ async def strategy_b_job():
     Fast job: Strategy B only (every 2 min).
 
     Pure price check — no weather data needed, so it's fast.
+    Uses shared lock with weather_arbitrage_job to prevent concurrent execution.
+    Now actually executes trades through the risk manager + trading engine,
+    instead of just logging opportunities.
     """
-    log_event("info", "Strategy B fast scan...")
+    # Prevent concurrent execution with weather_arbitrage_job
+    if _get_strategy_b_lock().locked():
+        log_event("info", "Strategy B fast scan skipped — lock held")
+        return
 
-    try:
-        from backend.common.trader import TradingEngine
-        from backend.common.exchange.kalshi import KalshiExchange
-        from backend.weather.scanner.strategy_b import scan_strategy_b
+    async with _get_strategy_b_lock():
+        log_event("info", "Strategy B fast scan...")
 
-        exchange = KalshiExchange()
-        opportunities = await scan_strategy_b(exchange)
+        try:
+            from backend.common.trader import TradingEngine
+            from backend.common.exchange.kalshi import KalshiExchange
+            from backend.weather.scanner.strategy_b import scan_strategy_b
 
-        if opportunities:
-            log_event("success",
-                f"Strategy B: {len(opportunities)} arbitrage opportunities!",
-                {
-                    "opportunities": [
-                        {
-                            "series": o.series_ticker,
-                            "date": str(o.target_date),
-                            "edge": f"{o.edge:.1%}",
-                            "cost": f"${o.total_cost:.4f}",
-                        }
-                        for o in opportunities
-                    ]
-                }
-            )
-        else:
-            log_event("info", "Strategy B: no arbitrage this cycle")
+            # Reuse shared exchange instance if engine exists
+            global engine
+            exchange = engine.exchange if engine else KalshiExchange()
+            opportunities = await scan_strategy_b(exchange)
 
-    except Exception as e:
-        log_event("error", f"Strategy B scan error: {str(e)}")
-        logger.exception("Error in strategy_b_job")
+            if opportunities:
+                # Initialize engine if needed
+                if engine is None:
+                    engine = TradingEngine()
+
+                # Risk-check each opportunity before execution
+                current_positions: dict = {}
+                try:
+                    positions = await exchange.get_positions()
+                    for pos in positions:
+                        current_positions[pos.ticker] = pos.size * pos.avg_price
+                except Exception:
+                    pass  # Positions check is best-effort
+
+                for opp in opportunities:
+                    approved, adjusted_size, reason = engine.risk_manager.approve_opportunity(
+                        opp, current_positions
+                    )
+                    if approved:
+                        opp.suggested_size = adjusted_size
+                        opp.status = OpportunityStatus.VALIDATED
+                        log_event("success",
+                            f"Strategy B APPROVED: {opp.series_ticker} {opp.target_date} "
+                            f"edge={opp.edge:.1%} size={adjusted_size} | {reason}"
+                        )
+                        result = await engine._execute_opportunity(opp)
+                        if result.get("executed") or result.get("simulated"):
+                            log_event("trade", f"Strategy B executed: {opp.series_ticker}", result)
+                    else:
+                        log_event("info",
+                            f"Strategy B REJECTED: {opp.series_ticker} — {reason}"
+                        )
+
+            else:
+                log_event("info", "Strategy B: no arbitrage this cycle")
+
+        except Exception as e:
+            log_event("error", f"Strategy B scan error: {str(e)}")
+            logger.exception("Error in strategy_b_job")
 
 
 async def heartbeat_job():
@@ -247,17 +299,39 @@ def start_scheduler():
         asyncio.create_task(weather_arbitrage_job())
 
 
+async def _shutdown_exchange():
+    """Close the shared exchange client session on shutdown."""
+    global engine
+    if engine and engine.exchange:
+        try:
+            await engine.exchange.close()
+            log_event("info", "Exchange client session closed")
+        except Exception as e:
+            log_event("warning", f"Failed to close exchange session: {e}")
+
+
 def stop_scheduler():
-    """Stop the background scheduler."""
-    global scheduler
+    """Stop the background scheduler and clean up resources."""
+    global scheduler, engine
 
     if scheduler is None or not scheduler.running:
         log_event("info", "Scheduler not running")
         return
 
+    # Close exchange session (async, but best-effort)
+    try:
+        loop = asyncio.get_event_loop()
+        if loop.is_running():
+            asyncio.create_task(_shutdown_exchange())
+        else:
+            loop.run_until_complete(_shutdown_exchange())
+    except RuntimeError:
+        pass  # No event loop — session will be garbage collected
+
     scheduler.shutdown(wait=False)
     scheduler = None
-    log_event("info", "Scheduler stopped")
+    engine = None
+    log_event("info", "Scheduler stopped and exchange session cleaned up")
 
 
 def is_scheduler_running() -> bool:
