@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>micrograd — Wiki</title>
+<script src="https://cdn.jsdelivr.net/npm/marked@11.0.0/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#ffffff;--sidebar-bg:#f8f9fb;--border:#e5e7eb;
+  --text:#1e293b;--text-muted:#64748b;--primary:#2563eb;
+  --primary-soft:#eff6ff;--hover:#f1f5f9;--code-bg:#f1f5f9;
+  --radius:8px;--shadow:0 1px 3px rgba(0,0,0,.08);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  line-height:1.65;color:var(--text);background:var(--bg)}
+
+.layout{display:flex;min-height:100vh}
+.sidebar{width:280px;background:var(--sidebar-bg);border-right:1px solid var(--border);
+  position:fixed;top:0;left:0;bottom:0;overflow-y:auto;padding:24px 16px;
+  display:flex;flex-direction:column;z-index:10}
+.content{margin-left:280px;flex:1;padding:48px 64px;max-width:960px}
+
+.sidebar-header{margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.sidebar-title{font-size:16px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+.sidebar-title svg{flex-shrink:0}
+.sidebar-meta{font-size:11px;color:var(--text-muted);margin-top:6px}
+.nav-section{margin-bottom:2px}
+.nav-item{display:block;padding:7px 12px;border-radius:var(--radius);cursor:pointer;
+  font-size:13px;color:var(--text);text-decoration:none;transition:all .15s;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-item:hover{background:var(--hover)}
+.nav-item.active{background:var(--primary-soft);color:var(--primary);font-weight:600}
+.nav-item.overview{font-weight:600;margin-bottom:4px}
+.nav-children{padding-left:14px;border-left:1px solid var(--border);margin-left:12px}
+.nav-group-label{font-size:11px;font-weight:600;color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:.5px;padding:12px 12px 4px;user-select:none}
+.sidebar-footer{margin-top:auto;padding-top:16px;border-top:1px solid var(--border);
+  font-size:11px;color:var(--text-muted);text-align:center}
+
+.content h1{font-size:28px;font-weight:700;margin-bottom:8px;line-height:1.3}
+.content h2{font-size:22px;font-weight:600;margin:32px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.content h3{font-size:17px;font-weight:600;margin:24px 0 8px}
+.content h4{font-size:15px;font-weight:600;margin:20px 0 6px}
+.content p{margin:12px 0}
+.content ul,.content ol{margin:12px 0 12px 24px}
+.content li{margin:4px 0}
+.content a{color:var(--primary);text-decoration:none}
+.content a:hover{text-decoration:underline}
+.content blockquote{border-left:3px solid var(--primary);padding:8px 16px;margin:16px 0;
+  background:var(--primary-soft);border-radius:0 var(--radius) var(--radius) 0;
+  color:var(--text-muted);font-size:14px}
+.content code{font-family:'SF Mono',Consolas,'Courier New',monospace;font-size:13px;
+  background:var(--code-bg);padding:2px 6px;border-radius:4px}
+.content pre{background:#1e293b;color:#e2e8f0;border-radius:var(--radius);padding:16px;
+  overflow-x:auto;margin:16px 0}
+.content pre code{background:none;padding:0;font-size:13px;line-height:1.6;color:inherit}
+.content table{border-collapse:collapse;width:100%;margin:16px 0}
+.content th,.content td{border:1px solid var(--border);padding:8px 12px;text-align:left;font-size:14px}
+.content th{background:var(--sidebar-bg);font-weight:600}
+.content img{max-width:100%;border-radius:var(--radius)}
+.content hr{border:none;border-top:1px solid var(--border);margin:32px 0}
+.content .mermaid{margin:20px 0;text-align:center}
+
+.menu-toggle{display:none;position:fixed;top:12px;left:12px;z-index:20;
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+  padding:8px 12px;cursor:pointer;font-size:18px;box-shadow:var(--shadow)}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);transition:transform .2s}
+  .sidebar.open{transform:translateX(0);box-shadow:2px 0 12px rgba(0,0,0,.1)}
+  .content{margin-left:0;padding:24px 20px;padding-top:56px}
+  .menu-toggle{display:block}
+}
+.empty-state{text-align:center;padding:80px 20px;color:var(--text-muted)}
+.empty-state h2{font-size:20px;margin-bottom:8px;border:none}
+
+</style>
+</head>
+<body>
+<button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-title">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+micrograd
+</div>
+<div class="sidebar-meta" id="meta-info"></div>
+</div>
+<div id="nav-tree"></div>
+<div class="sidebar-footer">Generated by GitNexus</div>
+</nav>
+<main class="content" id="content">
+<div class="empty-state"><h2>Loading…</h2></div>
+</main>
+</div>
+<script>
+var PAGES = {"autograd-engine":"# Autograd Engine\n\n# Autograd Engine\n\n## Overview\n\nThe autograd engine provides reverse-mode automatic differentiation for scalar computations. It builds a dynamic computational graph as operations execute, then propagates gradients backward through that graph on demand. This is the core mechanism that enables gradient-based optimization in micrograd's neural network layers.\n\nThe entire engine is built around a single class: `Value`.\n\n## Computational Graph Model\n\nEvery `Value` instance is a node in a directed acyclic graph. Edges point from child nodes (inputs) to parent nodes (outputs). When you write `c = a + b`, the graph looks like this:\n\n```mermaid\ngraph LR\n    A[a] --> C((+))\n    B[b] --> C\n    C --> D[c]\n```\n\nEach node stores:\n- `data` — the forward-pass scalar value\n- `grad` — the accumulated gradient (initialized to `0`)\n- `_backward` — a closure that propagates gradient from this node to its children\n- `_prev` — the set of child nodes (inputs to the operation)\n- `_op` — a string label for the operation (used for debugging and visualization)\n\n## Forward Operations\n\nEach operation creates a new `Value` node and attaches a `_backward` closure that encodes the local derivative via the chain rule. Non-`Value` operands are automatically wrapped.\n\n### Addition (`__add__`)\n\n```\nout = self + other\n```\n\nGradient rule: both inputs receive the full output gradient (derivative of addition is 1).\n\n```python\nself.grad += out.grad\nother.grad += out.grad\n```\n\n### Multiplication (`__mul__`)\n\n```\nout = self * other\n```\n\nGradient rule: each input's gradient is the other input's data times the output gradient (product rule).\n\n```python\nself.grad += other.data * out.grad\nother.grad += self.data * out.grad\n```\n\n### Power (`__pow__`)\n\n```\nout = self ** other\n```\n\nOnly `int` and `float` exponents are supported — the exponent is **not** tracked as a differentiable node.\n\n```python\nself.grad += (other * self.data**(other-1)) * out.grad\n```\n\n### ReLU (`relu`)\n\n```\nout = max(0, self)\n```\n\nGradient rule: pass through the output gradient if the forward value was positive, zero otherwise.\n\n```python\nself.grad += (out.data > 0) * out.grad\n```\n\n## Backward Pass\n\nCalling `backward()` on a `Value` computes gradients for every reachable node in the graph. The algorithm:\n\n1. **Topological sort** — `build_topo` recursively visits children before parents, producing an ordering where every node appears after all nodes it depends on.\n\n2. **Seed the root** — sets `self.grad = 1` (the base case: the derivative of a node with respect to itself is 1).\n\n3. **Reverse traversal** — iterates through the topological ordering in reverse, calling each node's `_backward` closure. This guarantees that when a node propagates its gradient, that gradient is already fully accumulated from all downstream consumers.\n\n```python\ndef backward(self):\n    topo = []\n    visited = set()\n    def build_topo(v):\n        if v not in visited:\n            visited.add(v)\n            for child in v._prev:\n                build_topo(child)\n            topo.append(v)\n    build_topo(self)\n\n    self.grad = 1\n    for v in reversed(topo):\n        v._backward()\n```\n\n### Gradient Accumulation\n\nNote that `_backward` closures use `+=` rather than `=`. This is critical: if a `Value` is consumed by multiple downstream operations, its gradient must accumulate contributions from all of them. For example, in `y = x + x`, the node `x` appears as both children of `+`, and its gradient correctly receives `out.grad` twice.\n\n### Important: Reset Gradients Between Calls\n\n`backward()` does **not** zero out gradients before computing. If you call `backward()` multiple times, gradients will accumulate across calls. You must manually zero all node gradients before re-running backward:\n\n```python\n# Reset before each backward pass\nfor v in model_parameters:\n    v.grad = 0\nloss.backward()\n```\n\n## Derived Operators\n\nSeveral operators are implemented by composing the primitive operations above. This means they get correct backward pass behavior for free:\n\n| Expression | Implementation | Notes |\n|---|---|---|\n| `-a` | `a * -1` | Negation via scalar multiply |\n| `a + b` (reversed) | `b + a` | `__radd__` handles `2 + Value(3)` |\n| `a - b` | `a + (-b)` | Subtraction via addition and negation |\n| `b - a` (reversed) | `b + (-a)` | `__rsub__` handles `5 - Value(3)` |\n| `a * b` (reversed) | `b * a` | `__rmul__` handles `2 * Value(3)` |\n| `a / b` | `a * b**-1` | Division via multiply and power |\n| `b / a` (reversed) | `b * a**-1` | `__rtruediv__` handles `6 / Value(3)` |\n\nBecause division is expressed as `a * b**-1`, the gradient flows through both the multiplication and power backward rules. This works correctly but creates an extra intermediate node compared to a native division operation.\n\n## Usage Example\n\n```python\nfrom micrograd.engine import Value\n\n# Forward pass\nx = Value(2.0)\ny = Value(3.0)\nz = x * y + x.relu()   # graph: mul -> add <- relu\n\n# Backward pass\nz.backward()\n\nprint(x.grad)  # dz/dx = y + (1 if x > 0 else 0) = 3 + 1 = 4\nprint(y.grad)  # dz/dy = x = 2\n```\n\n## Integration with the Codebase\n\nThe `Value` class is the foundation for micrograd's neural network module (`micrograd/nn.py`). Network parameters are `Value` instances, and loss computations produce a single `Value` whose `backward()` method drives parameter updates in training loops:\n\n```python\n# Typical training step\nfor p in model.parameters():\n    p.grad = 0          # zero gradients\nloss = ...              # forward pass (builds graph of Values)\nloss.backward()         # backward pass (fills .grad on all parameters)\nfor p in model.parameters():\n    p.data -= lr * p.grad  # gradient descent step\n```","neural-network":"# Neural Network\n\n# Neural Network Module\n\n## Overview\n\nThe `micrograd.nn` module provides a layered neural network API built on top of the `Value` autograd engine. It implements a classic feedforward architecture — `Neuron` → `Layer` → `MLP` — where every weight, bias, and activation is a differentiable `Value` object. This means the entire computation graph is traceable, and gradients flow through the network automatically.\n\n## Class Hierarchy\n\n```mermaid\nclassDiagram\n    Module <|-- Neuron\n    Module <|-- Layer\n    Module <|-- MLP\n    class Module {\n        +zero_grad()\n        +parameters() list\n    }\n    class Neuron {\n        +w: list~Value~\n        +b: Value\n        +nonlin: bool\n        +__call__(x) Value\n        +parameters() list\n    }\n    class Layer {\n        +neurons: list~Neuron~\n        +__call__(x) list~Value~ or Value\n        +parameters() list\n    }\n    class MLP {\n        +layers: list~Layer~\n        +__call__(x) list~Value~ or Value\n        +parameters() list\n    }\n```\n\nAll network components inherit from `Module`, which provides two shared behaviors:\n\n- **`parameters()`** — returns all trainable `Value` objects in the component. Subclasses override this to aggregate parameters from their sub-components.\n- **`zero_grad()`** — resets the gradient of every parameter to `0`. Call this before each backward pass to avoid accumulating gradients across training steps.\n\n## Neuron\n\nA single neuron computes `act = Σ(wᵢ · xᵢ) + b`, then optionally applies a ReLU activation.\n\n```python\nfrom micrograd.nn import Neuron\n\nn = Neuron(nin=3, nonlin=True)  # 3 inputs, ReLU activation\nout = n([0.5, -0.3, 0.8])       # returns a Value\n```\n\n**Constructor:** `Neuron(nin, nonlin=True)`\n\n| Parameter | Type | Default | Description |\n|-----------|------|---------|-------------|\n| `nin` | `int` | required | Number of input connections |\n| `nonlin` | `bool` | `True` | If `True`, applies `relu()` to the output; if `False`, returns the raw linear activation |\n\n**Internal state:**\n\n- `self.w` — list of `nin` `Value` objects, initialized with `random.uniform(-1, 1)`\n- `self.b` — a single `Value` initialized to `0`\n\n**Behavior notes:**\n\n- The `nonlin` flag controls whether the neuron is nonlinear. When `nonlin=True`, the neuron applies `Value.relu()` to the weighted sum, making it a `ReLUNeuron`. When `False`, it's a `LinearNeuron`. This distinction is reflected in `__repr__`.\n- The `sum()` built-in is used with `self.b` as the start value, so the bias is included directly in the accumulation rather than added separately.\n\n## Layer\n\nA `Layer` wraps multiple `Neuron` objects that all share the same input dimension.\n\n```python\nlayer = Layer(nin=3, nout=2, nonlin=True)\nout = layer([0.5, -0.3, 0.8])  # returns a list of 2 Values\n```\n\n**Constructor:** `Layer(nin, nout, **kwargs)`\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| `nin` | `int` | Number of inputs per neuron |\n| `nout` | `int` | Number of neurons in the layer |\n| `**kwargs` | | Forwarded to each `Neuron` constructor (e.g., `nonlin=True`) |\n\n**Output behavior:**\n\n- If `nout == 1`, `__call__` returns a single `Value` (unwrapped from the list).\n- If `nout > 1`, `__call__` returns a `list[Value]`.\n\nThis unwrapping convention means single-output layers integrate seamlessly into both the internal MLP pipeline and direct usage.\n\n## MLP (Multi-Layer Perceptron)\n\nAn `MLP` stacks multiple `Layer` objects into a fully-connected feedforward network.\n\n```python\nmodel = MLP(nin=3, nouts=[4, 4, 1])\nout = model([0.5, -0.3, 0.8])  # returns a single Value (last layer has nout=1)\n```\n\n**Constructor:** `MLP(nin, nouts)`\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| `nin` | `int` | Dimension of the input |\n| `nouts` | `list[int]` | Sizes of each hidden layer and the output layer |\n\n**Activation convention:** All layers use ReLU activation (`nonlin=True`) **except the final layer**, which is linear (`nonlin=False`). This is the standard convention for regression and binary classification — hidden layers learn nonlinear representations, and the output layer produces raw scores.\n\nThe implementation achieves this via:\n\n```python\nself.layers = [Layer(sz[i], sz[i+1], nonlin=i!=len(nouts)-1) for i in range(len(nouts))]\n```\n\nFor `MLP(3, [4, 4, 1])`, this produces:\n\n| Layer | Shape | Activation |\n|-------|-------|------------|\n| 0 | 3 → 4 | ReLU |\n| 1 | 4 → 4 | ReLU |\n| 2 | 4 → 1 | Linear |\n\n**Forward pass:** `__call__` sequentially feeds the output of each layer as input to the next, returning the final result.\n\n## Parameter Collection\n\nEvery component implements `parameters()` by aggregating from its children:\n\n| Component | Implementation |\n|-----------|---------------|\n| `Module` | Returns `[]` (base case) |\n| `Neuron` | Returns `self.w + [self.b]` — all weights and the bias |\n| `Layer` | Returns `[p for n in self.neurons for p in n.parameters()]` |\n| `MLP` | Returns `[p for layer in self.layers for p in layer.parameters()]` |\n\nThis recursive aggregation means calling `model.parameters()` on an `MLP` collects every trainable `Value` in the entire network into a flat list. This is used by `zero_grad()` and is typically what you iterate over in a training loop for parameter updates.\n\n## Typical Training Loop\n\n```python\nfrom micrograd.nn import MLP\n\nmodel = MLP(nin=2, nouts=[16, 1])\n\nfor step in range(100):\n    # Forward pass\n    predictions = [model(x) for x in inputs]\n\n    # Loss computation (example: MSE)\n    loss = sum((pred - target) ** 2 for pred, target in zip(predictions, targets))\n\n    # Backward pass\n    model.zero_grad()\n    loss.backward()\n\n    # Parameter update (SGD)\n    for p in model.parameters():\n        p.data -= learning_rate * p.grad\n```\n\n**Important:** Always call `model.zero_grad()` *before* `loss.backward()`. The `Value` gradient accumulates by default — skipping `zero_grad()` causes gradients from previous steps to persist and corrupt the update.\n\n## Relationship to the Autograd Engine\n\nThis module depends on `micrograd.engine.Value` for all differentiable computation. Every weight and bias is a `Value`, and all arithmetic in `Neuron.__call__` (`wi * xi`, `sum`, `relu`) is performed through `Value`'s overloaded operators. This means the neural network module has no knowledge of gradient computation — it simply builds the forward graph, and `Value.backward()` handles the rest.","other":"# Other\n\n# Supporting Infrastructure\n\nThe micrograd repository includes several supporting files beyond the core `engine` and `nn` modules: a demo notebook, a graph visualization utility, unit tests, and packaging configuration. This document covers each of these components.\n\n## Demo Notebook (`demo.ipynb`)\n\nThe demo notebook provides an end-to-end walkthrough of training a binary classifier on the two-moons dataset using micrograd's neural network API.\n\n### Workflow\n\n1. **Dataset generation** — Uses `sklearn.datasets.make_moons` to create 100 samples with `noise=0.1`. Labels are transformed from `{0, 1}` to `{-1, 1}` to match the SVM max-margin loss convention.\n\n2. **Model initialization** — Creates a 2-layer MLP:\n   ```python\n   model = MLP(2, [16, 16, 1])\n   ```\n   This yields 337 total parameters (weights + biases across all neurons).\n\n3. **Loss computation** — The `loss()` function computes:\n   - **Data loss**: SVM max-margin loss — `sum((1 + -yi * scorei).relu()) / N`\n   - **Regularization**: L2 penalty — `1e-4 * sum(p*p for p in model.parameters())`\n   - **Accuracy**: Fraction of samples where `sign(score) == sign(label)`\n\n   An optional `batch_size` argument enables mini-batch SGD by randomly sampling a subset of indices.\n\n4. **Optimization loop** — Vanilla SGD with a linearly decaying learning rate:\n   ```python\n   learning_rate = 1.0 - 0.9 * k / 100\n   for p in model.parameters():\n       p.data -= learning_rate * p.grad\n   ```\n   The model reaches 100% accuracy within ~50 steps on this dataset.\n\n5. **Decision boundary visualization** — Evaluates the model on a dense grid and plots the resulting classification regions using `matplotlib.contourf`.\n\n### Key pattern: wrapping raw data as `Value` objects\n\nThe demo shows the essential pattern for feeding data into micrograd models:\n\n```python\ninputs = [list(map(Value, xrow)) for xrow in Xb]\nscores = list(map(model, inputs))\n```\n\nEach row of the input array is converted into a list of `Value` objects, then passed through the model. This wrapping is necessary because `Value` is the only type that participates in the autograd computation graph.\n\n---\n\n## Graph Visualization (`trace_graph.ipynb`)\n\nThe trace graph notebook provides utilities for rendering the computation DAG produced by `Value` objects using Graphviz.\n\n### `trace(root)`\n\nRecursively walks backward through the computation graph starting from `root`, collecting all `Value` nodes and the edges between them.\n\n**Parameters:**\n- `root` — A `Value` node (typically the output of a forward pass)\n\n**Returns:**\n- A tuple `(nodes, edges)` where `nodes` is a `set` of `Value` objects and `edges` is a `set` of `(child, parent)` tuples representing `_prev` relationships.\n\n### `draw_dot(root, format='svg', rankdir='LR')`\n\nGenerates a Graphviz `Digraph` from the computation graph rooted at `root`.\n\n**Parameters:**\n- `root` — A `Value` node to trace from\n- `format` — Output format (`'svg'`, `'png'`, etc.)\n- `rankdir` — Graph direction: `'LR'` (left-to-right) or `'TB'` (top-to-bottom)\n\n**Node rendering:**\nEach `Value` node is drawn as a record-shaped box displaying both `data` and `grad` to 4 decimal places. Operation nodes (labeled with the `_op` string) are inserted between operands and their result.\n\n**Usage:**\n```python\nfrom micrograd.engine import Value\nfrom micrograd import nn\n\nn = nn.Neuron(2)\nx = [Value(1.0), Value(-2.0)]\ny = n(x)\ny.backward()\ndot = draw_dot(y)\ndot.render('gout')  # writes gout.svg\n```\n\n**Dependencies:** Requires the `graphviz` Python package and the Graphviz system binary (install via `brew install graphviz` on macOS).\n\n---\n\n## Unit Tests (`test/test_engine.py`)\n\nThe test suite validates micrograd's gradient computation against PyTorch as a reference implementation. Both tests follow the same pattern: construct an identical expression graph in micrograd and PyTorch, run forward and backward passes, then assert numerical equivalence.\n\n### `test_sanity_check()`\n\nConstructs the expression:\n```\nx = -4.0\nz = 2*x + 2 + x\nq = relu(z) + z*x\nh = relu(z*z)\ny = h + q + q*x\n```\n\nAsserts that `y.data` and `x.grad` match between micrograd and PyTorch exactly (floating-point equality).\n\n### `test_more_ops()`\n\nConstructs a more complex expression exercising addition, multiplication, exponentiation, ReLU, subtraction, and division:\n```\na = -4.0, b = 2.0\nc = a + b\nd = a*b + b**3\nc += c + 1\nc += 1 + c + (-a)\nd += d*2 + relu(b + a)\nd += 3*d + relu(b - a)\ne = c - d\nf = e**2\ng = f / 2.0\ng += 10.0 / f\n```\n\nAsserts that `g.data`, `a.grad`, and `b.grad` match PyTorch within a tolerance of `1e-6`.\n\n### Running the tests\n\nPyTorch must be installed as a test dependency:\n\n```bash\npip install torch\npython -m pytest\n```\n\n---\n\n## Package Configuration (`setup.py`)\n\nThe package is configured for distribution via `setuptools`:\n\n| Field | Value |\n|---|---|\n| Name | `micrograd` |\n| Version | `0.1.0` |\n| Author | Andrej Karpathy |\n| Python | >= 3.6 |\n| License | MIT |\n| Long description | Sourced from `README.md` |\n\nThe `micrograd` package itself is discovered automatically via `setuptools.find_packages()`. The empty `__init__.py` means the package namespace is flat — users import directly from submodules:\n\n```python\nfrom micrograd.engine import Value\nfrom micrograd.nn import Neuron, Layer, MLP\n```\n\n---\n\n## Architecture Overview\n\n```mermaid\ngraph LR\n    A[demo.ipynb] -->|trains| B[MLP]\n    A -->|computes loss| C[Value graph]\n    C -->|backward| D[gradients]\n    D -->|SGD update| B\n    E[trace_graph.ipynb] -->|visualizes| C\n    F[test_engine.py] -->|validates against| G[PyTorch]\n    F -->|exercises| C\n```\n\nThe demo and test notebooks are the primary consumers of the core library. The demo exercises the full training loop (forward → loss → backward → update), while the tests focus on correctness of individual gradient computations. The trace graph utility is a debugging/education tool that renders the `Value` DAG after a backward pass.","overview":"# micrograd — Wiki\n\n# micrograd\n\nWelcome to micrograd — a minimal autograd engine and neural network library built for clarity and education. In roughly 150 lines of code, it implements reverse-mode automatic differentiation over a dynamically constructed DAG and layers a PyTorch-style neural network API on top. Every computation is scalar-level, meaning each neuron is decomposed into individual additions and multiplications. Despite this simplicity, it's capable of training deep networks on real classification tasks.\n\n## Architecture\n\n```mermaid\nflowchart TD\n    subgraph NN [\"micrograd.nn\"]\n        MLP[MLP]\n        Layer[Layer]\n        Neuron[Neuron]\n    end\n    subgraph Engine [\"micrograd.engine\"]\n        Value[Value]\n    end\n    Neuron -->|weights, biases, activations are| Value\n    Layer -->|composed of| Neuron\n    MLP -->|composed of| Layer\n    Value -->|backward\\(\\) propagates| Grad[gradients]\n    Grad -->|used by| Optim[Parameter Update]\n    Optim -->|zero_grad resets| Neuron\n```\n\nThe system has two layers. The [Autograd Engine](autograd-engine.md) defines `Value`, a scalar node that tracks its operation and children to form a computational DAG. Calling `backward()` on any `Value` traverses that DAG in reverse, accumulating gradients via the chain rule.\n\nThe [Neural Network Module](neural-network.md) builds a classic hierarchy — `Neuron` → `Layer` → `MLP` — where every parameter is a `Value` object. This means the entire forward pass is traceable and gradients flow through the network automatically, no special handling required.\n\nSupporting infrastructure including the demo notebook, graph visualization, and tests is documented in [Other](other.md).\n\n## End-to-End Flow\n\nA typical training loop looks like this:\n\n1. **Reset gradients** — Call `model.zero_grad()` to clear accumulated gradients on all parameters.\n2. **Forward pass** — Feed inputs through the `MLP`. Each `Neuron` computes a weighted sum and applies an activation (e.g., ReLU), all as differentiable `Value` operations.\n3. **Compute loss** — The output `Value`(s) are combined into a scalar loss.\n4. **Backward pass** — Call `loss.backward()`. The engine traverses the DAG in reverse, computing `∂loss/∂param` for every parameter.\n5. **Update parameters** — Adjust each parameter's data by a small step in the negative gradient direction.\n\nThis loop is demonstrated end-to-end in the [demo notebook](other.md), which trains a binary classifier on the two-moons dataset.\n\n## Getting Started\n\nInstall the package:\n\n```bash\npip install micrograd\n```\n\nThen create and differentiate computations:\n\n```python\nfrom micrograd.engine import Value\n\na = Value(-4.0)\nb = Value(2.0)\nc = a + b\nd = a * b + b**3\nd += (b - a).relu()\nd.backward()\n\nprint(a.grad, b.grad)  # gradients of d w.r.t. a and b\n```\n\nTo build and train a neural network, see the [Neural Network Module](neural-network.md) documentation or run the demo notebook directly."};
+var TREE = [{"name":"Autograd Engine","slug":"autograd-engine","files":["micrograd/engine.py"]},{"name":"Neural Network","slug":"neural-network","files":["micrograd/nn.py"]},{"name":"Other","slug":"other","files":["README.md","demo.ipynb","micrograd/__init__.py","setup.py","test/test_engine.py","trace_graph.ipynb"]}];
+var META = {"fromCommit":"c911406e5ace8742e5841a7e0df113ecb5d54685","generatedAt":"2026-05-10T16:38:54.385Z","model":"glm-5.1:cloud","moduleFiles":{"Autograd Engine":["micrograd/engine.py"],"Neural Network":["micrograd/nn.py"],"Other":["README.md","demo.ipynb","micrograd/__init__.py","setup.py","test/test_engine.py","trace_graph.ipynb"]},"moduleTree":[{"name":"Autograd Engine","slug":"autograd-engine","files":["micrograd/engine.py"]},{"name":"Neural Network","slug":"neural-network","files":["micrograd/nn.py"]},{"name":"Other","slug":"other","files":["README.md","demo.ipynb","micrograd/__init__.py","setup.py","test/test_engine.py","trace_graph.ipynb"]}]};
+
+(function() {
+  var activePage = 'overview';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
+    renderMeta();
+    renderNav();
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+    if (location.hash && location.hash.length > 1) {
+      activePage = decodeURIComponent(location.hash.slice(1));
+    }
+    navigateTo(activePage);
+  });
+
+  function renderMeta() {
+    if (!META) return;
+    var el = document.getElementById('meta-info');
+    var parts = [];
+    if (META.generatedAt) {
+      parts.push(new Date(META.generatedAt).toLocaleDateString());
+    }
+    if (META.model) parts.push(META.model);
+    if (META.fromCommit) parts.push(META.fromCommit.slice(0, 8));
+    el.textContent = parts.join(' \u00b7 ');
+  }
+
+  function renderNav() {
+    var container = document.getElementById('nav-tree');
+    var html = '<div class="nav-section">';
+    html += '<a class="nav-item overview" data-page="overview" href="#overview">Overview</a>';
+    html += '</div>';
+    if (TREE.length > 0) {
+      html += '<div class="nav-group-label">Modules</div>';
+      html += buildNavTree(TREE);
+    }
+    container.innerHTML = html;
+    container.addEventListener('click', function(e) {
+      var target = e.target;
+      while (target && !target.dataset.page) { target = target.parentElement; }
+      if (target && target.dataset.page) {
+        e.preventDefault();
+        navigateTo(target.dataset.page);
+      }
+    });
+  }
+
+  function buildNavTree(nodes) {
+    var html = '';
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      html += '<div class="nav-section">';
+      html += '<a class="nav-item" data-page="' + escH(node.slug) + '" href="#' + encodeURIComponent(node.slug) + '">' + escH(node.name) + '</a>';
+      if (node.children && node.children.length > 0) {
+        html += '<div class="nav-children">' + buildNavTree(node.children) + '</div>';
+      }
+      html += '</div>';
+    }
+    return html;
+  }
+
+  function escH(s) {
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  function navigateTo(page) {
+    activePage = page;
+    location.hash = encodeURIComponent(page);
+
+    var items = document.querySelectorAll('.nav-item');
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].dataset.page === page) {
+        items[i].classList.add('active');
+      } else {
+        items[i].classList.remove('active');
+      }
+    }
+
+    var contentEl = document.getElementById('content');
+    var md = PAGES[page];
+
+    if (!md) {
+      contentEl.innerHTML = '<div class="empty-state"><h2>Page not found</h2><p>' + escH(page) + '.md does not exist.</p></div>';
+      return;
+    }
+
+    contentEl.innerHTML = marked.parse(md);
+
+    // Rewrite .md links to hash navigation
+    var links = contentEl.querySelectorAll('a[href]');
+    for (var i = 0; i < links.length; i++) {
+      var href = links[i].getAttribute('href');
+      if (href && href.endsWith('.md') && href.indexOf('://') === -1) {
+        var slug = href.replace(/\.md$/, '');
+        links[i].setAttribute('href', '#' + encodeURIComponent(slug));
+        (function(s) {
+          links[i].addEventListener('click', function(e) {
+            e.preventDefault();
+            navigateTo(s);
+          });
+        })(slug);
+      }
+    }
+
+    // Convert mermaid code blocks into mermaid divs
+    var mermaidBlocks = contentEl.querySelectorAll('pre code.language-mermaid');
+    for (var i = 0; i < mermaidBlocks.length; i++) {
+      var pre = mermaidBlocks[i].parentElement;
+      var div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = mermaidBlocks[i].textContent;
+      pre.parentNode.replaceChild(div, pre);
+    }
+    try { mermaid.run({ querySelector: '.mermaid' }); } catch(e) {}
+
+    window.scrollTo(0, 0);
+    document.getElementById('sidebar').classList.remove('open');
+  }
+})();
+
+</script>
+</body>
+</html>

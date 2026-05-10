@@ -1,10 +1,10 @@
 ---
 title: micrograd
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-05-10
 type: entity
 tags: [repository, python, autograd, neural-network, karpathy]
-sources: []
+sources: [raw/gitnexus/karpathy/micrograd/overview.md]
 ---
 
 # micrograd
@@ -52,5 +52,11 @@ print(a.grad)  # dg/da
 ## Educational Purpose
 Useful for understanding how autodiff works under the hood. The notebook `demo.ipynb` shows training a 2-layer MLP on the moon dataset.
  
+## GitNexus Wiki Pages
+- [[raw/gitnexus/karpathy/micrograd/overview]] - GitNexus-generated repository overview
+- [[raw/gitnexus/karpathy/micrograd/autograd-engine]] - Detailed autograd engine walkthrough
+- [[raw/gitnexus/karpathy/micrograd/neural-network]] - Neural network module structure and training flow
+- [[raw/gitnexus/karpathy/micrograd/other]] - Demo notebook and supporting files
+
 ## Related
 - [[andrej-karpathy]] - Author

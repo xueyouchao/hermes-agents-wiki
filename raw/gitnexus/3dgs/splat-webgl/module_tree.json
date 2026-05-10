@@ -1,0 +1,24 @@
+[
+  {
+    "name": "PLY to Splat Conversion",
+    "slug": "ply-to-splat-conversion",
+    "files": [
+      "convert.py"
+    ]
+  },
+  {
+    "name": "Web Interface",
+    "slug": "web-interface",
+    "files": [
+      "index.html",
+      "main.js"
+    ]
+  },
+  {
+    "name": "Other",
+    "slug": "other",
+    "files": [
+      "README.md"
+    ]
+  }
+]

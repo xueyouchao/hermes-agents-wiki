@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Recurrent Neural Networks",
+    "slug": "recurrent-neural-networks",
+    "files": [
+      "model/GRU.lua",
+      "model/LSTM.lua",
+      "model/RNN.lua"
+    ]
+  },
+  {
+    "name": "Data Processing",
+    "slug": "data-processing",
+    "files": [
+      "util/CharSplitLMMinibatchLoader.lua",
+      "util/OneHot.lua"
+    ]
+  },
+  {
+    "name": "Training and Sampling",
+    "slug": "training-and-sampling",
+    "files": [
+      "train.lua",
+      "sample.lua"
+    ]
+  },
+  {
+    "name": "Checkpoint Tools",
+    "slug": "checkpoint-tools",
+    "files": [
+      "convert_gpu_cpu_checkpoint.lua",
+      "inspect_checkpoint.lua"
+    ]
+  },
+  {
+    "name": "Utility Functions",
+    "slug": "utility-functions",
+    "files": [
+      "util/misc.lua",
+      "util/model_utils.lua"
+    ]
+  },
+  {
+    "name": "Other",
+    "slug": "other",
+    "files": [
+      "Readme.md"
+    ]
+  }
+]

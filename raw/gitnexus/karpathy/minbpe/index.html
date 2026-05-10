@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>minbpe — Wiki</title>
+<script src="https://cdn.jsdelivr.net/npm/marked@11.0.0/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#ffffff;--sidebar-bg:#f8f9fb;--border:#e5e7eb;
+  --text:#1e293b;--text-muted:#64748b;--primary:#2563eb;
+  --primary-soft:#eff6ff;--hover:#f1f5f9;--code-bg:#f1f5f9;
+  --radius:8px;--shadow:0 1px 3px rgba(0,0,0,.08);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  line-height:1.65;color:var(--text);background:var(--bg)}
+
+.layout{display:flex;min-height:100vh}
+.sidebar{width:280px;background:var(--sidebar-bg);border-right:1px solid var(--border);
+  position:fixed;top:0;left:0;bottom:0;overflow-y:auto;padding:24px 16px;
+  display:flex;flex-direction:column;z-index:10}
+.content{margin-left:280px;flex:1;padding:48px 64px;max-width:960px}
+
+.sidebar-header{margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.sidebar-title{font-size:16px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+.sidebar-title svg{flex-shrink:0}
+.sidebar-meta{font-size:11px;color:var(--text-muted);margin-top:6px}
+.nav-section{margin-bottom:2px}
+.nav-item{display:block;padding:7px 12px;border-radius:var(--radius);cursor:pointer;
+  font-size:13px;color:var(--text);text-decoration:none;transition:all .15s;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-item:hover{background:var(--hover)}
+.nav-item.active{background:var(--primary-soft);color:var(--primary);font-weight:600}
+.nav-item.overview{font-weight:600;margin-bottom:4px}
+.nav-children{padding-left:14px;border-left:1px solid var(--border);margin-left:12px}
+.nav-group-label{font-size:11px;font-weight:600;color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:.5px;padding:12px 12px 4px;user-select:none}
+.sidebar-footer{margin-top:auto;padding-top:16px;border-top:1px solid var(--border);
+  font-size:11px;color:var(--text-muted);text-align:center}
+
+.content h1{font-size:28px;font-weight:700;margin-bottom:8px;line-height:1.3}
+.content h2{font-size:22px;font-weight:600;margin:32px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.content h3{font-size:17px;font-weight:600;margin:24px 0 8px}
+.content h4{font-size:15px;font-weight:600;margin:20px 0 6px}
+.content p{margin:12px 0}
+.content ul,.content ol{margin:12px 0 12px 24px}
+.content li{margin:4px 0}
+.content a{color:var(--primary);text-decoration:none}
+.content a:hover{text-decoration:underline}
+.content blockquote{border-left:3px solid var(--primary);padding:8px 16px;margin:16px 0;
+  background:var(--primary-soft);border-radius:0 var(--radius) var(--radius) 0;
+  color:var(--text-muted);font-size:14px}
+.content code{font-family:'SF Mono',Consolas,'Courier New',monospace;font-size:13px;
+  background:var(--code-bg);padding:2px 6px;border-radius:4px}
+.content pre{background:#1e293b;color:#e2e8f0;border-radius:var(--radius);padding:16px;
+  overflow-x:auto;margin:16px 0}
+.content pre code{background:none;padding:0;font-size:13px;line-height:1.6;color:inherit}
+.content table{border-collapse:collapse;width:100%;margin:16px 0}
+.content th,.content td{border:1px solid var(--border);padding:8px 12px;text-align:left;font-size:14px}
+.content th{background:var(--sidebar-bg);font-weight:600}
+.content img{max-width:100%;border-radius:var(--radius)}
+.content hr{border:none;border-top:1px solid var(--border);margin:32px 0}
+.content .mermaid{margin:20px 0;text-align:center}
+
+.menu-toggle{display:none;position:fixed;top:12px;left:12px;z-index:20;
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+  padding:8px 12px;cursor:pointer;font-size:18px;box-shadow:var(--shadow)}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);transition:transform .2s}
+  .sidebar.open{transform:translateX(0);box-shadow:2px 0 12px rgba(0,0,0,.1)}
+  .content{margin-left:0;padding:24px 20px;padding-top:56px}
+  .menu-toggle{display:block}
+}
+.empty-state{text-align:center;padding:80px 20px;color:var(--text-muted)}
+.empty-state h2{font-size:20px;margin-bottom:8px;border:none}
+
+</style>
+</head>
+<body>
+<button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-title">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+minbpe
+</div>
+<div class="sidebar-meta" id="meta-info"></div>
+</div>
+<div id="nav-tree"></div>
+<div class="sidebar-footer">Generated by GitNexus</div>
+</nav>
+<main class="content" id="content">
+<div class="empty-state"><h2>Loading…</h2></div>
+</main>
+</div>
+<script>
+var PAGES = {"core-tokenizer":"# Core Tokenizer\n\n# Core Tokenizer (`minbpe/base.py`)\n\n## Purpose\n\nThis module provides the foundational layer for all tokenizers in minbpe. It defines the abstract `Tokenizer` base class that `BasicTokenizer`, `RegexTokenizer`, and `GPT4Tokenizer` inherit from, and it contains the shared BPE helper functions (`get_stats`, `merge`) that power the core byte-pair encoding algorithm. It also handles serialization — saving and loading trained tokenizer models.\n\n## Architecture\n\n```mermaid\nclassDiagram\n    class Tokenizer {\n        +merges: dict\n        +pattern: str\n        +special_tokens: dict\n        +vocab: dict\n        +train(text, vocab_size, verbose)*\n        +encode(text)*\n        +decode(ids)*\n        +_build_vocab() dict\n        +save(file_prefix)\n        +load(model_file)\n    }\n    class BasicTokenizer {\n        +train(text, vocab_size, verbose)\n        +encode(text)\n        +decode(ids)\n    }\n    class RegexTokenizer {\n        +train(text, vocab_size, verbose)\n        +encode(text)\n        +decode(ids)\n        +_encode_chunk(text)\n    }\n    class GPT4Tokenizer {\n        +__init__()\n    }\n    Tokenizer <|-- BasicTokenizer\n    Tokenizer <|-- RegexTokenizer\n    RegexTokenizer <|-- GPT4Tokenizer\n```\n\nAll concrete tokenizers delegate to the base class for vocabulary construction and model persistence. The BPE primitives (`get_stats`, `merge`) are free functions called by both `BasicTokenizer` and `RegexTokenizer` during training and encoding.\n\n## BPE Helper Functions\n\n### `get_stats(ids, counts=None)`\n\nCounts consecutive byte pairs in a token ID sequence. This is the core statistics-gathering step for BPE training and encoding.\n\n**Parameters:**\n- `ids` — `list[int]`: A sequence of integer token IDs.\n- `counts` — `dict | None`: An existing pair-count dictionary to update. If `None`, a fresh dictionary is created.\n\n**Returns:** `dict[tuple[int, int], int]` — Mapping of each consecutive pair to its frequency.\n\n**Example:**\n```python\nget_stats([1, 2, 3, 1, 2])\n# {(1, 2): 2, (2, 3): 1, (3, 1): 1}\n```\n\n**Callers:** `BasicTokenizer.train`, `BasicTokenizer.encode`, `RegexTokenizer.train`, `RegexTokenizer._encode_chunk`.\n\n### `merge(ids, pair, idx)`\n\nReplaces all consecutive occurrences of `pair` in `ids` with the single integer `idx`. This is the core merge operation in BPE — once a pair is selected for merging, every instance of that pair collapses into one token.\n\n**Parameters:**\n- `ids` — `list[int]`: The current token ID sequence.\n- `pair` — `tuple[int, int]`: The pair to merge.\n- `idx` — `int`: The new token ID to substitute for the pair.\n\n**Returns:** `list[int]` — A new list with all occurrences of `pair` replaced by `idx`.\n\n**Example:**\n```python\nmerge([1, 2, 3, 1, 2], (1, 2), 4)\n# [4, 3, 4]\n```\n\n**Callers:** `BasicTokenizer.train`, `BasicTokenizer.encode`, `RegexTokenizer.train`, `RegexTokenizer._encode_chunk`.\n\n### `replace_control_characters(s)`\n\nEscapes Unicode control characters (category starting with `\"C\"`) into `\\uXXXX` escape sequences. Used internally by `render_token` to ensure display strings don't contain invisible or disruptive characters.\n\n### `render_token(t: bytes)`\n\nConverts a raw byte token into a human-readable string for display. Decodes bytes as UTF-8 (with replacement for invalid sequences) and escapes control characters. Used in `save` to write the `.vocab` file and by `GPT4Tokenizer.save_vocab`.\n\n> **Note:** This is a lossy transformation — partial UTF-8 sequences get replaced with `�`. The `.vocab` file is for human inspection only and cannot be used to reconstruct the tokenizer.\n\n## Tokenizer Base Class\n\n### Initialization\n\n```python\ntokenizer = Tokenizer()\n```\n\nSets up the default state:\n- `merges` — `dict[tuple[int, int], int]`: Empty. Maps a pair of token IDs to the merged token ID. Populated during `train` or `load`.\n- `pattern` — `str`: Empty. Set by `RegexTokenizer` subclasses to hold the pre-tokenization regex.\n- `special_tokens` — `dict[str, int]`: Empty. Maps special token strings (e.g. `\"<|endoftext","other-exercise-md":"# Other — exercise.md\n\n# Exercise: Build Your Own GPT-4 Tokenizer\n\n## Overview\n\nThis exercise walks through implementing a Byte Pair Encoding (BPE) tokenizer from scratch, progressing from a basic implementation to one that exactly matches OpenAI's GPT-4 tokenizer (`cl100k_base`). Each step builds on the previous, introducing new concepts and complexity.\n\n## Progression\n\n```mermaid\ngraph LR\n    A[BasicTokenizer] --> B[RegexTokenizer]\n    B --> C[GPT-4 Compatible]\n    C --> D[Special Tokens]\n    D --> E[Sentencepiece / Unicode]\n```\n\n---\n\n## Step 1 — BasicTokenizer\n\nImplement the foundational BPE tokenizer with three methods:\n\n- **`train(text, vocab_size, verbose=False)`** — Learns merge rules from raw text by iteratively finding the most frequent byte pair and merging it, until `vocab_size` is reached.\n- **`encode(text)`** — Converts text to a sequence of integer token IDs using the learned merges.\n- **`decode(ids)`** — Reconstructs text from a sequence of token IDs.\n\n**Test data:** `tests/taylorswift.txt` is provided as a default corpus.\n\nAt this stage, merges operate on raw UTF-8 bytes with no preprocessing. Inspect the merged tokens visually — they should reflect common byte sequences in the training data, but may span across categories (e.g., letters merging with punctuation).\n\n---\n\n## Step 2 — RegexTokenizer\n\nUpgrade `BasicTokenizer` into a `RegexTokenizer` by introducing a regex-based pre-splitting step. The text is split into chunks matching the pattern, and BPE is applied independently to each chunk before concatenating results.\n\n**GPT-4 split pattern:**\n\n```python\nGPT4_SPLIT_PATTERN = r\"\"\"'(?i:[sdmt]|ll|ve|re)|[^\\r\\n\\p{L}\\p{N}]?+\\p{L}+|\\p{N}{1,3}| ?[^\\s\\p{L}\\p{N}]++[\\r\\n]*|\\s*[\\r\\n]|\\s+(?!\\S)|\\s+\"\"\"\n```\n\nThis pattern ensures tokens never cross category boundaries (letters, numbers, punctuation, whitespace). After retraining, verify that no merged token contains mixed categories.\n\n---\n\n## Step 3 — Match tiktoken Output\n\nLoad GPT-4's merges and verify that `encode` and `decode` produce identical results to `tiktoken`:\n\n```python\nimport tiktoken\nenc = tiktoken.get_encoding(\"cl100k_base\")\nids = enc.encode(\"hello world!!!? (안녕하세요!) lol123 😉\")\ntext = enc.decode(ids)\n```\n\n### Two complications\n\n1. **Recovering merges from ranks.** The GPT-4 tokenizer stores `_mergeable_ranks` (a mapping of byte sequences to their rank), not raw merge pairs. Use the `recover_merges` function in `minbpe/gpt4.py` to reconstruct the ordered list of merges. See [tiktoken issue #60](https://github.com/openai/tiktoken/issues/60) and [minbpe issue #11](https://github.com/karpathy/minbpe/issues/11#issuecomment-1950805306) for the algorithmic details.\n\n2. **Byte permutation.** GPT-4 applies a shuffle to the raw 256 byte values. Recover it from the first 256 entries of `_mergeable_ranks`:\n\n   ```python\n   byte_shuffle = {i: enc._mergeable_ranks[bytes([i])] for i in range(256)}\n   ```\n\n   Both `encode` and `decode` must apply this permutation. Reference `minbpe/gpt4.py` for the implementation pattern.\n\n---\n\n## Step 4 — Special Tokens (Optional)\n\nAdd support for special tokens (e.g., `<|endoftext","other-lecture-md":"# Other — lecture.md\n\n# LLM Tokenization — Lecture Notes\n\n## Overview\n\nThis document is a lecture transcript covering **tokenization in Large Language Models**. It progresses from a naive character-level approach to Byte Pair Encoding (BPE), motivates why tokenization matters, and previews the visual behavior of modern tokenizers. It is not an executable module — it serves as conceptual background for understanding the tokenization pipeline that feeds into Transformer-based LLMs.\n\n## Topics Covered\n\n### 1. Character-Level Tokenization (Baseline)\n\nThe simplest tokenization strategy maps each individual character to a unique integer. The lecture references the approach from the *Let's build GPT from scratch* video, which operates on the Shakespeare dataset.\n\n**Vocabulary construction:**\n\n```python\nchars = sorted(list(set(text)))\nvocab_size = len(chars)  # 65 for the Shakespeare text\n```\n\n**Encoding/decoding via lookup dictionaries:**\n\n```python\nstoi = { ch:i for i,ch in enumerate(chars) }\nitos = { i:ch for i,ch in enumerate(chars) }\n\nencode = lambda s: [stoi[c] for c in s]\ndecode = lambda l: ''.join([itos[i] for i in l])\n```\n\n- `encode(\"hii there\")` → `[46, 47, 47, 1, 58, 46, 43, 56, 43]`\n- `decode(encode(\"hii there\"))` → `\"hii there\"`\n\n**Embedding lookup in the model:**\n\n```python\nclass BigramLanguageModel(nn.Module):\n    def __init__(self, vocab_size):\n        super().__init__()\n        self.token_embedding_table = nn.Embedding(vocab_size, n_embd)\n\n    def forward(self, idx, targets=None):\n        tok_emb = self.token_embedding_table(idx)  # (B,T,C)\n```\n\nEach integer index \"plucks out\" a row from `token_embedding_table`, producing the vector representation for that token. The vocabulary size (65) directly determines the number of rows in the embedding table.\n\n### 2. Byte Pair Encoding (BPE)\n\nCharacter-level tokenization is impractical for state-of-the-art LLMs. Instead, modern models tokenize at the **character-chunk level** using the BPE algorithm.\n\n**Key reference:** The GPT-2 paper (*\"Language Models are Unsupervised Multitask Learners\"*, OpenAI 2019), Section 2.2 (\"Input Representation\"), popularized byte-level BPE for language model tokenization.\n\nNotable parameters from that paper:\n- Vocabulary expanded to **50,257** tokens\n- Context length increased from 512 to **1,024** tokens\n\nTokens are the fundamental \"atoms\" at the Transformer's input. Tokenization is the bidirectional conversion between raw Python strings and lists of token integers.\n\n### 3. Why Tokenization Matters\n\nThe lecture emphasizes that many seemingly mysterious LLM failures trace back to tokenization, not the neural network itself:\n\n| Symptom | Root Cause |\n|---|---|\n| Inability to spell words | Tokens may represent multi-character chunks, hiding individual letters |\n| Failure at simple string processing (e.g., reversing) | Operations on token IDs don't correspond to character-level manipulation |\n| Poor performance on non-English languages (e.g., Japanese) | Non-ASCII text fragments into many tokens, reducing effective context length |\n| Difficulty with arithmetic | Numbers are split inconsistently (e.g., `127` is one token, `677` becomes two) |\n| Python coding issues in GPT-2 | Inconsistent tokenization of indentation and whitespace |\n| Abrupt halting on specific strings (e.g., `\"`)| Special tokens in the vocabulary trigger unintended behavior |\n| Trailing whitespace warnings | Whitespace is tokenized but often invisible in UI |\n| \"SolidGoldMagikarp\" anomalies | Rare tokens in the vocabulary that never appeared in training data |\n| YAML preferred over JSON | YAML's syntax tokenizes more efficiently than JSON's structural characters |\n| Not truly end-to-end language modeling | The model operates on token sequences, not raw text |\n\n### 4. Visual Preview (tiktokenizer)\n\nThe [tiktokenizer webapp](https://tiktokenizer.vercel.app) demonstrates live tokenization. Key observations:\n\n- **Whitespace is significant**: The token `\" is\"` (index 318) includes the leading space. Whitespace must be tokenized but is often hidden in visualizations.\n- **Inconsistent number splitting**:\n  - `127` → single token\n  - `677` → two tokens (`\" 6\"` + `\"77\"`)\n  - `1275` → `\"12\"` + `\"75\"`\n  - `6773` → `\" 6\"` + `\"773\"`\n  - `8041` → `\" 8\"` + `\"041\"`\n- The LLM must learn these arbitrary splits during training and emit multi-token numbers across multiple time steps.\n\n## Architecture Context\n\n```mermaid\nflowchart LR\n    A[Raw Text String] --> B[Tokenizer encode]\n    B --> C[Token ID Sequence]\n    C --> D[nn.Embedding Lookup]\n    D --> E[Transformer Forward Pass]\n    E --> F[Logits]\n    F --> G[Tokenizer decode]\n    G --> H[Output Text String]\n```\n\nThe tokenization pipeline sits entirely outside the neural network. The model never sees raw text — it only operates on integer token IDs and their corresponding embedding vectors. This separation is the source of both the pipeline's flexibility and its failure modes.\n\n## Status\n\nThis document is marked as incomplete (`to be continued...`). The BPE algorithm implementation details, merging rules, and further examples are expected in a continuation.","other-readme-md":"# Other — README.md\n\n# minbpe\n\nMinimal, clean implementation of the byte-level Byte Pair Encoding (BPE) algorithm used in LLM tokenization. The algorithm operates on UTF-8 encoded strings and was popularized for LLMs by the [GPT-2 paper](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf), with origins in [Sennrich et al. 2015](https://arxiv.org/abs/1508.07909). All modern LLMs (GPT, Llama, Mistral) use this algorithm for tokenizer training.\n\n## Architecture\n\n```mermaid\nclassDiagram\n    class Tokenizer {\n        +train(text, vocab_size)\n        +encode(text)\n        +decode(tokens)\n        +save(file_prefix)\n        +load(path)\n    }\n    class BasicTokenizer {\n        +train(text, vocab_size)\n        +encode(text)\n        +decode(tokens)\n    }\n    class RegexTokenizer {\n        +train(text, vocab_size)\n        +encode(text, allowed_special)\n        +decode(tokens)\n        +register_special_tokens(tokens)\n    }\n    class GPT4Tokenizer {\n        +encode(text, allowed_special)\n        +decode(tokens)\n    }\n    Tokenizer <|-- BasicTokenizer\n    Tokenizer <|-- RegexTokenizer\n    RegexTokenizer <|-- GPT4Tokenizer\n```\n\n## Token ID Layout\n\nAll tokenizers reserve the first 256 token IDs (0–255) for individual byte values. Merge tokens begin at ID 256 and increment sequentially. Special tokens, if any, are appended after the last merge token.\n\n| Range | Content | Example |\n|---|---|---|\n| 0–255 | Raw byte tokens | `a` → 97, `b` → 98 |\n| 256–(vocab_size − 1) | Merge tokens | `(a, a)` → 256 |\n| vocab_size+ | Special tokens | `<\\|endoftext\\|>` → 100257 |\n\n## Module Reference\n\n### `minbpe/base.py` — `Tokenizer`\n\nBase class providing the interface contract and shared utilities. Contains `train`, `encode`, and `decode` stubs (raise `NotImplementedError`), plus `save`/`load` for serialization. Not intended for direct instantiation — inherit from this class to create a concrete tokenizer.\n\n### `minbpe/basic.py` — `BasicTokenizer`\n\nStraightforward BPE implementation operating directly on text. No regex preprocessing, no special token handling. Suitable for simple use cases or educational exploration.\n\n```python\nfrom minbpe import BasicTokenizer\ntokenizer = BasicTokenizer()\ntokenizer.train(text, vocab_size=256 + 3)  # 256 byte tokens + 3 merges\ntokens = tokenizer.encode(\"aaabdaaabac\")  # → [258, 100, 258, 97, 99]\ntext = tokenizer.decode(tokens)            # → \"aaabdaaabac\"\ntokenizer.save(\"toy\")  # writes toy.model and toy.vocab\n```\n\n### `minbpe/regex.py` — `RegexTokenizer`\n\nBPE with a regex-based preprocessing stage that splits input text by category (letters, numbers, punctuation) before applying merges. This prevents merges across category boundaries — the approach introduced in GPT-2 and still used in GPT-4. Also handles special tokens.\n\n```python\nfrom minbpe import RegexTokenizer\ntokenizer = RegexTokenizer()\ntokenizer.train(very_long_string, vocab_size=32768)\ntokenizer.encode(\"hello world\")\ntokenizer.decode([1000, 2000, 3000])\ntokenizer.save(\"tok32k\")\ntokenizer.load(\"tok32k.model\")\n```\n\n**Special tokens** are registered after training, with IDs starting at `vocab_size`:\n\n```python\ntokenizer.register_special_tokens({\"<|endoft","other-requirements-txt":"# Other — requirements.txt\n\n# requirements.txt\n\n## Purpose\n\nThis file declares the Python package dependencies required by the project. It serves as the single source of truth for environment setup, ensuring reproducible installations across development, CI, and deployment environments.\n\n## Dependencies\n\n| Package | Purpose |\n|---------|---------|\n| `regex` | Enhanced regular expression engine supporting advanced pattern features (e.g., Unicode properties, recursive patterns, fuzzy matching) beyond the standard `re` module |\n| `tiktoken` | Fast BPE tokenization library developed by OpenAI, used for counting and encoding text tokens against specific tokenizer models |\n\n## Installation\n\n```bash\npip install -r requirements.txt\n```\n\nTo install into an isolated environment:\n\n```bash\npython -m venv .venv\nsource .venv/bin/activate\npip install -r requirements.txt\n```\n\n## Dependency Details\n\n### regex\n\nThe `regex` module is a drop-in replacement for Python's built-in `re` module with extended capabilities. Within this project, it is likely used for:\n\n- **Unicode-aware pattern matching** — full Unicode property support (e.g., `\\p{L}`, `\\p{N}`)\n- **Best-effort fuzzy matching** — approximate string matching with configurable error thresholds\n- **Recursive/balanced group patterns** — matching nested structures that `re` cannot handle\n\nIt is imported as `regex` and exposes the same API surface as `re`, so code can often substitute `import regex as re` for a seamless upgrade path.\n\n### tiktoken\n\n`tiktoken` provides fast byte-pair encoding (BPE) tokenization. Key characteristics:\n\n- **Model-specific tokenizers** — supports `cl100k_base`, `p50k_base`, `r50k_base`, and other encoder models\n- **Counting tokens** — `tiktoken.encoding_for_model(model_name)` returns an encoder whose `.encode()` method splits text into token IDs; `len(tokens)` yields the token count\n- **Performance** — implemented in Rust, significantly faster than pure-Python tokenizers\n\nTypical usage pattern:\n\n```python\nimport tiktoken\n\nencoding = tiktoken.get_encoding(\"cl100k_base\")\ntokens = encoding.encode(\"some text to tokenize\")\ntoken_count = len(tokens)\n```\n\n## Relationship to the Codebase\n\nThis requirements file supports the project's text processing and tokenization logic. The two packages work in complementary roles:\n\n- `regex` handles **pattern extraction and text parsing** — identifying structural elements in raw text\n- `tiktoken` handles **token counting and encoding** — ensuring text conforms to model token limits\n\nAny module in the project that performs string matching, text splitting, or token-level operations depends on one or both of these packages.\n\n## Notes\n\n- This file uses **unpinned versions** (`regex` and `tiktoken` without version specifiers). For production deployments, consider pinning versions (e.g., `regex==2023.12.25`, `tiktoken==0.7.0`) to guarantee reproducibility.\n- No transitive dependencies are declared here; `pip` resolves them automatically from each package's own metadata.","other-tests":"# Other — tests\n\n# Tests Module\n\n## Overview\n\nThe `tests` module provides test coverage for the minbpe tokenizer library. It validates encoding/decoding correctness, GPT-4 tiktoken parity, special token handling, and tokenizer serialization (save/load). A large real-world text fixture (`taylorswift.txt`) serves as the training corpus for tokenizer tests.\n\n## Structure\n\n```\ntests/\n├── __init__.py          # Empty; marks directory as Python package\n├── taylorswift.txt      # Test fixture — Wikipedia article on Taylor Swift\n└── test_tokenizer.py     # Test cases (referenced by call graph)\n```\n\n## Test Fixture: `taylorswift.txt`\n\nA snapshot of the Wikipedia article on Taylor Swift (as of February 16, 2024), used as a realistic, multi-kilobyte text corpus. It provides:\n\n- **Diverse character content**: Unicode symbols, punctuation, varied sentence structures, and mixed formatting (tables, lists, references).\n- **Sufficient length**: Large enough to exercise BPE merge training meaningfully.\n- **Reproducibility**: A fixed corpus ensures deterministic test outcomes across runs.\n\n## Test Functions\n\n### `test_encode_decode_identity`\n\nValidates that encoding followed by decoding produces the original input unchanged.\n\n```python\n# Pseudocode flow:\noriginal_text = unpack(...)          # Load fixture data\nencoded = tokenizer.encode(original_text)\ndecoded = tokenizer.decode(encoded)\nassert decoded == original_text\n```\n\n**What it catches**: Broken merge tables, incorrect byte-level handling, or decode logic that drops or mutates tokens.\n\n### `test_gpt4_tiktoken_equality`\n\nAsserts that the minbpe `RegexTokenizer` produces byte-level encodings identical to OpenAI's `tiktoken` library with the GPT-4 `cl100k_base` encoding.\n\n```python\n# Pseudocode flow:\ntext = unpack(...)                   # Load fixture data\nminbpe_tokens = tokenizer.encode(text)\ntiktoken_tokens = tiktoken_reference.encode(text)\nassert minbpe_tokens == tiktoken_tokens\n```\n\n**What it catches**: Divergence in regex pattern matching, merge order, or special token handling between minbpe and the reference implementation.\n\n### `test_gpt4_tiktoken_equality_special_tokens`\n\nExtends the GPT-4 parity check to cover **special tokens** (e.g., `<|endoftext","other":"# Other\n\n# Other Module\n\nThe **Other** module provides a complete implementation and learning resource for Byte Pair Encoding (BPE) tokenization as used in modern LLMs. It combines a working tokenizer library with instructional materials and test coverage.\n\n## Sub-modules\n\n- **[README](README.md)** — The `minbpe` library: a minimal BPE implementation with `Tokenizer`, `BasicTokenizer`, and `RegexTokenizer` classes providing `train`, `encode`, `decode`, `save`, and `load` operations.\n- **[Exercise](exercise.md)** — A step-by-step guide to building a GPT-4–compatible BPE tokenizer from scratch, progressing from `BasicTokenizer` through regex-based splitting, special token handling, and Unicode/Sentencepiece considerations.\n- **[Lecture](lecture.md)** — Conceptual background on LLM tokenization, covering character-level baselines, BPE motivation, and visual demonstrations of modern tokenizer behavior.\n- **[Requirements](requirements.md)** — Python dependency declarations (`regex` for advanced pattern matching, `tiktoken` for GPT-4 parity verification).\n- **[Tests](tests.md)** — Test suite validating encoding/decoding identity, GPT-4 tiktoken parity, special token handling, and save/load serialization using a real-world text fixture.\n\n## How It Fits Together\n\nThe module is structured as a learning pipeline that also produces a usable library:\n\n```mermaid\ngraph TD\n    L[Lecture] --> E[Exercise]\n    E --> R[README / minbpe]\n    R --> T[Tests]\n    R --> Q[Requirements]\n    T --> Q\n```\n\n1. **[Lecture](lecture.md)** provides the conceptual foundation — why tokenization matters and how BPE works.\n2. **[Exercise](exercise.md)** guides you through implementing each concept, arriving at a GPT-4–compatible tokenizer.\n3. **[README](README.md)** documents the finished `minbpe` library that results from that implementation work.\n4. **[Tests](tests.md)** validates the library against correctness properties (encode/decode round-trip) and external reference (`tiktoken` GPT-4 parity).\n5. **[Requirements](requirements.md)** declares the runtime dependencies (`regex`, `tiktoken`) needed by both the library and its tests.\n\n## Key Cross-Module Workflows\n\n- **Training and encoding**: The `BasicTokenizer.train` and `RegexTokenizer.train` methods (documented in [README](README.md)) consume raw text to learn merge rules; the resulting tokenizers are then exercised by the test suite in [Tests](tests.md).\n- **GPT-4 parity verification**: [Tests](tests.md) imports `tiktoken` (from [Requirements](requirements.md)) to compare `minbpe` output against OpenAI's `cl100k_base` model, ensuring the implementation matches production behavior.\n- **Serialization round-trip**: Tokenizers saved via `save`/`load` (see [README](README.md)) are validated for identity in [Tests](tests.md), confirming that persisted state reproduces identical encoding.","overview":"# minbpe — Wiki\n\n# minbpe\n\nWelcome! **minbpe** is a minimal, clean implementation of the byte-level Byte Pair Encoding (BPE) algorithm used by all modern LLM tokenizers (GPT-4, Llama, Mistral, etc.). If you've ever wondered how text becomes tokens in an LLM pipeline, you're in the right place.\n\nThe repository provides working tokenizer implementations you can train, encode with, and decode with — plus an [exercise](exercise.md) to build one from scratch yourself.\n\n## Architecture\n\n```mermaid\nflowchart TD\n    Base[\"Core Tokenizer<br/>(base.py)\"]\n    Stats[\"get_stats / merge\"]\n    Basic[\"BasicTokenizer\"]\n    Regex[\"RegexTokenizer\"]\n    GPT4[\"GPT4Tokenizer\"]\n    Train[\"train()\"]\n    EncDec[\"encode() / decode()\"]\n\n    Base --> Basic\n    Base --> Regex\n    Base --> GPT4\n    Base --- Stats\n\n    Train --> Stats\n    EncDec --> Stats\n```\n\nEverything rests on the [Core Tokenizer](core-tokenizer.md) (`minbpe/base.py`), which defines the abstract `Tokenizer` base class and the shared BPE utilities `get_stats` and `merge`. The three concrete implementations — `BasicTokenizer`, `RegexTokenizer`, and `GPT4Tokenizer` — all inherit from it. You can read about their differences and capabilities in [Tokenizer Implementations](tokenizer-implementations.md).\n\n## Key Flows\n\nThere are two end-to-end flows that matter:\n\n**Training** — When you call `train(text)` on a tokenizer, it repeatedly finds the most frequent byte-pair across the input, records that pair as a merge rule, and replaces all occurrences. This loop relies on `get_stats` to count pairs and `merge` to apply replacements, both living in the core module.\n\n**Encoding / Decoding** — Once a tokenizer has merges (either trained or loaded), `encode(text)` splits the input, applies all learned merge rules in priority order, and emits integer tokens. `decode(tokens)` reverses the process. Under the hood, both paths flow through the same `get_stats` → `merge` pipeline that training uses.\n\nThe [GPT4Tokenizer](tokenizer-implementations.md) adds one wrinkle: its `__init__` immediately loads a pretrained vocabulary and calls `_build_vocab`, which triggers `encode` to build the initial token mapping. This is why you see the `__init__ → encode` cross-module path.\n\n## Getting Started\n\n```bash\ngit clone https://github.com/karpathy/minbpe.git\ncd minbpe\npython -c \"from minbpe.regex import RegexTokenizer; t = RegexTokenizer(); t.train(open('some_text.txt').read(), 256); print(t.encode('hello world'))\"\n```\n\nNo external dependencies are required — the project runs on the Python standard library alone.\n\n## Where to Go Next\n\n- **[Core Tokenizer](core-tokenizer.md)** — Understand the base class, serialization, and the `get_stats`/`merge` helpers.\n- **[Tokenizer Implementations](tokenizer-implementations.md)** — Compare `BasicTokenizer`, `RegexTokenizer`, and `GPT4Tokenizer` and learn when to use each.\n- **[Exercise](exercise.md)** — Build a GPT-4–compatible tokenizer step by step.","tokenizer-implementations":"# Tokenizer Implementations\n\n# Tokenizer Implementations\n\n## Overview\n\nThis module provides three byte-level Byte Pair Encoding (BPE) tokenizer implementations with increasing capability. All three inherit from the `Tokenizer` base class and rely on the shared utilities `get_stats` and `merge` from `minbpe/base.py`.\n\n| Tokenizer | Regex Splitting | Special Tokens | Pretrained | Byte Shuffling |\n|---|---|---|---|---|\n| `BasicTokenizer` | ✗ | ✗ | ✗ | ✗ |\n| `RegexTokenizer` | ✓ | ✓ | ✗ | ✗ |\n| `GPT4Tokenizer` | ✓ | ✓ | ✓ (cl100k_base) | ✓ |\n\n```mermaid\nclassDiagram\n    class Tokenizer {\n        <<base>>\n        +encode()\n        +decode()\n        +train()\n    }\n    class BasicTokenizer {\n        +train()\n        +encode()\n        +decode()\n    }\n    class RegexTokenizer {\n        +pattern: str\n        +special_tokens: dict\n        +train()\n        +encode()\n        +encode_ordinary()\n        +_encode_chunk()\n        +decode()\n        +register_special_tokens()\n    }\n    class GPT4Tokenizer {\n        +byte_shuffle: dict\n        +_encode_chunk()\n        +decode()\n    }\n    Tokenizer <|-- BasicTokenizer\n    Tokenizer <|-- RegexTokenizer\n    RegexTokenizer <|-- GPT4Tokenizer\n```\n\n---\n\n## BasicTokenizer\n\nThe simplest BPE implementation. It operates directly on raw UTF-8 bytes with no preprocessing — no regex splitting, no special tokens. This is useful for understanding the core BPE algorithm in isolation.\n\n### Training\n\n`train(text, vocab_size, verbose=False)` builds the merge table from scratch:\n\n1. Encodes the input text to raw bytes (integers 0–255).\n2. Iteratively finds the most frequent consecutive pair via `get_stats`.\n3. Merges all occurrences of that pair into a new token (starting at ID 256) via `merge`.\n4. Repeats for `vocab_size - 256` merges.\n\nThe resulting `merges` dict maps `(int, int) → int` and `vocab` maps `int → bytes`.\n\n### Encoding\n\n`encode(text)` converts a string to token IDs by:\n\n1. Converting text to a list of byte integers.\n2. Repeatedly finding the pair with the **lowest merge index** (i.e., the pair that was learned earliest during training) and merging it.\n3. Stopping when no mergeable pair remains.\n\nThis lowest-index-first strategy ensures deterministic, order-preserving encoding that matches the training merge sequence.\n\n### Decoding\n\n`decode(ids)` joins the byte sequences for each token ID from `self.vocab`, then decodes the resulting bytes as UTF-8 (with replacement for invalid sequences).\n\n---\n\n## RegexTokenizer\n\nExtends `BasicTokenizer` with two critical features for practical tokenization: regex-based text splitting and special token handling.\n\n### Regex Splitting\n\nThe constructor accepts an optional `pattern` string (defaults to `GPT4_SPLIT_PATTERN`). The pattern is compiled and used in both training and encoding to split text into chunks before BPE is applied. This prevents merges from crossing chunk boundaries — for example, a merge won't span across a word boundary or a number sequence.\n\nTwo predefined patterns are provided as module-level constants:\n\n- **`GPT2_SPLIT_PATTERN`** — the original GPT-2 splitting rule.\n- **`GPT4_SPLIT_PATTERN`** — the updated GPT-4 rule (default). Handles contractions case-insensitively, limits number tokenization to 1–3 digits, and improves whitespace handling.\n\n### Training\n\n`train(text, vocab_size, verbose=False)` differs from `BasicTokenizer.train` in one key way: the text is first split into chunks via `re.findall(self.compiled_pattern, text)`. Each chunk is independently converted to byte IDs, and pair statistics are aggregated across all chunks. Merges still operate globally, but the chunk structure is preserved so that `merge` only replaces pairs within each chunk.\n\n### Encoding\n\nThree methods form the encoding pipeline:\n\n**`_encode_chunk(text_bytes)`** — the core BPE merge loop. Takes raw bytes, applies merges in lowest-index-first order (identical logic to `BasicTokenizer.encode`), and returns token IDs. This is the method that `GPT4Tokenizer` overrides to inject byte shuffling.\n\n**`encode_ordinary(text)`** — splits text into regex chunks, encodes each chunk via `_encode_chunk`, and concatenates the results. Ignores special tokens entirely.\n\n**`encode(text, allowed_special=\"none_raise\")`** — the full encoding path with special token handling. The `allowed_special` parameter controls behavior:\n\n| Value | Behavior |\n|---|---|\n| `\"none_raise\"` (default) | Raises `AssertionError` if any special token appears in text |\n| `\"none\"` | Silently ignores special tokens, encodes them as ordinary text |\n| `\"all\"` | Recognizes all registered special tokens |\n| `set` (e.g., `{\"<|endoftext"};
+var TREE = [{"name":"Core Tokenizer","slug":"core-tokenizer","files":["minbpe/__init__.py","minbpe/base.py"]},{"name":"Tokenizer Implementations","slug":"tokenizer-implementations","files":["minbpe/basic.py","minbpe/regex.py","minbpe/gpt4.py"]},{"name":"Training","slug":"training","files":["train.py"]},{"name":"Other","slug":"other","files":[],"children":[{"name":"Other — README.md","slug":"other-readme-md","files":["README.md"]},{"name":"Other — exercise.md","slug":"other-exercise-md","files":["exercise.md"]},{"name":"Other — lecture.md","slug":"other-lecture-md","files":["lecture.md"]},{"name":"Other — requirements.txt","slug":"other-requirements-txt","files":["requirements.txt"]},{"name":"Other — tests","slug":"other-tests","files":["tests/__init__.py","tests/taylorswift.txt","tests/test_tokenizer.py"]}]}];
+var META = {"fromCommit":"1acefe89412b20245db5a22d2a02001e547dc602","generatedAt":"2026-05-10T16:49:45.735Z","model":"glm-5.1:cloud","moduleFiles":{"Core Tokenizer":["minbpe/__init__.py","minbpe/base.py"],"Tokenizer Implementations":["minbpe/basic.py","minbpe/regex.py","minbpe/gpt4.py"],"Training":["train.py"],"Other":["README.md","exercise.md","lecture.md","requirements.txt","tests/__init__.py","tests/taylorswift.txt","tests/test_tokenizer.py"],"Other — README.md":["README.md"],"Other — exercise.md":["exercise.md"],"Other — lecture.md":["lecture.md"],"Other — requirements.txt":["requirements.txt"],"Other — tests":["tests/__init__.py","tests/taylorswift.txt","tests/test_tokenizer.py"]},"moduleTree":[{"name":"Core Tokenizer","slug":"core-tokenizer","files":["minbpe/__init__.py","minbpe/base.py"]},{"name":"Tokenizer Implementations","slug":"tokenizer-implementations","files":["minbpe/basic.py","minbpe/regex.py","minbpe/gpt4.py"]},{"name":"Training","slug":"training","files":["train.py"]},{"name":"Other","slug":"other","files":[],"children":[{"name":"Other — README.md","slug":"other-readme-md","files":["README.md"]},{"name":"Other — exercise.md","slug":"other-exercise-md","files":["exercise.md"]},{"name":"Other — lecture.md","slug":"other-lecture-md","files":["lecture.md"]},{"name":"Other — requirements.txt","slug":"other-requirements-txt","files":["requirements.txt"]},{"name":"Other — tests","slug":"other-tests","files":["tests/__init__.py","tests/taylorswift.txt","tests/test_tokenizer.py"]}]}]};
+
+(function() {
+  var activePage = 'overview';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
+    renderMeta();
+    renderNav();
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+    if (location.hash && location.hash.length > 1) {
+      activePage = decodeURIComponent(location.hash.slice(1));
+    }
+    navigateTo(activePage);
+  });
+
+  function renderMeta() {
+    if (!META) return;
+    var el = document.getElementById('meta-info');
+    var parts = [];
+    if (META.generatedAt) {
+      parts.push(new Date(META.generatedAt).toLocaleDateString());
+    }
+    if (META.model) parts.push(META.model);
+    if (META.fromCommit) parts.push(META.fromCommit.slice(0, 8));
+    el.textContent = parts.join(' \u00b7 ');
+  }
+
+  function renderNav() {
+    var container = document.getElementById('nav-tree');
+    var html = '<div class="nav-section">';
+    html += '<a class="nav-item overview" data-page="overview" href="#overview">Overview</a>';
+    html += '</div>';
+    if (TREE.length > 0) {
+      html += '<div class="nav-group-label">Modules</div>';
+      html += buildNavTree(TREE);
+    }
+    container.innerHTML = html;
+    container.addEventListener('click', function(e) {
+      var target = e.target;
+      while (target && !target.dataset.page) { target = target.parentElement; }
+      if (target && target.dataset.page) {
+        e.preventDefault();
+        navigateTo(target.dataset.page);
+      }
+    });
+  }
+
+  function buildNavTree(nodes) {
+    var html = '';
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      html += '<div class="nav-section">';
+      html += '<a class="nav-item" data-page="' + escH(node.slug) + '" href="#' + encodeURIComponent(node.slug) + '">' + escH(node.name) + '</a>';
+      if (node.children && node.children.length > 0) {
+        html += '<div class="nav-children">' + buildNavTree(node.children) + '</div>';
+      }
+      html += '</div>';
+    }
+    return html;
+  }
+
+  function escH(s) {
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  function navigateTo(page) {
+    activePage = page;
+    location.hash = encodeURIComponent(page);
+
+    var items = document.querySelectorAll('.nav-item');
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].dataset.page === page) {
+        items[i].classList.add('active');
+      } else {
+        items[i].classList.remove('active');
+      }
+    }
+
+    var contentEl = document.getElementById('content');
+    var md = PAGES[page];
+
+    if (!md) {
+      contentEl.innerHTML = '<div class="empty-state"><h2>Page not found</h2><p>' + escH(page) + '.md does not exist.</p></div>';
+      return;
+    }
+
+    contentEl.innerHTML = marked.parse(md);
+
+    // Rewrite .md links to hash navigation
+    var links = contentEl.querySelectorAll('a[href]');
+    for (var i = 0; i < links.length; i++) {
+      var href = links[i].getAttribute('href');
+      if (href && href.endsWith('.md') && href.indexOf('://') === -1) {
+        var slug = href.replace(/\.md$/, '');
+        links[i].setAttribute('href', '#' + encodeURIComponent(slug));
+        (function(s) {
+          links[i].addEventListener('click', function(e) {
+            e.preventDefault();
+            navigateTo(s);
+          });
+        })(slug);
+      }
+    }
+
+    // Convert mermaid code blocks into mermaid divs
+    var mermaidBlocks = contentEl.querySelectorAll('pre code.language-mermaid');
+    for (var i = 0; i < mermaidBlocks.length; i++) {
+      var pre = mermaidBlocks[i].parentElement;
+      var div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = mermaidBlocks[i].textContent;
+      pre.parentNode.replaceChild(div, pre);
+    }
+    try { mermaid.run({ querySelector: '.mermaid' }); } catch(e) {}
+
+    window.scrollTo(0, 0);
+    document.getElementById('sidebar').classList.remove('open');
+  }
+})();
+
+</script>
+</body>
+</html>

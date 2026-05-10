@@ -1,10 +1,10 @@
 ---
 title: Splat WebGL Viewer
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-05-10
 type: entity
 tags: [3dgs, gaussian-splatting, webgl, viewer, javascript, browser]
-sources: [https://github.com/antimatter15/splat]
+sources: [https://github.com/antimatter15/splat, raw/gitnexus/3dgs/splat-webgl/overview.md]
 ---
 
 # Splat: WebGL 3D Gaussian Splatting Viewer
@@ -57,6 +57,13 @@ A pure JavaScript/WebGL implementation of a real-time renderer for 3D Gaussian S
 ## Demo Examples
 
 - [Try it online](https://antimatter15.com/splat/)
+
+## GitNexus Wiki Pages
+
+- [[raw/gitnexus/3dgs/splat-webgl/overview]] - GitNexus-generated repository overview
+- [[raw/gitnexus/3dgs/splat-webgl/web-interface]] - Browser runtime, rendering path, and controls
+- [[raw/gitnexus/3dgs/splat-webgl/ply-to-splat-conversion]] - Offline conversion from PLY to compact splat format
+- [[raw/gitnexus/3dgs/splat-webgl/other]] - Supporting files and project extras
 
 ## Related Projects
 

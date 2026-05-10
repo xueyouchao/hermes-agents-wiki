@@ -1,10 +1,10 @@
 ---
 title: minbpe
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-05-10
 type: entity
 tags: [repository, python, tokenization, bpe, karpathy]
-sources: []
+sources: [raw/gitnexus/karpathy/minbpe/overview.md]
 ---
 
 # minbpe
@@ -45,6 +45,14 @@ text = "aaabdaaabac"
 tokenizer.train(text, 256 + 3)  # 256 byte + 3 merges
 print(tokenizer.encode(text))  # [258, 100, 258, 97, 99]
 ```
+
+## GitNexus Wiki Pages
+- [[raw/gitnexus/karpathy/minbpe/overview]] - GitNexus-generated repository overview
+- [[raw/gitnexus/karpathy/minbpe/core-tokenizer]] - Base tokenizer, merge logic, and serialization
+- [[raw/gitnexus/karpathy/minbpe/tokenizer-implementations]] - Basic, regex, and GPT-4-compatible tokenizers
+- [[raw/gitnexus/karpathy/minbpe/other-exercise-md]] - Hands-on tokenizer exercise
+- [[raw/gitnexus/karpathy/minbpe/other-lecture-md]] - Lecture companion material
+- [[raw/gitnexus/karpathy/minbpe/other-tests]] - Test coverage and support files
 
 ## Related
 - [[andrej-karpathy]] - Author

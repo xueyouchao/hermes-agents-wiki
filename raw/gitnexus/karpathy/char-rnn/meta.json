@@ -1,0 +1,81 @@
+{
+  "fromCommit": "6f9487a6fe5b420b7ca9afb0d7c078e37c1d1b4e",
+  "generatedAt": "2026-05-10T16:44:49.452Z",
+  "model": "glm-5.1:cloud",
+  "moduleFiles": {
+    "Recurrent Neural Networks": [
+      "model/GRU.lua",
+      "model/LSTM.lua",
+      "model/RNN.lua"
+    ],
+    "Data Processing": [
+      "util/CharSplitLMMinibatchLoader.lua",
+      "util/OneHot.lua"
+    ],
+    "Training and Sampling": [
+      "train.lua",
+      "sample.lua"
+    ],
+    "Checkpoint Tools": [
+      "convert_gpu_cpu_checkpoint.lua",
+      "inspect_checkpoint.lua"
+    ],
+    "Utility Functions": [
+      "util/misc.lua",
+      "util/model_utils.lua"
+    ],
+    "Other": [
+      "Readme.md"
+    ]
+  },
+  "moduleTree": [
+    {
+      "name": "Recurrent Neural Networks",
+      "slug": "recurrent-neural-networks",
+      "files": [
+        "model/GRU.lua",
+        "model/LSTM.lua",
+        "model/RNN.lua"
+      ]
+    },
+    {
+      "name": "Data Processing",
+      "slug": "data-processing",
+      "files": [
+        "util/CharSplitLMMinibatchLoader.lua",
+        "util/OneHot.lua"
+      ]
+    },
+    {
+      "name": "Training and Sampling",
+      "slug": "training-and-sampling",
+      "files": [
+        "train.lua",
+        "sample.lua"
+      ]
+    },
+    {
+      "name": "Checkpoint Tools",
+      "slug": "checkpoint-tools",
+      "files": [
+        "convert_gpu_cpu_checkpoint.lua",
+        "inspect_checkpoint.lua"
+      ]
+    },
+    {
+      "name": "Utility Functions",
+      "slug": "utility-functions",
+      "files": [
+        "util/misc.lua",
+        "util/model_utils.lua"
+      ]
+    },
+    {
+      "name": "Other",
+      "slug": "other",
+      "files": [
+        "Readme.md"
+      ]
+    }
+  ]
+}

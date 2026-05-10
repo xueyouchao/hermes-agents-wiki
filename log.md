@@ -138,3 +138,10 @@
 - Updated raw/vit-pytorch.md and entities/repos/vit-pytorch.md (79 files, 3193 symbols, 5060 edges, 254 clusters, 50 flows)
 - Updated raw/transformers.js.md and entities/repos/transformers.js.md (669 files, 7292 symbols, 15611 edges, 199 clusters, 300 flows)
 
+## [2026-05-10] update | Import GitNexus repo wikis into raw knowledgebase sources
+- Copied GitNexus-generated wiki page sets into raw/gitnexus/karpathy/micrograd/, raw/gitnexus/karpathy/char-rnn/, raw/gitnexus/karpathy/minbpe/, and raw/gitnexus/3dgs/splat-webgl/
+- Updated entities/karpathy/micrograd.md to reference imported GitNexus wiki pages
+- Updated entities/karpathy/char-rnn.md to reference imported GitNexus wiki pages
+- Updated entities/karpathy/minbpe.md to reference imported GitNexus wiki pages
+- Updated entities/3dgs/splat-webgl.md to reference imported GitNexus wiki pages
+

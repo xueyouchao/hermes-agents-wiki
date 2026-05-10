@@ -1,0 +1,41 @@
+{
+  "fromCommit": "ba182b51b7c2ad5738cdd6741cd63336d27470fb",
+  "generatedAt": "2026-05-10T16:56:12.490Z",
+  "model": "glm-5.1:cloud",
+  "moduleFiles": {
+    "PLY to Splat Conversion": [
+      "convert.py"
+    ],
+    "Web Interface": [
+      "index.html",
+      "main.js"
+    ],
+    "Other": [
+      "README.md"
+    ]
+  },
+  "moduleTree": [
+    {
+      "name": "PLY to Splat Conversion",
+      "slug": "ply-to-splat-conversion",
+      "files": [
+        "convert.py"
+      ]
+    },
+    {
+      "name": "Web Interface",
+      "slug": "web-interface",
+      "files": [
+        "index.html",
+        "main.js"
+      ]
+    },
+    {
+      "name": "Other",
+      "slug": "other",
+      "files": [
+        "README.md"
+      ]
+    }
+  ]
+}

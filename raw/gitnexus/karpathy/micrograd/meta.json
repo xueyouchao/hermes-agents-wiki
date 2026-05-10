@@ -1,0 +1,49 @@
+{
+  "fromCommit": "c911406e5ace8742e5841a7e0df113ecb5d54685",
+  "generatedAt": "2026-05-10T16:38:54.385Z",
+  "model": "glm-5.1:cloud",
+  "moduleFiles": {
+    "Autograd Engine": [
+      "micrograd/engine.py"
+    ],
+    "Neural Network": [
+      "micrograd/nn.py"
+    ],
+    "Other": [
+      "README.md",
+      "demo.ipynb",
+      "micrograd/__init__.py",
+      "setup.py",
+      "test/test_engine.py",
+      "trace_graph.ipynb"
+    ]
+  },
+  "moduleTree": [
+    {
+      "name": "Autograd Engine",
+      "slug": "autograd-engine",
+      "files": [
+        "micrograd/engine.py"
+      ]
+    },
+    {
+      "name": "Neural Network",
+      "slug": "neural-network",
+      "files": [
+        "micrograd/nn.py"
+      ]
+    },
+    {
+      "name": "Other",
+      "slug": "other",
+      "files": [
+        "README.md",
+        "demo.ipynb",
+        "micrograd/__init__.py",
+        "setup.py",
+        "test/test_engine.py",
+        "trace_graph.ipynb"
+      ]
+    }
+  ]
+}

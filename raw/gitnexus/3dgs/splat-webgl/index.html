@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>splat-webgl — Wiki</title>
+<script src="https://cdn.jsdelivr.net/npm/marked@11.0.0/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#ffffff;--sidebar-bg:#f8f9fb;--border:#e5e7eb;
+  --text:#1e293b;--text-muted:#64748b;--primary:#2563eb;
+  --primary-soft:#eff6ff;--hover:#f1f5f9;--code-bg:#f1f5f9;
+  --radius:8px;--shadow:0 1px 3px rgba(0,0,0,.08);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  line-height:1.65;color:var(--text);background:var(--bg)}
+
+.layout{display:flex;min-height:100vh}
+.sidebar{width:280px;background:var(--sidebar-bg);border-right:1px solid var(--border);
+  position:fixed;top:0;left:0;bottom:0;overflow-y:auto;padding:24px 16px;
+  display:flex;flex-direction:column;z-index:10}
+.content{margin-left:280px;flex:1;padding:48px 64px;max-width:960px}
+
+.sidebar-header{margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.sidebar-title{font-size:16px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+.sidebar-title svg{flex-shrink:0}
+.sidebar-meta{font-size:11px;color:var(--text-muted);margin-top:6px}
+.nav-section{margin-bottom:2px}
+.nav-item{display:block;padding:7px 12px;border-radius:var(--radius);cursor:pointer;
+  font-size:13px;color:var(--text);text-decoration:none;transition:all .15s;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-item:hover{background:var(--hover)}
+.nav-item.active{background:var(--primary-soft);color:var(--primary);font-weight:600}
+.nav-item.overview{font-weight:600;margin-bottom:4px}
+.nav-children{padding-left:14px;border-left:1px solid var(--border);margin-left:12px}
+.nav-group-label{font-size:11px;font-weight:600;color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:.5px;padding:12px 12px 4px;user-select:none}
+.sidebar-footer{margin-top:auto;padding-top:16px;border-top:1px solid var(--border);
+  font-size:11px;color:var(--text-muted);text-align:center}
+
+.content h1{font-size:28px;font-weight:700;margin-bottom:8px;line-height:1.3}
+.content h2{font-size:22px;font-weight:600;margin:32px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.content h3{font-size:17px;font-weight:600;margin:24px 0 8px}
+.content h4{font-size:15px;font-weight:600;margin:20px 0 6px}
+.content p{margin:12px 0}
+.content ul,.content ol{margin:12px 0 12px 24px}
+.content li{margin:4px 0}
+.content a{color:var(--primary);text-decoration:none}
+.content a:hover{text-decoration:underline}
+.content blockquote{border-left:3px solid var(--primary);padding:8px 16px;margin:16px 0;
+  background:var(--primary-soft);border-radius:0 var(--radius) var(--radius) 0;
+  color:var(--text-muted);font-size:14px}
+.content code{font-family:'SF Mono',Consolas,'Courier New',monospace;font-size:13px;
+  background:var(--code-bg);padding:2px 6px;border-radius:4px}
+.content pre{background:#1e293b;color:#e2e8f0;border-radius:var(--radius);padding:16px;
+  overflow-x:auto;margin:16px 0}
+.content pre code{background:none;padding:0;font-size:13px;line-height:1.6;color:inherit}
+.content table{border-collapse:collapse;width:100%;margin:16px 0}
+.content th,.content td{border:1px solid var(--border);padding:8px 12px;text-align:left;font-size:14px}
+.content th{background:var(--sidebar-bg);font-weight:600}
+.content img{max-width:100%;border-radius:var(--radius)}
+.content hr{border:none;border-top:1px solid var(--border);margin:32px 0}
+.content .mermaid{margin:20px 0;text-align:center}
+
+.menu-toggle{display:none;position:fixed;top:12px;left:12px;z-index:20;
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
+  padding:8px 12px;cursor:pointer;font-size:18px;box-shadow:var(--shadow)}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);transition:transform .2s}
+  .sidebar.open{transform:translateX(0);box-shadow:2px 0 12px rgba(0,0,0,.1)}
+  .content{margin-left:0;padding:24px 20px;padding-top:56px}
+  .menu-toggle{display:block}
+}
+.empty-state{text-align:center;padding:80px 20px;color:var(--text-muted)}
+.empty-state h2{font-size:20px;margin-bottom:8px;border:none}
+
+</style>
+</head>
+<body>
+<button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+<div class="layout">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-title">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+splat-webgl
+</div>
+<div class="sidebar-meta" id="meta-info"></div>
+</div>
+<div id="nav-tree"></div>
+<div class="sidebar-footer">Generated by GitNexus</div>
+</nav>
+<main class="content" id="content">
+<div class="empty-state"><h2>Loading…</h2></div>
+</main>
+</div>
+<script>
+var PAGES = {"other":"# Other\n\n# Splat — WebGL 3D Gaussian Splatting Renderer\n\n## Overview\n\nSplat is a zero-dependency, WebGL 1.0 implementation of a real-time renderer for [3D Gaussian Splatting](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/). It renders navigable 3D scenes from sets of photographs by treating reconstructed data as translucent 3D blobs (splats) — a generalization of point clouds that produces photorealistic results on ordinary graphics hardware, without the computational cost of NeRFs.\n\n**Live demo:** [antimatter15.com/splat](https://antimatter15.com/splat/)\n\n## Rendering Pipeline\n\nThe renderer follows a straightforward pipeline from splat data to screen:\n\n```mermaid\nflowchart LR\n    A[Splat Data .splat/.ply] --> B[Vertex Shader]\n    B --> C[Projected Quads]\n    C --> D[Fragment Shader]\n    D --> E[Composited Image]\n    F[CPU Sort Worker] -->|depth order| B\n```\n\n1. **Projection** — Each splat's XYZ position is projected to screen coordinates via a projection matrix. Scale and quaternion rotation parameters are used to compute projected eigenvectors, producing a bounding quadrilateral on screen.\n\n2. **Rasterization** — The fragment shader runs per-pixel on each quadrilateral. It computes the distance from the splat center and uses a Gaussian falloff to determine opacity, outputting an RGB color with alpha.\n\n3. **Compositing** — Translucent splats must be drawn back-to-front. The renderer sorts splats by depth on the CPU in a Web Worker and feeds the ordered list to the GPU for painter's-algorithm compositing.\n\n## Depth Sorting Strategy\n\nOrder-dependent transparency is the core rendering challenge. Splat evaluated and rejected several approaches before settling on CPU-based sorting:\n\n| Approach | Outcome |\n|---|---|\n| **Stochastic transparency** | Grainy, dithered appearance — rejected |\n| **Weighted blended OIT** | Fails with high-opacity overlapping splats — rejected |\n| **Depth peeling** | Could not get working; likely too slow — rejected |\n| **GPU bitonic/radix sort** | Possible but would split GPU time between sorting and rendering; not pursued |\n| **CPU sort in Web Worker** | **Chosen** — ~4 FPS sort rate vs 60 FPS render, acceptable because depth order changes slowly during smooth camera movement |\n\nThe sort runs asynchronously, so momentary artifacts can appear during large camera jumps. This tradeoff keeps the GPU entirely focused on rendering.\n\n## File Formats\n\n### `.splat` format (primary)\n\nA compact binary format storing per-splat data without spherical harmonics. Each splat contains position, scale, rotation (quaternion), and RGB color — no view-dependent shading coefficients. This keeps per-splat size small for efficient web delivery.\n\n### `.ply` format (input)\n\nThe standard point cloud format used by the reference 3DGS training pipeline. Splat can convert `.ply` files on the fly — drag and drop a processed `.ply` onto the page and it auto-converts to `.splat`.\n\n### Loading remote files\n\nAppend a `url` query parameter pointing to a CORS-enabled `.splat` file:\n\n```\nhttps://antimatter15.com/splat/?url=https://example.com/scene.splat\n```\n\nOptionally include a camera transform as a URL fragment (a JSON array of 16 floats representing a 4×4 column-major matrix):\n\n```\nhttps://antimatter15.com/splat/?url=scene.splat#[0.95,0.19,-0.23,0,-0.16,0.98,0.12,0,...]\n```\n\n## Controls\n\n### Keyboard — Movement (arrow keys)\n\n| Key | Action |\n|---|---|\n| ← / → | Strafe left / right |\n| ↑ / ↓ | Move forward / back |\n| `Space` | Jump |\n\n### Keyboard — Camera (WASD)\n\n| Key | Action |\n|---|---|\n| `A` / `D` | Turn left / right |\n| `W` / `S` | Tilt up / down |\n| `Q` / `E` | Roll counterclockwise / clockwise |\n| `I` / `K` | Orbit up / down |\n| `J` / `L` | Orbit left / right |\n\n### Keyboard — Other\n\n| Key | Action |\n|---|---|\n| `0`–`9` | Switch to pre-loaded camera view |\n| `-` / `+` | Cycle through loaded cameras |\n| `P` | Resume default animation |\n| `V` | Save current view coordinates to URL |\n\n### Mouse\n\n- **Click + drag** — Orbit\n- **Right-click + drag up/down** (or Ctrl/Cmd + drag) — Move forward/back\n- **Right-click + drag left/right** (or Ctrl/Cmd + drag) — Strafe\n\n### Trackpad\n\n| Gesture | Action |\n|---|---|\n| Scroll up/down | Orbit down/up |\n| Scroll left/right | Orbit left/right |\n| Pinch | Move forward/back |\n| Ctrl + scroll up/down | Move forward/back |\n| Shift + scroll up/down | Move up/down |\n| Shift + scroll left/right | Strafe left/right |\n\n### Touch (mobile)\n\n| Gesture | Action |\n|---|---|\n| One finger drag | Orbit |\n| Two finger pinch | Move forward/back |\n| Two finger rotate | Rotate camera CW/CCW |\n| Two finger pan | Move side-to-side and up/down |\n\n## Progressive Loading\n\nSplat sorts splats by a combination of size and opacity, enabling progressive loading. The scene becomes visible and interactive before all splats are loaded — large, opaque splats render first, with finer detail filling in as loading continues.\n\n## Limitations\n\n- **No spherical harmonics** — View-dependent shading is not supported. Third-order SH requires 48 coefficients (~200 bytes per splat), which would bloat the `.splat` format significantly. Only RGB color is stored per splat.\n- **WebGL 1.0 only** — No WebGL 2.0 or WebGPU dependencies. WebGL 2.0 adds no critical features beyond what extensions provide, and WebGPU lacks broad browser support.\n- **Sort artifacts on large camera jumps** — The async CPU sort updates at ~4 FPS, so rapid orientation changes can produce momentary depth-ordering errors.\n\n## Architecture Notes\n\n- **Zero dependencies** — The entire renderer is vanilla JavaScript with WebGL 1.0. View source to read the unminified code directly.\n- **Web Worker for sorting** — Keeps the main thread free for rendering and input handling.\n- **Single-file implementation** — No build step required.","overview":"# splat-webgl — Wiki\n\n# splat-webgl\n\nWelcome to **splat-webgl** — a zero-dependency, WebGL-based real-time renderer for [3D Gaussian Splatting](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/). It turns a set of photographs into a photorealistic, navigable 3D scene by rendering reconstructed data as translucent 3D splats. Unlike NeRFs, this approach runs efficiently on ordinary graphics hardware.\n\n**Try it live:** [antimatter15.com/splat](https://antimatter15.com/splat/)\n\n## Architecture\n\n```mermaid\ngraph LR\n    A[User Input] -->|Files, Controls| B[main.js]\n    B -->|Spawns| C[Web Worker]\n    C -->|Sorted indices| B\n    B -->|Parses| D[Splat / PLY Parser]\n    D -->|Gaussian data| B\n    B -->|Uploads| E[GPU Textures & Buffers]\n    E --> F[WebGL Renderer]\n    F -->|Instanced quads| G[Display]\n```\n\nThe system has two main subsystems. The [Web Interface](web-interface.md) is the core runtime: it loads `.splat` or `.ply` files, sorts splats by depth every frame via a Web Worker, uploads GPU resources, and renders alpha-blended instanced quads through WebGL. The [PLY to Splat Conversion](ply-to-splat-conversion.md) module is a standalone offline tool that converts 3D Gaussian Splatting PLY files into the compact binary `.splat` format the viewer consumes.\n\n## End-to-End Rendering Flow\n\n1. **File loading** — The user drops or selects a `.splat` or `.ply` file. `main.js` parses the Gaussian data (positions, scales, rotations, opacity, spherical harmonics).\n2. **Worker creation** — `createWorker` spawns a Web Worker responsible for per-frame depth sorting.\n3. **Per-frame sort** — On each frame, `runSort` in the Worker computes depth-sorted index arrays so front-to-back rendering order is correct.\n4. **GPU upload** — Back in the main thread, `generateTexture` processes the sorted data. Gaussian attributes are packed into GPU textures using `packHalf2x16` and `floatToHalf` for compact half-float representation.\n5. **Render** — The WebGL renderer draws instanced quads with alpha blending, producing the final splatted image.\n\n## Getting Started\n\nNo build step is required. Clone the repository and open `index.html` in a browser:\n\n```bash\ngit clone https://github.com/antimatter15/splat.git\ncd splat\n# Serve with any static file server, e.g.:\npython3 -m http.server 8000\n```\n\nThen navigate to `http://localhost:8000` and drag-and-drop a `.splat` or `.ply` file onto the viewer.\n\n## Navigation\n\nThe viewer supports keyboard, mouse, trackpad, touch, and gamepad input. See the [Web Interface](web-interface.md) page for full control details and rendering configuration.\n\n> **Note:** For a more advanced renderer with animation support, multiple formats, and extended features, see [Spark](https://github.com/sparkjsdev/spark) and its [documentation](https://sparkjs.dev/).","ply-to-splat-conversion":"# PLY to Splat Conversion\n\n# PLY to Splat Conversion\n\nConverts 3D Gaussian Splatting PLY files into the binary SPLAT format consumed by web-based viewers (e.g., [antimatter15/splat](https://antimatter15.com/splat)).\n\n## Overview\n\nThe module reads a PLY file containing Gaussian splat vertex data — positions, scales, rotations, opacity, and spherical harmonics coefficients — and writes a compact binary `.splat` file. Each Gaussian is sorted by a size-opacity heuristic before serialization, ensuring that larger, more opaque splats appear earlier in the output buffer.\n\n## Data Format\n\nEach Gaussian is encoded as a **32-byte** record:\n\n| Field | Source PLY Property | Encoding | Size |\n|---|---|---|---|\n| Position | `x`, `y`, `z` | `float32` | 12 bytes |\n| Scale | `scale_0`, `scale_1`, `scale_2` | `exp()` → `float32` | 12 bytes |\n| Color + Alpha | `f_dc_0`, `f_dc_1`, `f_dc_2`, `opacity` | SH→RGB + sigmoid → `uint8` | 4 bytes |\n| Rotation | `rot_0`, `rot_1`, `rot_2`, `rot_3` | Normalized quaternion → `uint8` | 4 bytes |\n\n### Color Conversion\n\nRGB channels are reconstructed from the 0th-order spherical harmonics (DC) coefficients:\n\n```\nchannel = 0.5 + SH_C0 * f_dc_i    where SH_C0 = 0.28209479177387814\n```\n\nAlpha is the sigmoid of the raw opacity:\n\n```\nalpha = 1 / (1 + exp(-opacity))\n```\n\nAll four channels are then scaled to `[0, 255]` and clipped.\n\n### Rotation Encoding\n\nThe quaternion is normalized, then mapped from `[-1, 1]` to `[0, 255]`:\n\n```\nbyte = (rot / ‖rot‖) * 128 + 128\n```\n\nThis gives each component a range centered at 128, with values clipped to `[0, 255]`.\n\n### Sort Order\n\nGaussians are sorted in descending order by:\n\n```\npriority = exp(scale_0 + scale_1 + scale_2) / (1 + exp(-opacity))\n```\n\nThis places large, opaque splats first — a convention expected by the viewer's alpha-blending pipeline.\n\n## API\n\n### `process_ply_to_splat(ply_file_path)`\n\nReads a PLY file and returns the SPLAT binary payload as `bytes`.\n\n```python\nfrom convert import process_ply_to_splat, save_splat_file\n\nsplat_data = process_ply_to_splat(\"scene.ply\")\nsave_splat_file(splat_data, \"scene.splat\")\n```\n\n**Parameters:**\n- `ply_file_path` (`str`) — Path to the input `.ply` file.\n\n**Returns:** `bytes` — The complete SPLAT binary buffer.\n\n**Raises:** Propagates any exception from `PlyData.read` (e.g., file not found, malformed PLY).\n\n### `save_splat_file(splat_data, output_path)`\n\nWrites raw SPLAT bytes to disk.\n\n**Parameters:**\n- `splat_data` (`bytes`) — Output from `process_ply_to_splat`.\n- `output_path` (`str`) — Destination file path.\n\n## Command-Line Usage\n\n```bash\n# Single file — output goes to output.splat (default) or a custom path\npython convert.py scene.ply\npython convert.py scene.ply -o custom_name.splat\n\n# Multiple files — each is written to <input>.splat, -o is ignored\npython convert.py scene_a.ply scene_b.ply scene_c.ply\n```\n\n| Argument | Description |\n|---|---|\n| `input_files` | One or more `.ply` files to convert |\n| `--output`, `-o` | Output path (default: `output.splat`). Only used when a single input is provided |\n\nWhen multiple input files are given, each is saved alongside its source with a `.splat` extension appended (e.g., `scene.ply` → `scene.ply.splat`).\n\n## Execution Flow\n\n```mermaid\nflowchart TD\n    A[main] --> B[process_ply_to_splat]\n    B --> C[PlyData.read]\n    C --> D[Sort by size-opacity priority]\n    D --> E[Serialize each Gaussian]\n    E --> F[Return bytes buffer]\n    A --> G[save_splat_file]\n    G --> H[Write binary to disk]\n```\n\n## Dependencies\n\n- **plyfile** — PLY file parsing (`PlyData.read`)\n- **numpy** — Array operations, exponential/sigmoid math, byte conversion","web-interface":"# Web Interface\n\n# Web Interface Module\n\n## Overview\n\nThis module implements a browser-based 3D Gaussian Splat renderer using WebGL2. It loads `.splat` or `.ply` files, sorts splats by depth on every frame using a Web Worker, uploads GPU textures and index buffers, and renders the result as instanced quads with alpha-blended Gaussian splats. The viewer supports keyboard, mouse, trackpad, touch, and gamepad navigation, plus drag-and-drop file loading and a carousel animation mode.\n\n## Architecture\n\n```mermaid\ngraph TD\n    A[index.html] -->|script src| B[main.js]\n    B -->|spawns| C[Web Worker]\n    B -->|creates| D[WebGL2 Context]\n    C -->|postMessage texdata| D\n    C -->|postMessage depthIndex| D\n    B -->|postMessage viewProj| C\n    B -->|postMessage buffer/ply| C\n    C -->|processPlyBuffer| E[PLY Parser]\n    C -->|runSort| F[Depth Sort]\n    C -->|generateTexture| G[Texture Builder]\n    F --> G\n    B -->|requestAnimationFrame| H[Render Loop]\n    H --> D\n```\n\n## Entry Point\n\n`main()` is the async entry point. It:\n\n1. Parses the URL hash for an initial view matrix (disabling carousel if present)\n2. Fetches a `.splat` file from a configurable URL (`?url=` query param, defaulting to `train.splat` on HuggingFace)\n3. Creates a Web Worker from `createWorker` via a Blob URL\n4. Initializes the WebGL2 pipeline (shaders, buffers, textures, uniforms)\n5. Registers all input event listeners\n6. Starts the render loop via `requestAnimationFrame`\n7. Streams the fetched file into `splatData`, progressively sending chunks to the worker\n\nErrors are caught and displayed in the `#message` overlay.\n\n## Camera System\n\n### Predefined Cameras\n\nThe `cameras` array contains 10 hardcoded camera definitions, each with:\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `id` | number | Camera index |\n| `img_name` | string | Source image identifier |\n| `width` / `height` | number | Sensor dimensions in pixels |\n| `position` | number[3] | Camera position in world space [x, y, z] |\n| `rotation` | number[3][3] | 3×3 rotation matrix (row-major) |\n| `fx` / `fy` | number | Focal lengths in pixels |\n\n### Switching Cameras\n\n- Press keys `0`–`9` to jump to a specific camera\n- Press `-` or `+` to cycle through cameras\n- Press `P` to resume the carousel animation\n- Press `V` to serialize the current view matrix into the URL hash\n\n### View Matrix Construction\n\n`getViewMatrix(camera)` builds a 4×4 column-major view matrix from a camera's rotation and position:\n\n```\ncamToWorld = [ R | -R^T * t ]\n              [ 0 |     1    ]\n```\n\n`getProjectionMatrix(fx, fy, width, height)` produces a perspective projection with `znear=0.2`, `zfar=200`.\n\n## Matrix Utilities\n\nAll matrices are flat 16-element arrays in column-major order (OpenGL convention).\n\n| Function | Signature | Description |\n|----------|-----------|-------------|\n| `multiply4(a, b)` | `(float[16], float[16]) → float[16]` | Matrix product `a × b` |\n| `invert4(a)` | `(float[16]) → float[16] \\| null` | Full 4×4 inverse; returns `null` if singular |\n| `rotate4(a, rad, x, y, z)` | `(float[16], number, number, number, number) → float[16]` | Post-multiplies `a` by a rotation of `rad` radians around axis `(x, y, z)` |\n| `translate4(a, x, y, z)` | `(float[16], number, number, number) → float[16]` | Post-multiplies `a` by a translation `(x, y, z)` |\n\nNavigation works by inverting the view matrix, applying transforms to the camera's world-space transform, then inverting back: `viewMatrix = invert4(translate4(invert4(viewMatrix), dx, dy, dz))`.\n\n## Web Worker (`createWorker`)\n\nThe worker is created inline via `new Blob([\"(\", createWorker.toString(), \")(self)\"])`. It handles four message types:\n\n### Message Protocol\n\n| Message | Fields | Behavior |\n|---------|--------|----------|\n| `{ ply }` | `ply: ArrayBuffer` | Parses PLY, converts to internal format, optionally triggers download |\n| `{ buffer, vertexCount }` | Raw splat buffer | Stores the buffer for sorting |\n| `{ vertexCount }` | Count only | Updates vertex count |\n| `{ view }` | `view: float[16]` | Triggers depth sort for the given view-projection matrix |\n\n### PLY Processing (`processPlyBuffer`)\n\nParses a PLY file by:\n\n1. Reading the text header to extract `element vertex` count and per-property types/offsets\n2. Using a `Proxy`-based accessor (`attrs`) to read row data by property name\n3. Computing an importance score per splat: `exp(scale_0) × exp(scale_1) × exp(scale_2) × sigmoid(opacity)`\n4. Sorting splats by importance (descending)\n5. Writing the sorted output in the internal 32-byte-per-splat format:\n\n| Offset | Size | Field |\n|--------|------|-------|\n| 0 | 12 bytes | Position (3 × float32) |\n| 12 | 12 bytes | Scale (3 × float32) |\n| 24 | 4 bytes | RGBA (4 × uint8) |\n| 28 | 4 bytes | Quaternion rotation (4 × uint8, normalized to [0,255]) |\n\nColor is converted from spherical harmonics DC coefficients (`f_dc_0/1/2`) using `SH_C0 = 0.28209479177387814`. Opacity passes through a sigmoid. If `scale_0` is absent, defaults of `scale=0.01` and `rot=(1,0,0,0)` are used.\n\nIf the `save` flag is set, the converted buffer is offered as a `.splat` download.\n\n### Depth Sorting (`runSort`)\n\nOn each view-projection update:\n\n1. **Early exit**: If the view direction hasn't changed significantly (`|dot - 1| < 0.01`), skip re-sorting\n2. **Depth computation**: Projects each splat center through the view-projection matrix, quantizing to integer depth\n3. **Counting sort**: 16-bit single-pass counting sort producing a `depthIndex` (Uint32Array of vertex indices)\n4. **Texture generation** (`generateTexture`): On first sort or vertex count change, builds a GPU-ready texture\n\n### Texture Generation (`generateTexture`)\n\nConverts the internal splat buffer into a 2D texture layout:\n\n- Texture dimensions: `width = 2048`, `height = ceil(2 * vertexCount / 2048)`\n- Each splat occupies 8 texels (4 RGBA32UI pixels)\n- Texels 0–2: position (float32)\n- Texel 3: unused padding\n- Texels 4–6: packed covariance matrix (3 `packHalf2x16` calls → 6 half-float pairs)\n- Texel 7: RGBA color (uint8 in uint32)\n\nThe covariance is computed as `Σ = S × R`, where `S` is a diagonal scale matrix and `R` is the rotation matrix derived from the quaternion, then `cov2d` is projected later in the vertex shader.\n\n`packHalf2x16(x, y)` packs two float16 values into a single uint32 using `floatToHalf`.\n\n### Throttling\n\n`throttledSort` ensures only one sort runs at a time. After a sort completes, if the view has changed again, it schedules another sort via `setTimeout(0)`.\n\n## WebGL2 Rendering Pipeline\n\n### Shaders\n\n**Vertex shader** (`vertexShaderSource`):\n- Reads per-instance `index` to fetch from the splat texture\n- Computes camera-space position, projects to clip space\n- Extracts the 3×3 covariance matrix from the texture, projects it through the Jacobian of the projection and the view rotation: `cov2d = T^T × Vrk × T` where `T = transpose(view3×3) × J`\n- Computes eigenvalues of the 2D covariance to find the major/minor axes\n- Outputs a quad vertex offset by the major and minor axes, scaled to viewport\n- Passes depth-based attenuation and RGBA color to the fragment shader\n- Splats outside a 1.2× clip boundary are culled (moved behind the far plane)\n\n**Fragment shader** (`fragmentShaderSource`):\n- Evaluates a 2D Gaussian: `A = -dot(vPosition, vPosition)`, discards if `A < -4.0`\n- Outputs `exp(A) * alpha` for premultiplied alpha blending\n\n### Blend Mode\n\n```js\ngl.blendFuncSeparate(ONE_MINUS_DST_ALPHA, ONE, ONE_MINUS_DST_ALPHA, ONE);\ngl.blendEquationSeparate(FUNC_ADD, FUNC_ADD);\n```\n\nThis implements an order-independent approximate blending where each splat's contribution is weighted by `1 - α_dst`, producing correct back-to-front compositing when sorted.\n\n### Geometry\n\nA single `TRIANGLE_FAN` of 4 vertices (`[-2,-2], [2,-2], [2,2], [-2,2]`) is instanced once per splat. The vertex shader positions each instance based on the splat's projected covariance.\n\n### Progressive Loading\n\nDuring streaming, partial data is sent to the worker with `vertexCount = Math.floor(bytesRead / rowLength)`. The progress bar (`#progress`) fills based on `vertexCount / totalExpected`. Once fully loaded, the progress bar is hidden and the spinner (`#spinner`) is dismissed.\n\n## Input Handling\n\n### Keyboard\n\n| Key(s) | Action |\n|--------|--------|\n| Arrow Up/Down | Move forward/backward (or up/down with Shift) |\n| Arrow Left/Right | Strafe left/right |\n| W/S | Tilt camera up/down |\n| A/D | Turn camera left/right |\n| Q/E | Roll camera |\n| I/K/J/L | Orbit (arcball-style) |\n| Space | Jump (vertical offset with tilt animation) |\n| 0–9 | Switch to predefined camera |\n| `-` / `+` | Cycle cameras |\n| P | Resume carousel animation |\n| V | Save view to URL hash |\n\n### Mouse\n\n- **Left drag**: Orbit (rotate around focal point)\n- **Right drag** or **Ctrl/Cmd + drag**: Pan (translate in screen plane)\n\n### Wheel\n\n- **Default**: Orbit (rotate around focal point)\n- **Shift + scroll**: Pan in screen plane\n- **Ctrl/Cmd + scroll**: Dolly (move forward/backward)\n\n### Touch\n\n- **One finger**: Orbit\n- **Two-finger pinch**: Dolly\n- **Two-finger rotate**: Roll camera\n- **Two-finger pan**: Translate in screen plane\n\n### Gamepad\n\n- **Left stick**: Translate (axes 0, 1)\n- **Right stick**: Rotate (axes 2, 3)\n- **D-pad up/down (buttons 12/13)**: Vertical translate\n- **D-pad left/right (buttons 14/15)**: Horizontal translate\n- **Triggers (buttons 6/7)**: Roll\n- **Bumpers (buttons 4/5)**: Cycle cameras\n- **A (button 0)**: Jump\n- **Y (button 3)**: Resume carousel\n\nAll gamepad input uses a 0.1 axis deadzone (`axisThreshold`).\n\n## File Loading\n\n### URL Parameter\n\nThe `?url=` query parameter specifies the `.splat` file to load. It defaults to `train.splat` on HuggingFace.\n\n### Streaming\n\nThe file is streamed via `ReadableStream`. As chunks arrive, they're written into `splatData` and the worker is notified with incremental `vertexCount`. PLY files are only processed after the full download completes (detected by `isPly` checking the magic bytes `ply\\n`).\n\n### Drag and Drop\n\nDropping a file onto the page calls `selectFile`:\n\n- **`.json` files**: Parsed as a camera array, replacing the global `cameras` and updating the projection matrix\n- **`.ply` files**: Sent to the worker with `{ ply, save: true }`, which converts and offers a `.splat` download\n- **`.splat` files**: Sent directly to the worker with `{ buffer, vertexCount }`\n\n### PLY Detection\n\n`isPly(data)` checks if the first four bytes are `[112, 108, 121, 10]` (the ASCII string `\"ply\\n\"`).\n\n## Carousel Animation\n\nWhen `carousel` is `true` (the default on load), the view matrix is overridden each frame:\n\n```js\nt = sin((Date.now() - start) / 5000);\ninv = translate4(inv, 2.5 * t, 0, 6 * (1 - cos(t)));\ninv = rotate4(inv, -0.6 * t, 0, 1, 0);\n```\n\nThis produces a smooth oscillating orbit. Any user input sets `carousel = false`. Pressing `P` re-enables it.\n\n## Jump Animation\n\nThe `jumpDelta` variable creates a vertical bounce effect:\n\n- While `Space` (or gamepad button 0) is held, `jumpDelta` increases by 0.05 per frame (max 1.0)\n- When released, it decreases by 0.05 per frame (min 0.0)\n- Applied as a downward translation and forward tilt: `translate4(inv, 0, -jumpDelta, 0)` then `rotate4(inv, -0.1 * jumpDelta, 1, 0, 0)`\n\n## Downsample Logic\n\nIf the total splat count exceeds 500,000, `downsample` is set to 1 (no downscaling). Otherwise it's set to `1 / devicePixelRatio`, reducing the canvas resolution on high-DPI displays for better performance.\n\n## HuggingFace Spaces Mode\n\nThe inline script at the top of `<body>` checks if `location.host` includes `\"hf.space\"` and adds the `nohf` class to `<body>`. This hides branding elements (`.nohf` elements) and changes the progress bar and loading cube color to orange (`#ff9d0d`).\n\n## UI Elements\n\n| Element | ID | Purpose |\n|---------|-----|---------|\n| Canvas | `#canvas` | WebGL2 render target, full-viewport |\n| Info panel | `#info` | Title, credits, expandable instructions |\n| Progress bar | `#progress` | Blue (or orange in HF mode) bar showing load progress |\n| Spinner | `#spinner` | Animated 3D CSS cube shown while loading |\n| Message | `#message` | Red error text overlay |\n| FPS counter | `#fps` | Bottom-right FPS display |\n| Camera ID | `#camid` | Top-right camera index display |\n\n## Render Loop (`frame`)\n\nCalled via `requestAnimationFrame`, each frame:\n\n1. Processes keyboard/gamepad input to update the view matrix\n2. Applies carousel animation if active\n3. Applies jump animation\n4. Computes `viewProj = multiply4(projectionMatrix, actualViewMatrix)`\n5. Sends `viewProj` to the worker for sorting\n6. Clears the framebuffer\n7. If `vertexCount > 0`: uploads the view matrix uniform and calls `gl.drawArraysInstanced(TRIANGLE_FAN, 0, 4, vertexCount)`\n8. Otherwise: shows the spinner\n9. Updates the progress bar and FPS display"};
+var TREE = [{"name":"PLY to Splat Conversion","slug":"ply-to-splat-conversion","files":["convert.py"]},{"name":"Web Interface","slug":"web-interface","files":["index.html","main.js"]},{"name":"Other","slug":"other","files":["README.md"]}];
+var META = {"fromCommit":"ba182b51b7c2ad5738cdd6741cd63336d27470fb","generatedAt":"2026-05-10T16:56:12.490Z","model":"glm-5.1:cloud","moduleFiles":{"PLY to Splat Conversion":["convert.py"],"Web Interface":["index.html","main.js"],"Other":["README.md"]},"moduleTree":[{"name":"PLY to Splat Conversion","slug":"ply-to-splat-conversion","files":["convert.py"]},{"name":"Web Interface","slug":"web-interface","files":["index.html","main.js"]},{"name":"Other","slug":"other","files":["README.md"]}]};
+
+(function() {
+  var activePage = 'overview';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
+    renderMeta();
+    renderNav();
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+    if (location.hash && location.hash.length > 1) {
+      activePage = decodeURIComponent(location.hash.slice(1));
+    }
+    navigateTo(activePage);
+  });
+
+  function renderMeta() {
+    if (!META) return;
+    var el = document.getElementById('meta-info');
+    var parts = [];
+    if (META.generatedAt) {
+      parts.push(new Date(META.generatedAt).toLocaleDateString());
+    }
+    if (META.model) parts.push(META.model);
+    if (META.fromCommit) parts.push(META.fromCommit.slice(0, 8));
+    el.textContent = parts.join(' \u00b7 ');
+  }
+
+  function renderNav() {
+    var container = document.getElementById('nav-tree');
+    var html = '<div class="nav-section">';
+    html += '<a class="nav-item overview" data-page="overview" href="#overview">Overview</a>';
+    html += '</div>';
+    if (TREE.length > 0) {
+      html += '<div class="nav-group-label">Modules</div>';
+      html += buildNavTree(TREE);
+    }
+    container.innerHTML = html;
+    container.addEventListener('click', function(e) {
+      var target = e.target;
+      while (target && !target.dataset.page) { target = target.parentElement; }
+      if (target && target.dataset.page) {
+        e.preventDefault();
+        navigateTo(target.dataset.page);
+      }
+    });
+  }
+
+  function buildNavTree(nodes) {
+    var html = '';
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+      html += '<div class="nav-section">';
+      html += '<a class="nav-item" data-page="' + escH(node.slug) + '" href="#' + encodeURIComponent(node.slug) + '">' + escH(node.name) + '</a>';
+      if (node.children && node.children.length > 0) {
+        html += '<div class="nav-children">' + buildNavTree(node.children) + '</div>';
+      }
+      html += '</div>';
+    }
+    return html;
+  }
+
+  function escH(s) {
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  function navigateTo(page) {
+    activePage = page;
+    location.hash = encodeURIComponent(page);
+
+    var items = document.querySelectorAll('.nav-item');
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].dataset.page === page) {
+        items[i].classList.add('active');
+      } else {
+        items[i].classList.remove('active');
+      }
+    }
+
+    var contentEl = document.getElementById('content');
+    var md = PAGES[page];
+
+    if (!md) {
+      contentEl.innerHTML = '<div class="empty-state"><h2>Page not found</h2><p>' + escH(page) + '.md does not exist.</p></div>';
+      return;
+    }
+
+    contentEl.innerHTML = marked.parse(md);
+
+    // Rewrite .md links to hash navigation
+    var links = contentEl.querySelectorAll('a[href]');
+    for (var i = 0; i < links.length; i++) {
+      var href = links[i].getAttribute('href');
+      if (href && href.endsWith('.md') && href.indexOf('://') === -1) {
+        var slug = href.replace(/\.md$/, '');
+        links[i].setAttribute('href', '#' + encodeURIComponent(slug));
+        (function(s) {
+          links[i].addEventListener('click', function(e) {
+            e.preventDefault();
+            navigateTo(s);
+          });
+        })(slug);
+      }
+    }
+
+    // Convert mermaid code blocks into mermaid divs
+    var mermaidBlocks = contentEl.querySelectorAll('pre code.language-mermaid');
+    for (var i = 0; i < mermaidBlocks.length; i++) {
+      var pre = mermaidBlocks[i].parentElement;
+      var div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = mermaidBlocks[i].textContent;
+      pre.parentNode.replaceChild(div, pre);
+    }
+    try { mermaid.run({ querySelector: '.mermaid' }); } catch(e) {}
+
+    window.scrollTo(0, 0);
+    document.getElementById('sidebar').classList.remove('open');
+  }
+})();
+
+</script>
+</body>
+</html>

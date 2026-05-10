@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Autograd Engine",
+    "slug": "autograd-engine",
+    "files": [
+      "micrograd/engine.py"
+    ]
+  },
+  {
+    "name": "Neural Network",
+    "slug": "neural-network",
+    "files": [
+      "micrograd/nn.py"
+    ]
+  },
+  {
+    "name": "Other",
+    "slug": "other",
+    "files": [
+      "README.md",
+      "demo.ipynb",
+      "micrograd/__init__.py",
+      "setup.py",
+      "test/test_engine.py",
+      "trace_graph.ipynb"
+    ]
+  }
+]

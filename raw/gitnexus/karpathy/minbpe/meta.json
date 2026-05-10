@@ -1,0 +1,115 @@
+{
+  "fromCommit": "1acefe89412b20245db5a22d2a02001e547dc602",
+  "generatedAt": "2026-05-10T16:49:45.735Z",
+  "model": "glm-5.1:cloud",
+  "moduleFiles": {
+    "Core Tokenizer": [
+      "minbpe/__init__.py",
+      "minbpe/base.py"
+    ],
+    "Tokenizer Implementations": [
+      "minbpe/basic.py",
+      "minbpe/regex.py",
+      "minbpe/gpt4.py"
+    ],
+    "Training": [
+      "train.py"
+    ],
+    "Other": [
+      "README.md",
+      "exercise.md",
+      "lecture.md",
+      "requirements.txt",
+      "tests/__init__.py",
+      "tests/taylorswift.txt",
+      "tests/test_tokenizer.py"
+    ],
+    "Other — README.md": [
+      "README.md"
+    ],
+    "Other — exercise.md": [
+      "exercise.md"
+    ],
+    "Other — lecture.md": [
+      "lecture.md"
+    ],
+    "Other — requirements.txt": [
+      "requirements.txt"
+    ],
+    "Other — tests": [
+      "tests/__init__.py",
+      "tests/taylorswift.txt",
+      "tests/test_tokenizer.py"
+    ]
+  },
+  "moduleTree": [
+    {
+      "name": "Core Tokenizer",
+      "slug": "core-tokenizer",
+      "files": [
+        "minbpe/__init__.py",
+        "minbpe/base.py"
+      ]
+    },
+    {
+      "name": "Tokenizer Implementations",
+      "slug": "tokenizer-implementations",
+      "files": [
+        "minbpe/basic.py",
+        "minbpe/regex.py",
+        "minbpe/gpt4.py"
+      ]
+    },
+    {
+      "name": "Training",
+      "slug": "training",
+      "files": [
+        "train.py"
+      ]
+    },
+    {
+      "name": "Other",
+      "slug": "other",
+      "files": [],
+      "children": [
+        {
+          "name": "Other — README.md",
+          "slug": "other-readme-md",
+          "files": [
+            "README.md"
+          ]
+        },
+        {
+          "name": "Other — exercise.md",
+          "slug": "other-exercise-md",
+          "files": [
+            "exercise.md"
+          ]
+        },
+        {
+          "name": "Other — lecture.md",
+          "slug": "other-lecture-md",
+          "files": [
+            "lecture.md"
+          ]
+        },
+        {
+          "name": "Other — requirements.txt",
+          "slug": "other-requirements-txt",
+          "files": [
+            "requirements.txt"
+          ]
+        },
+        {
+          "name": "Other — tests",
+          "slug": "other-tests",
+          "files": [
+            "tests/__init__.py",
+            "tests/taylorswift.txt",
+            "tests/test_tokenizer.py"
+          ]
+        }
+      ]
+    }
+  ]
+}

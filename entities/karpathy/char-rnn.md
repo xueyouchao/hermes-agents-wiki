@@ -1,10 +1,10 @@
 ---
 title: char-rnn
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-05-10
 type: entity
 tags: [repository, lua, rnn, lstm, language-model, karpathy]
-sources: []
+sources: [raw/gitnexus/karpathy/char-rnn/overview.md]
 ---
 
 # char-rnn
@@ -43,6 +43,15 @@ This project was instrumental in demonstrating that RNNs could:
 - Model other structured text formats
 
 It helped popularize the idea of character-level language modeling.
+
+## GitNexus Wiki Pages
+
+- [[raw/gitnexus/karpathy/char-rnn/overview]] - GitNexus-generated repository overview
+- [[raw/gitnexus/karpathy/char-rnn/recurrent-neural-networks]] - RNN/LSTM/GRU implementation notes
+- [[raw/gitnexus/karpathy/char-rnn/training-and-sampling]] - Training loop and text generation pipeline
+- [[raw/gitnexus/karpathy/char-rnn/data-processing]] - Corpus ingestion and minibatch preparation
+- [[raw/gitnexus/karpathy/char-rnn/checkpoint-tools]] - Checkpoint conversion and inspection utilities
+- [[raw/gitnexus/karpathy/char-rnn/utility-functions]] - Shared helper routines used across the codebase
 
 ## Related
 
