@@ -2,9 +2,9 @@
 title: sentence-transformers
 type: entity
 tags: [ai, llm, repository, github]
-sources: [raw/repos/sentence-transformers.md]
+sources: [raw/sentence-transformers.md]
 created: 2026-04-17
-updated: 2026-04-17
+updated: 2026-05-10
 ---
 
 # sentence-transformers
@@ -23,14 +23,15 @@ State-of-the-Art Text Embeddings
 
 State-of-the-Art Text Embeddings
 
-## Repository Metrics
+## GitNexus Analysis
 
 | Metric | Value |
 |--------|-------|
-| Symbols | 0 |
-| Edges | 0 |
-| Clusters | 0 |
-| Flows | 0 |
+| Files | 616 |
+| Symbols | 12713 |
+| Edges | 18274 |
+| Clusters | 281 |
+| Flows | 101 |
 
 ## Key Features
 
@@ -46,4 +47,4 @@ State-of-the-Art Text Embeddings
 ## References
 
 - [GitHub Repository](https://github.com/huggingface/sentence-transformers)
-- [Analysis Data](raw/repos/sentence-transformers.md)
+- [Analysis Data](raw/sentence-transformers.md)

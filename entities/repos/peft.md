@@ -2,9 +2,9 @@
 title: peft
 type: entity
 tags: [ai, llm, repository, github]
-sources: [raw/repos/peft.md]
+sources: [raw/peft.md]
 created: 2026-04-17
-updated: 2026-04-17
+updated: 2026-05-10
 ---
 
 # peft
@@ -23,14 +23,15 @@ updated: 2026-04-17
 
 🤗 PEFT: State-of-the-art Parameter-Efficient Fine-Tuning.
 
-## Repository Metrics
+## GitNexus Analysis
 
 | Metric | Value |
 |--------|-------|
-| Symbols | 0 |
-| Edges | 0 |
-| Clusters | 0 |
-| Flows | 0 |
+| Files | 727 |
+| Symbols | 16377 |
+| Edges | 24327 |
+| Clusters | 421 |
+| Flows | 128 |
 
 ## Key Features
 
@@ -46,4 +47,4 @@ updated: 2026-04-17
 ## References
 
 - [GitHub Repository](https://github.com/huggingface/peft)
-- [Analysis Data](raw/repos/peft.md)
+- [Analysis Data](raw/peft.md)

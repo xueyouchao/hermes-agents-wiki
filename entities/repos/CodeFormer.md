@@ -2,9 +2,9 @@
 title: CodeFormer
 type: entity
 tags: [ai, llm, repository, github]
-sources: [raw/repos/CodeFormer.md]
+sources: [raw/CodeFormer.md]
 created: 2026-04-17
-updated: 2026-04-17
+updated: 2026-05-10
 ---
 
 # CodeFormer
@@ -23,14 +23,15 @@ updated: 2026-04-17
 
 [NeurIPS 2022] Towards Robust Blind Face Restoration with Codebook Lookup Transformer
 
-## Repository Metrics
+## GitNexus Analysis
 
 | Metric | Value |
 |--------|-------|
-| Symbols | 0 |
-| Edges | 0 |
-| Clusters | 0 |
-| Flows | 0 |
+| Files | 111 |
+| Symbols | 2795 |
+| Edges | 4541 |
+| Clusters | 140 |
+| Flows | 122 |
 
 ## Key Features
 
@@ -46,4 +47,4 @@ updated: 2026-04-17
 ## References
 
 - [GitHub Repository](https://github.com/sczhou/CodeFormer)
-- [Analysis Data](raw/repos/CodeFormer.md)
+- [Analysis Data](raw/CodeFormer.md)

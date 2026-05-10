@@ -2,9 +2,9 @@
 title: minGPT
 type: entity
 tags: [ai, llm, repository, github]
-sources: [raw/repos/minGPT.md]
+sources: [raw/minGPT.md]
 created: 2026-04-17
-updated: 2026-04-17
+updated: 2026-05-10
 ---
 
 # minGPT
@@ -23,14 +23,15 @@ A minimal PyTorch re-implementation of the OpenAI GPT (Generative Pretrained Tra
 
 A minimal PyTorch re-implementation of the OpenAI GPT (Generative Pretrained Transformer) training
 
-## Repository Metrics
+## GitNexus Analysis
 
 | Metric | Value |
 |--------|-------|
-| Symbols | 0 |
-| Edges | 0 |
-| Clusters | 0 |
-| Flows | 0 |
+| Files | 15 |
+| Symbols | 274 |
+| Edges | 380 |
+| Clusters | 17 |
+| Flows | 3 |
 
 ## Key Features
 
@@ -46,4 +47,4 @@ A minimal PyTorch re-implementation of the OpenAI GPT (Generative Pretrained Tra
 ## References
 
 - [GitHub Repository](https://github.com/karpathy/minGPT)
-- [Analysis Data](raw/repos/minGPT.md)
+- [Analysis Data](raw/minGPT.md)

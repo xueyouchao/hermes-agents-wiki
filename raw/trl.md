@@ -12,11 +12,12 @@
     "updated": "2026-04-17T17:48:55Z"
   },
   "analysis": {
-    "symbols": 0,
-    "edges": 0,
-    "clusters": 0,
-    "flows": 0,
-    "raw_output": "GitNexus analysis failed or not available\n"
+    "symbols": 12708,
+    "edges": 17579,
+    "clusters": 205,
+    "flows": 135,
+    "raw_output": "GitNexus indexed 484 files, 12708 symbols, 17579 edges, 205 clusters, 135 flows\n",
+    "files": 484
   },
-  "retrieved_at": "2026-04-17T19:20:05.680925"
+  "retrieved_at": "2026-05-10"
 }

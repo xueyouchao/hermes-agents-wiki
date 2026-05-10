@@ -2,9 +2,9 @@
 title: python-telegram-bot
 type: entity
 tags: [ai, llm, repository, github]
-sources: [raw/repos/python-telegram-bot.md]
+sources: [raw/python-telegram-bot.md]
 created: 2026-04-17
-updated: 2026-04-17
+updated: 2026-05-10
 ---
 
 # python-telegram-bot
@@ -23,14 +23,15 @@ We have made you a wrapper you can't refuse
 
 We have made you a wrapper you can't refuse
 
-## Repository Metrics
+## GitNexus Analysis
 
 | Metric | Value |
 |--------|-------|
-| Symbols | 0 |
-| Edges | 0 |
-| Clusters | 0 |
-| Flows | 0 |
+| Files | 1201 |
+| Symbols | 15915 |
+| Edges | 28186 |
+| Clusters | 428 |
+| Flows | 138 |
 
 ## Key Features
 
@@ -46,4 +47,4 @@ We have made you a wrapper you can't refuse
 ## References
 
 - [GitHub Repository](https://github.com/python-telegram-bot/python-telegram-bot)
-- [Analysis Data](raw/repos/python-telegram-bot.md)
+- [Analysis Data](raw/python-telegram-bot.md)

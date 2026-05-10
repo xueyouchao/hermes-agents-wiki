@@ -2,9 +2,9 @@
 title: vit-pytorch
 type: entity
 tags: [ai, llm, repository, github]
-sources: [raw/repos/vit-pytorch.md]
+sources: [raw/vit-pytorch.md]
 created: 2026-04-17
-updated: 2026-04-17
+updated: 2026-05-10
 ---
 
 # vit-pytorch
@@ -23,14 +23,15 @@ Implementation of Vision Transformer, a simple way to achieve SOTA in vision cla
 
 Implementation of Vision Transformer, a simple way to achieve SOTA in vision classification with only a single transformer encoder, in Pytorch
 
-## Repository Metrics
+## GitNexus Analysis
 
 | Metric | Value |
 |--------|-------|
-| Symbols | 0 |
-| Edges | 0 |
-| Clusters | 0 |
-| Flows | 0 |
+| Files | 79 |
+| Symbols | 3193 |
+| Edges | 5060 |
+| Clusters | 254 |
+| Flows | 50 |
 
 ## Key Features
 
@@ -46,4 +47,4 @@ Implementation of Vision Transformer, a simple way to achieve SOTA in vision cla
 ## References
 
 - [GitHub Repository](https://github.com/lucidrains/vit-pytorch)
-- [Analysis Data](raw/repos/vit-pytorch.md)
+- [Analysis Data](raw/vit-pytorch.md)

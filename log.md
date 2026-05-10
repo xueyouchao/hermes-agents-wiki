@@ -124,3 +124,17 @@
 - Created queries/2026-05-10-x-daily.md
 - Updated index.md with the new query entry
 - No GitHub repos extracted; GitNexus not run and Graphify unavailable
+
+## [2026-05-10] update | GitNexus manageable batch
+- Sequential GitNexus pass over a manageable 10-repo batch chosen to avoid huge CPU spikes while replacing stale failure markers
+- Updated raw/repomix.md and entities/repos/repomix.md (791 files, 11724 symbols, 13520 edges, 111 clusters, 179 flows)
+- Updated raw/python-telegram-bot.md and entities/repos/python-telegram-bot.md (1201 files, 15915 symbols, 28186 edges, 428 clusters, 138 flows)
+- Updated raw/minGPT.md and entities/repos/minGPT.md (15 files, 274 symbols, 380 edges, 17 clusters, 3 flows)
+- Updated raw/agentscope.md and entities/repos/agentscope.md (564 files, 9417 symbols, 16292 edges, 500 clusters, 227 flows)
+- Updated raw/peft.md and entities/repos/peft.md (727 files, 16377 symbols, 24327 edges, 421 clusters, 128 flows)
+- Updated raw/sentence-transformers.md and entities/repos/sentence-transformers.md (616 files, 12713 symbols, 18274 edges, 281 clusters, 101 flows)
+- Updated raw/trl.md and entities/repos/trl.md (484 files, 12708 symbols, 17579 edges, 205 clusters, 135 flows)
+- Updated raw/CodeFormer.md and entities/repos/CodeFormer.md (111 files, 2795 symbols, 4541 edges, 140 clusters, 122 flows)
+- Updated raw/vit-pytorch.md and entities/repos/vit-pytorch.md (79 files, 3193 symbols, 5060 edges, 254 clusters, 50 flows)
+- Updated raw/transformers.js.md and entities/repos/transformers.js.md (669 files, 7292 symbols, 15611 edges, 199 clusters, 300 flows)
+

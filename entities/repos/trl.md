@@ -2,9 +2,9 @@
 title: trl
 type: entity
 tags: [ai, llm, repository, github]
-sources: [raw/repos/trl.md]
+sources: [raw/trl.md]
 created: 2026-04-17
-updated: 2026-04-17
+updated: 2026-05-10
 ---
 
 # trl
@@ -23,14 +23,15 @@ Train transformer language models with reinforcement learning.
 
 Train transformer language models with reinforcement learning.
 
-## Repository Metrics
+## GitNexus Analysis
 
 | Metric | Value |
 |--------|-------|
-| Symbols | 0 |
-| Edges | 0 |
-| Clusters | 0 |
-| Flows | 0 |
+| Files | 484 |
+| Symbols | 12708 |
+| Edges | 17579 |
+| Clusters | 205 |
+| Flows | 135 |
 
 ## Key Features
 
@@ -46,4 +47,4 @@ Train transformer language models with reinforcement learning.
 ## References
 
 - [GitHub Repository](https://github.com/huggingface/trl)
-- [Analysis Data](raw/repos/trl.md)
+- [Analysis Data](raw/trl.md)

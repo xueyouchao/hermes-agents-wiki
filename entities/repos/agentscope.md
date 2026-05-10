@@ -2,9 +2,9 @@
 title: agentscope
 type: entity
 tags: [ai, llm, repository, github]
-sources: [raw/repos/agentscope.md]
+sources: [raw/agentscope.md]
 created: 2026-04-17
-updated: 2026-04-17
+updated: 2026-05-10
 ---
 
 # agentscope
@@ -23,14 +23,15 @@ Build and run agents you can see, understand and trust.
 
 Build and run agents you can see, understand and trust.
 
-## Repository Metrics
+## GitNexus Analysis
 
 | Metric | Value |
 |--------|-------|
-| Symbols | 0 |
-| Edges | 0 |
-| Clusters | 0 |
-| Flows | 0 |
+| Files | 564 |
+| Symbols | 9417 |
+| Edges | 16292 |
+| Clusters | 500 |
+| Flows | 227 |
 
 ## Key Features
 
@@ -46,4 +47,4 @@ Build and run agents you can see, understand and trust.
 ## References
 
 - [GitHub Repository](https://github.com/agentscope-ai/agentscope)
-- [Analysis Data](raw/repos/agentscope.md)
+- [Analysis Data](raw/agentscope.md)

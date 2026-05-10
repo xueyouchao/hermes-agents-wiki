@@ -2,9 +2,9 @@
 title: repomix
 type: entity
 tags: [ai, llm, repository, github]
-sources: [raw/repos/repomix.md]
+sources: [raw/repomix.md]
 created: 2026-04-17
-updated: 2026-04-17
+updated: 2026-05-10
 ---
 
 # repomix
@@ -23,14 +23,15 @@ updated: 2026-04-17
 
 📦 Repomix is a powerful tool that packs your entire repository into a single, AI-friendly file. Perfect for when you need to feed your codebase to Large Language Models (LLMs) or other AI tools like Claude, ChatGPT, DeepSeek, Perplexity, Gemini, Gemma, Llama, Grok, and more.
 
-## Repository Metrics
+## GitNexus Analysis
 
 | Metric | Value |
 |--------|-------|
-| Symbols | 0 |
-| Edges | 0 |
-| Clusters | 0 |
-| Flows | 0 |
+| Files | 791 |
+| Symbols | 11724 |
+| Edges | 13520 |
+| Clusters | 111 |
+| Flows | 179 |
 
 ## Key Features
 
@@ -46,4 +47,4 @@ updated: 2026-04-17
 ## References
 
 - [GitHub Repository](https://github.com/yamadashy/repomix)
-- [Analysis Data](raw/repos/repomix.md)
+- [Analysis Data](raw/repomix.md)

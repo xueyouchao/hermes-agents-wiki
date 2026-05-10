@@ -2,9 +2,9 @@
 title: transformers.js
 type: entity
 tags: [ai, llm, repository, github]
-sources: [raw/repos/transformers.js.md]
+sources: [raw/transformers.js.md]
 created: 2026-04-17
-updated: 2026-04-17
+updated: 2026-05-10
 ---
 
 # transformers.js
@@ -23,14 +23,15 @@ State-of-the-art Machine Learning for the web. Run 🤗 Transformers directly in
 
 State-of-the-art Machine Learning for the web. Run 🤗 Transformers directly in your browser, with no need for a server!
 
-## Repository Metrics
+## GitNexus Analysis
 
 | Metric | Value |
 |--------|-------|
-| Symbols | 0 |
-| Edges | 0 |
-| Clusters | 0 |
-| Flows | 0 |
+| Files | 669 |
+| Symbols | 7292 |
+| Edges | 15611 |
+| Clusters | 199 |
+| Flows | 300 |
 
 ## Key Features
 
@@ -46,4 +47,4 @@ State-of-the-art Machine Learning for the web. Run 🤗 Transformers directly in
 ## References
 
 - [GitHub Repository](https://github.com/huggingface/transformers.js)
-- [Analysis Data](raw/repos/transformers.js.md)
+- [Analysis Data](raw/transformers.js.md)
