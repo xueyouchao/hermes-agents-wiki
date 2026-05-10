@@ -3,7 +3,7 @@
 
 > Master catalog for the Hermes Agents wiki.
 > The root index tracks topic hubs first, then supporting pages grouped by domain.
-> Last updated: 2026-04-22
+> Last updated: 2026-05-10
 
 ## Topic Hubs
 
@@ -264,3 +264,7 @@
 ## FinTech & AI
 
 - [[polymarket-ai-arbitrage]] - Analysis of AI arbitrage in prediction markets by Nate B. Jones
+
+## Queries
+
+- [[queries/2026-05-10-x-daily]] - X AI/tech daily digest for 2026-05-10 (multimodal science app, trading LLM talk, and Karpathy knowledge-system signal)
