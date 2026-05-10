@@ -1,0 +1,552 @@
+{
+  "3dgs": {
+    "id": "234f38a5-5d36-420e-8cde-7d80b43f68fc",
+    "title": "Hermes Wiki / Research and Concepts / 3D Gaussian Splatting",
+    "source_count": 6,
+    "status_counts": {
+      "ready": 6
+    },
+    "sources": [
+      {
+        "index": 1,
+        "id": "dca40066-62d2-48b2-8efa-f75043e163d3",
+        "title": "3d-gaussian-splatting.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:39:45"
+      },
+      {
+        "index": 2,
+        "id": "45f98d20-85a2-4cb0-b18a-d49258c9dcb9",
+        "title": "3dgs-research.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:39:40"
+      },
+      {
+        "index": 3,
+        "id": "b2afbf99-1495-4e71-a6c9-e8858d06bec9",
+        "title": "3dgs-spark-fvdb-nvidia-relations.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:39:43"
+      },
+      {
+        "index": 4,
+        "id": "4de2e168-c213-4ff7-aa44-804bb63106e4",
+        "title": "nerf.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:39:48"
+      },
+      {
+        "index": 5,
+        "id": "6f8e7d9f-ff22-47cb-8378-9fdbbcc9050d",
+        "title": "point-cloud.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:39:50"
+      },
+      {
+        "index": 6,
+        "id": "5016af16-a79c-4bda-9617-9a417c4f9c0a",
+        "title": "view-synthesis.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:39:53"
+      }
+    ]
+  },
+  "ai-agents": {
+    "id": "0d1bcd0f-651f-4c9b-b608-e3f1b215ebdd",
+    "title": "Hermes Wiki / Research and Concepts / AI Agents",
+    "source_count": 2,
+    "status_counts": {
+      "ready": 2
+    },
+    "sources": [
+      {
+        "index": 1,
+        "id": "4cbce9a5-b915-4aa7-9fab-4369f3b0871c",
+        "title": "agent-platform-landscape.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:39:59"
+      },
+      {
+        "index": 2,
+        "id": "282ab1ec-0c17-4f10-8a94-46933c9d8f93",
+        "title": "brain-vs-hands-architecture.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:40:03"
+      }
+    ]
+  },
+  "ai-repos": {
+    "id": "2ab76826-a7f4-4a27-a487-c4b9d2ea9ba9",
+    "title": "Hermes Wiki / Research and Concepts / AI Repos",
+    "source_count": 1,
+    "status_counts": {
+      "ready": 1
+    },
+    "sources": [
+      {
+        "index": 1,
+        "id": "10518364-8f85-4ab9-881c-c0bfad9a3a67",
+        "title": "ai-repos-research.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:40:09"
+      }
+    ]
+  },
+  "aws": {
+    "id": "27392be8-c2a9-4f26-8129-0f29d9619aa4",
+    "title": "Hermes Wiki / Research and Concepts / AWS",
+    "source_count": 1,
+    "status_counts": {
+      "ready": 1
+    },
+    "sources": [
+      {
+        "index": 1,
+        "id": "ab427558-2a57-4500-84e3-7f424945ee76",
+        "title": "aws-research.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:40:15"
+      }
+    ]
+  },
+  "karpathy": {
+    "id": "0330270c-3860-4bd5-93d8-40a9b2c7e3e1",
+    "title": "Hermes Wiki / Research and Concepts / Karpathy",
+    "source_count": 2,
+    "status_counts": {
+      "ready": 2
+    },
+    "sources": [
+      {
+        "index": 1,
+        "id": "5636febf-121d-456a-8797-549cbc0379a0",
+        "title": "karpathy-repos.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:40:24"
+      },
+      {
+        "index": 2,
+        "id": "f28d0ced-e5ef-40d2-899d-9777089a1d86",
+        "title": "karpathy-research.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:40:21"
+      }
+    ]
+  },
+  "nvidia": {
+    "id": "a53ff4d0-b1ef-437b-9288-d19416a41554",
+    "title": "Hermes Wiki / Research and Concepts / NVIDIA",
+    "source_count": 20,
+    "status_counts": {
+      "ready": 20
+    },
+    "sources": [
+      {
+        "index": 1,
+        "id": "7311b8df-1049-464b-be3f-54ac9a1e4ac9",
+        "title": "audio2face-3d-sdk.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:00"
+      },
+      {
+        "index": 2,
+        "id": "a5b6013b-9631-4a07-bdad-b874529de944",
+        "title": "cuda-programming.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:02"
+      },
+      {
+        "index": 3,
+        "id": "d2177700-21a7-4edf-8abe-336b7abbbdf5",
+        "title": "documentation-resources.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:40:30"
+      },
+      {
+        "index": 4,
+        "id": "696afa2e-40cb-4ced-892b-4e60b9c92f17",
+        "title": "fvdb-architecture.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:40:32"
+      },
+      {
+        "index": 5,
+        "id": "eeb2c3b0-e684-4caa-9861-8df7a5216b49",
+        "title": "fvdb-fundamentals.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:40:35"
+      },
+      {
+        "index": 6,
+        "id": "cef6541e-6ca1-48d1-bb6f-051e78fabbb5",
+        "title": "fvdb-microservices.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:40:38"
+      },
+      {
+        "index": 7,
+        "id": "f1e53908-2656-4ab5-acea-70684ab03cd2",
+        "title": "fvdb-openvdb-integration.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:40:40"
+      },
+      {
+        "index": 8,
+        "id": "11e5189d-898f-4e9f-8652-d25b14edd9f3",
+        "title": "fvdb-overview.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:40:43"
+      },
+      {
+        "index": 9,
+        "id": "b4334ad5-cb3d-4adf-9cde-32d847a987cd",
+        "title": "fvdb-performance.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:40:46"
+      },
+      {
+        "index": 10,
+        "id": "8a76bd44-135a-4470-b4a8-5a9137a550bc",
+        "title": "fvdb-pytorch-integration.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:40:48"
+      },
+      {
+        "index": 11,
+        "id": "46a65a13-bc6b-4ccb-a238-afb1b5e9298a",
+        "title": "llm-deployment-on-rtx-pcs.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:05"
+      },
+      {
+        "index": 12,
+        "id": "fe81f170-0495-4d1e-bc6f-4744c0338ddf",
+        "title": "neomo-nano-for-game-ai.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:07"
+      },
+      {
+        "index": 13,
+        "id": "8de8451f-90fd-4077-9591-073746fd2f55",
+        "title": "npc-dynamic-behavior-ace.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:10"
+      },
+      {
+        "index": 14,
+        "id": "deb15710-817c-4034-b12a-d7087ea37d25",
+        "title": "nvidia-ai-apps-rtx-pcs-overview.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:40:52"
+      },
+      {
+        "index": 15,
+        "id": "9f5e3206-74f9-4076-b651-006c1602acee",
+        "title": "nvidia-ai-apps-rtx-pcs-technical-details.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:40:54"
+      },
+      {
+        "index": 16,
+        "id": "18f05dca-6ff0-4c6a-8026-9f96ae8e6e26",
+        "title": "nvidia-research.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:40:57"
+      },
+      {
+        "index": 17,
+        "id": "66a887de-acbe-4cc4-9558-5cf979ac1468",
+        "title": "qwen3-on-device-ai.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:13"
+      },
+      {
+        "index": 18,
+        "id": "2f29ed50-7d78-4d02-854a-146fd8f588b7",
+        "title": "rendering-pipeline-integration-ace.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:15"
+      },
+      {
+        "index": 19,
+        "id": "f0b68289-72cf-44e2-8dec-336a71636384",
+        "title": "tensorrt-optimization.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:18"
+      },
+      {
+        "index": 20,
+        "id": "6f15fc5d-6857-4a35-9f8e-1774c0b08ac0",
+        "title": "windows-ml-integration.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:21"
+      }
+    ]
+  },
+  "prediction-markets": {
+    "id": "357500b1-0ea2-42fa-b348-efe7be7b85d1",
+    "title": "Hermes Wiki / Research and Concepts / Prediction Markets",
+    "source_count": 1,
+    "status_counts": {
+      "ready": 1
+    },
+    "sources": [
+      {
+        "index": 1,
+        "id": "e7ebd870-a9f0-4999-8e59-67b51c20f211",
+        "title": "prediction-markets-research.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:27"
+      }
+    ]
+  },
+  "robotics": {
+    "id": "f1162d0f-1645-4853-960c-bc41261e4c86",
+    "title": "Hermes Wiki / Research and Concepts / Robotics",
+    "source_count": 3,
+    "status_counts": {
+      "ready": 3
+    },
+    "sources": [
+      {
+        "index": 1,
+        "id": "982f3c39-d004-464b-a332-a8a54478ef03",
+        "title": "four-factions.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:35"
+      },
+      {
+        "index": 2,
+        "id": "ed8a3caf-d255-4f71-a60e-2f933fdffa0d",
+        "title": "robotics-vla-models.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:32"
+      },
+      {
+        "index": 3,
+        "id": "ecac84db-9c23-4051-8045-f28f888319e9",
+        "title": "vla-model.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:38"
+      }
+    ]
+  },
+  "temporal": {
+    "id": "230e1919-64a9-44b2-9dc9-f30d38fceec3",
+    "title": "Hermes Wiki / Research and Concepts / Temporal",
+    "source_count": 10,
+    "status_counts": {
+      "ready": 10
+    },
+    "sources": [
+      {
+        "index": 1,
+        "id": "02655d1b-3763-47c1-83eb-d60f2232f737",
+        "title": "activity.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:49"
+      },
+      {
+        "index": 2,
+        "id": "a255dd69-937a-44b9-986e-fa4d773eb4a6",
+        "title": "cluster.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:52"
+      },
+      {
+        "index": 3,
+        "id": "8ee11932-3d19-42ad-ab7f-0afadae8b377",
+        "title": "compensation.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:55"
+      },
+      {
+        "index": 4,
+        "id": "10dac440-ccc0-4b92-a373-7fb1f5c18f09",
+        "title": "durable-execution.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:57"
+      },
+      {
+        "index": 5,
+        "id": "0d1f62c0-d3cd-49b1-bfad-060f80b086a9",
+        "title": "persistence.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:42:00"
+      },
+      {
+        "index": 6,
+        "id": "53a4cb91-3ed7-43af-bef4-0a9708037888",
+        "title": "replay.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:42:02"
+      },
+      {
+        "index": 7,
+        "id": "a0162853-9e84-40f6-b818-d07114dbb4c2",
+        "title": "self-hosted-temporal.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:42:05"
+      },
+      {
+        "index": 8,
+        "id": "fdc1ac32-ee6c-4c4b-a39c-46bbf871f353",
+        "title": "temporal-primitives-design-patterns.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:44"
+      },
+      {
+        "index": 9,
+        "id": "378166e5-a077-491f-b33f-6c97d964f56a",
+        "title": "temporal-research.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:41:46"
+      },
+      {
+        "index": 10,
+        "id": "aa128427-b3b7-4344-80f9-55f89611b9eb",
+        "title": "workflow.md",
+        "type": "SourceType.MARKDOWN",
+        "url": null,
+        "status": "ready",
+        "status_id": 2,
+        "created_at": "2026-05-07T06:42:08"
+      }
+    ]
+  }
+}
