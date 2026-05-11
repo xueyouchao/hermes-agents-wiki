@@ -1,10 +1,10 @@
 ---
 title: llm.c
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-05-11
 type: entity
 tags: [repository, c, cuda, gpt, karpathy]
-sources: []
+sources: [raw/gitnexus/karpathy/llm-c/overview.md]
 ---
 
 # llm.c
@@ -49,6 +49,18 @@ OMP_NUM_THREADS=8 ./train_gpt2
 ## Notable Forks
 - **Hardware:** AMD (ROCm), Metal (Apple), Habana Gaudi2
 - **Languages:** Rust, C#, Java, Go, Swift, Zig, Nim, Mojo
+
+## GitNexus Wiki Pages
+
+- [[raw/gitnexus/karpathy/llm-c/overview]] - GitNexus-generated repository overview
+- [[raw/gitnexus/karpathy/llm-c/gpt-2-training]] - Main GPT-2 training loop across C and CUDA entrypoints
+- [[raw/gitnexus/karpathy/llm-c/neural-network-operations]] - Transformer layer math and fused operator implementations
+- [[raw/gitnexus/karpathy/llm-c/cuda-forward-kernels]] - CUDA forward-pass kernels and optimization variants
+- [[raw/gitnexus/karpathy/llm-c/cuda-backward-kernels]] - CUDA backward-pass kernels and gradient propagation details
+- [[raw/gitnexus/karpathy/llm-c/cuda-optimizer-communication]] - AdamW updates, gradient norms, and multi-GPU comms
+- [[raw/gitnexus/karpathy/llm-c/data-processing-datasets]] - Dataset download, tokenization, and binary shard preparation
+- [[raw/gitnexus/karpathy/llm-c/model-evaluation-export]] - Checkpoint export and lm-eval workflow
+- [[raw/gitnexus/karpathy/llm-c/llama-training]] - LLaMA 3.x training and export path inside the repo
 
 ## Related
 - [[andrej-karpathy]] - Author

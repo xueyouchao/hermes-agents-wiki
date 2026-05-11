@@ -1,0 +1,121 @@
+[
+  {
+    "name": "Configuration & Parameters",
+    "slug": "configuration-parameters",
+    "files": [
+      "arguments/__init__.py"
+    ]
+  },
+  {
+    "name": "Gaussian Model",
+    "slug": "gaussian-model",
+    "files": [
+      "scene/gaussian_model.py"
+    ]
+  },
+  {
+    "name": "Scene Management",
+    "slug": "scene-management",
+    "files": [
+      "scene/__init__.py",
+      "scene/dataset_readers.py"
+    ]
+  },
+  {
+    "name": "Camera System",
+    "slug": "camera-system",
+    "files": [
+      "scene/cameras.py",
+      "utils/camera_utils.py"
+    ]
+  },
+  {
+    "name": "Rendering",
+    "slug": "rendering",
+    "files": [
+      "gaussian_renderer/__init__.py",
+      "gaussian_renderer/network_gui.py"
+    ]
+  },
+  {
+    "name": "COLMAP I/O",
+    "slug": "colmap-i-o",
+    "files": [
+      "scene/colmap_loader.py",
+      "utils/read_write_model.py"
+    ]
+  },
+  {
+    "name": "Training Pipeline",
+    "slug": "training-pipeline",
+    "files": [
+      "train.py"
+    ]
+  },
+  {
+    "name": "Rendering Pipeline",
+    "slug": "rendering-pipeline",
+    "files": [
+      "render.py"
+    ]
+  },
+  {
+    "name": "Evaluation & Metrics",
+    "slug": "evaluation-metrics",
+    "files": [
+      "metrics.py",
+      "full_eval.py",
+      "utils/image_utils.py"
+    ]
+  },
+  {
+    "name": "LPIPS Module",
+    "slug": "lpips-module",
+    "files": [
+      "lpipsPyTorch/__init__.py",
+      "lpipsPyTorch/modules/lpips.py",
+      "lpipsPyTorch/modules/networks.py",
+      "lpipsPyTorch/modules/utils.py"
+    ]
+  },
+  {
+    "name": "Loss Functions",
+    "slug": "loss-functions",
+    "files": [
+      "utils/loss_utils.py"
+    ]
+  },
+  {
+    "name": "Graphics & Math Utilities",
+    "slug": "graphics-math-utilities",
+    "files": [
+      "utils/graphics_utils.py",
+      "utils/sh_utils.py"
+    ]
+  },
+  {
+    "name": "General Utilities",
+    "slug": "general-utilities",
+    "files": [
+      "utils/general_utils.py",
+      "utils/system_utils.py",
+      "utils/make_depth_scale.py"
+    ]
+  },
+  {
+    "name": "Conversion",
+    "slug": "conversion",
+    "files": [
+      "convert.py"
+    ]
+  },
+  {
+    "name": "Other",
+    "slug": "other",
+    "files": [
+      "README.md",
+      "environment.yml",
+      "results.md"
+    ]
+  }
+]

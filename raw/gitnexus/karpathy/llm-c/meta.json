@@ -1,0 +1,444 @@
+{
+  "fromCommit": "f1e2ace651495b74ae22d45d1723443fd00ecd3a",
+  "generatedAt": "2026-05-11T17:02:56.469Z",
+  "model": "glm-5.1:cloud",
+  "moduleFiles": {
+    "CUDA Forward Kernels": [
+      "dev/cuda/attention_forward.cu",
+      "dev/cuda/crossentropy_forward.cu",
+      "dev/cuda/encoder_forward.cu",
+      "dev/cuda/fused_residual_forward.cu",
+      "dev/cuda/gelu_forward.cu",
+      "dev/cuda/layernorm_forward.cu",
+      "dev/cuda/matmul_forward.cu",
+      "dev/cuda/residual_forward.cu",
+      "dev/cuda/softmax_forward.cu",
+      "dev/cuda/trimat_forward.cu"
+    ],
+    "CUDA Backward Kernels": [
+      "dev/cuda/attention_backward.cu",
+      "dev/cuda/crossentropy_softmax_backward.cu",
+      "dev/cuda/encoder_backward.cu",
+      "dev/cuda/gelu_backward.cu",
+      "dev/cuda/layernorm_backward.cu",
+      "dev/cuda/matmul_backward.cu",
+      "dev/cuda/matmul_backward_bias.cu"
+    ],
+    "CUDA Optimizer & Communication": [
+      "dev/cuda/adamw.cu",
+      "dev/cuda/classifier_fused.cu",
+      "dev/cuda/global_norm.cu",
+      "dev/cuda/nccl_all_reduce.cu",
+      "dev/cuda/permute.cu"
+    ],
+    "CUDA Infrastructure": [
+      "dev/cuda/common.h",
+      "dev/cuda/benchmark_on_modal.py",
+      "dev/cuda/Makefile",
+      "dev/cuda/README.md",
+      "llmc/cuda_common.h",
+      "llmc/cublas_common.h",
+      "llmc/cuda_utils.cuh",
+      "llmc/cudnn_att.cpp",
+      "llmc/cudnn_att.h",
+      "dev/unistd.h",
+      "dev/test/device_file_io.cu",
+      "dev/test/Makefile"
+    ],
+    "Neural Network Operations": [
+      "llmc/adamw.cuh",
+      "llmc/attention.cuh",
+      "llmc/encoder.cuh",
+      "llmc/fused_classifier.cuh",
+      "llmc/gelu.cuh",
+      "llmc/global_norm.cuh",
+      "llmc/layernorm.cuh",
+      "llmc/matmul.cuh",
+      "llmc/zero.cuh"
+    ],
+    "Core Utilities": [
+      "llmc/utils.h",
+      "llmc/rand.h",
+      "llmc/logger.h",
+      "llmc/mfu.h",
+      "llmc/outlier_detector.h",
+      "llmc/sampler.h",
+      "llmc/schedulers.h",
+      "llmc/tokenizer.h",
+      "llmc/dataloader.h",
+      "dev/test/test_outlier_detector.c"
+    ],
+    "Data Processing & Datasets": [
+      "dev/data/data_common.py",
+      "dev/data/fineweb.py",
+      "dev/data/hellaswag.py",
+      "dev/data/mmlu.py",
+      "dev/data/tinyshakespeare.py",
+      "dev/data/tinystories.py",
+      "dev/data/README.md",
+      "dev/data/edu_fineweb.sh",
+      "dev/data/fineweb.sh",
+      "dev/test/test_dataloader.c",
+      "dev/download_starter_pack.sh"
+    ],
+    "GPT-2 Training": [
+      "train_gpt2.c",
+      "train_gpt2.cu",
+      "train_gpt2.py",
+      "train_gpt2_fp32.cu",
+      "profile_gpt2.cu",
+      "profile_gpt2cu.py",
+      "test_gpt2.c",
+      "test_gpt2.cu",
+      "test_gpt2_fp32.cu",
+      "dev/loss_checker_ci.py",
+      "dev/vislog.ipynb",
+      "Makefile",
+      "README.md",
+      "requirements.txt",
+      "scripts/pyrun_gpt2_124M.sh",
+      "scripts/run_gpt2_124M.sh",
+      "scripts/run_gpt2_1558M.sh",
+      "scripts/run_gpt2_350M.sh",
+      "scripts/run_gpt2_774M.sh",
+      "scripts/run_gpt3_125M.sh",
+      "scripts/README.md",
+      "scripts/multi_node/run_gpt2_124M_fs.sbatch",
+      "scripts/multi_node/run_gpt2_124M_mpi.sh",
+      "scripts/multi_node/run_gpt2_124M_tcp.sbatch"
+    ],
+    "GPT-2 Training — train_gpt2.c": [
+      "train_gpt2.c"
+    ],
+    "GPT-2 Training — train_gpt2.cu": [
+      "train_gpt2.cu"
+    ],
+    "GPT-2 Training — train_gpt2.py": [
+      "train_gpt2.py"
+    ],
+    "GPT-2 Training — train_gpt2_fp32.cu": [
+      "train_gpt2_fp32.cu"
+    ],
+    "GPT-2 Training — profile_gpt2.cu": [
+      "profile_gpt2.cu"
+    ],
+    "GPT-2 Training — profile_gpt2cu.py": [
+      "profile_gpt2cu.py"
+    ],
+    "GPT-2 Training — test_gpt2.c": [
+      "test_gpt2.c"
+    ],
+    "GPT-2 Training — test_gpt2.cu": [
+      "test_gpt2.cu"
+    ],
+    "GPT-2 Training — test_gpt2_fp32.cu": [
+      "test_gpt2_fp32.cu"
+    ],
+    "GPT-2 Training — dev": [
+      "dev/loss_checker_ci.py",
+      "dev/vislog.ipynb"
+    ],
+    "GPT-2 Training — Makefile": [
+      "Makefile"
+    ],
+    "GPT-2 Training — README.md": [
+      "README.md"
+    ],
+    "GPT-2 Training — requirements.txt": [
+      "requirements.txt"
+    ],
+    "GPT-2 Training — scripts": [
+      "scripts/pyrun_gpt2_124M.sh",
+      "scripts/run_gpt2_124M.sh",
+      "scripts/run_gpt2_1558M.sh",
+      "scripts/run_gpt2_350M.sh",
+      "scripts/run_gpt2_774M.sh",
+      "scripts/run_gpt3_125M.sh",
+      "scripts/README.md"
+    ],
+    "GPT-2 Training — multi_node": [
+      "scripts/multi_node/run_gpt2_124M_fs.sbatch",
+      "scripts/multi_node/run_gpt2_124M_mpi.sh",
+      "scripts/multi_node/run_gpt2_124M_tcp.sbatch"
+    ],
+    "LLaMA Training": [
+      "train_llama3.py"
+    ],
+    "Model Evaluation & Export": [
+      "dev/eval/export_hf.py",
+      "dev/eval/summarize_eval.py",
+      "dev/eval/README.md",
+      "dev/eval/run_eval.sh"
+    ],
+    "CPU Reference Kernels": [
+      "dev/cpu/matmul_forward.c"
+    ],
+    "LayerNorm Tutorial": [
+      "doc/layernorm/layernorm.c",
+      "doc/layernorm/layernorm.py",
+      "doc/layernorm/layernorm.md"
+    ]
+  },
+  "moduleTree": [
+    {
+      "name": "CUDA Forward Kernels",
+      "slug": "cuda-forward-kernels",
+      "files": [
+        "dev/cuda/attention_forward.cu",
+        "dev/cuda/crossentropy_forward.cu",
+        "dev/cuda/encoder_forward.cu",
+        "dev/cuda/fused_residual_forward.cu",
+        "dev/cuda/gelu_forward.cu",
+        "dev/cuda/layernorm_forward.cu",
+        "dev/cuda/matmul_forward.cu",
+        "dev/cuda/residual_forward.cu",
+        "dev/cuda/softmax_forward.cu",
+        "dev/cuda/trimat_forward.cu"
+      ]
+    },
+    {
+      "name": "CUDA Backward Kernels",
+      "slug": "cuda-backward-kernels",
+      "files": [
+        "dev/cuda/attention_backward.cu",
+        "dev/cuda/crossentropy_softmax_backward.cu",
+        "dev/cuda/encoder_backward.cu",
+        "dev/cuda/gelu_backward.cu",
+        "dev/cuda/layernorm_backward.cu",
+        "dev/cuda/matmul_backward.cu",
+        "dev/cuda/matmul_backward_bias.cu"
+      ]
+    },
+    {
+      "name": "CUDA Optimizer & Communication",
+      "slug": "cuda-optimizer-communication",
+      "files": [
+        "dev/cuda/adamw.cu",
+        "dev/cuda/classifier_fused.cu",
+        "dev/cuda/global_norm.cu",
+        "dev/cuda/nccl_all_reduce.cu",
+        "dev/cuda/permute.cu"
+      ]
+    },
+    {
+      "name": "CUDA Infrastructure",
+      "slug": "cuda-infrastructure",
+      "files": [
+        "dev/cuda/common.h",
+        "dev/cuda/benchmark_on_modal.py",
+        "dev/cuda/Makefile",
+        "dev/cuda/README.md",
+        "llmc/cuda_common.h",
+        "llmc/cublas_common.h",
+        "llmc/cuda_utils.cuh",
+        "llmc/cudnn_att.cpp",
+        "llmc/cudnn_att.h",
+        "dev/unistd.h",
+        "dev/test/device_file_io.cu",
+        "dev/test/Makefile"
+      ]
+    },
+    {
+      "name": "Neural Network Operations",
+      "slug": "neural-network-operations",
+      "files": [
+        "llmc/adamw.cuh",
+        "llmc/attention.cuh",
+        "llmc/encoder.cuh",
+        "llmc/fused_classifier.cuh",
+        "llmc/gelu.cuh",
+        "llmc/global_norm.cuh",
+        "llmc/layernorm.cuh",
+        "llmc/matmul.cuh",
+        "llmc/zero.cuh"
+      ]
+    },
+    {
+      "name": "Core Utilities",
+      "slug": "core-utilities",
+      "files": [
+        "llmc/utils.h",
+        "llmc/rand.h",
+        "llmc/logger.h",
+        "llmc/mfu.h",
+        "llmc/outlier_detector.h",
+        "llmc/sampler.h",
+        "llmc/schedulers.h",
+        "llmc/tokenizer.h",
+        "llmc/dataloader.h",
+        "dev/test/test_outlier_detector.c"
+      ]
+    },
+    {
+      "name": "Data Processing & Datasets",
+      "slug": "data-processing-datasets",
+      "files": [
+        "dev/data/data_common.py",
+        "dev/data/fineweb.py",
+        "dev/data/hellaswag.py",
+        "dev/data/mmlu.py",
+        "dev/data/tinyshakespeare.py",
+        "dev/data/tinystories.py",
+        "dev/data/README.md",
+        "dev/data/edu_fineweb.sh",
+        "dev/data/fineweb.sh",
+        "dev/test/test_dataloader.c",
+        "dev/download_starter_pack.sh"
+      ]
+    },
+    {
+      "name": "GPT-2 Training",
+      "slug": "gpt-2-training",
+      "files": [],
+      "children": [
+        {
+          "name": "GPT-2 Training — train_gpt2.c",
+          "slug": "gpt-2-training-train-gpt2-c",
+          "files": [
+            "train_gpt2.c"
+          ]
+        },
+        {
+          "name": "GPT-2 Training — train_gpt2.cu",
+          "slug": "gpt-2-training-train-gpt2-cu",
+          "files": [
+            "train_gpt2.cu"
+          ]
+        },
+        {
+          "name": "GPT-2 Training — train_gpt2.py",
+          "slug": "gpt-2-training-train-gpt2-py",
+          "files": [
+            "train_gpt2.py"
+          ]
+        },
+        {
+          "name": "GPT-2 Training — train_gpt2_fp32.cu",
+          "slug": "gpt-2-training-train-gpt2-fp32-cu",
+          "files": [
+            "train_gpt2_fp32.cu"
+          ]
+        },
+        {
+          "name": "GPT-2 Training — profile_gpt2.cu",
+          "slug": "gpt-2-training-profile-gpt2-cu",
+          "files": [
+            "profile_gpt2.cu"
+          ]
+        },
+        {
+          "name": "GPT-2 Training — profile_gpt2cu.py",
+          "slug": "gpt-2-training-profile-gpt2cu-py",
+          "files": [
+            "profile_gpt2cu.py"
+          ]
+        },
+        {
+          "name": "GPT-2 Training — test_gpt2.c",
+          "slug": "gpt-2-training-test-gpt2-c",
+          "files": [
+            "test_gpt2.c"
+          ]
+        },
+        {
+          "name": "GPT-2 Training — test_gpt2.cu",
+          "slug": "gpt-2-training-test-gpt2-cu",
+          "files": [
+            "test_gpt2.cu"
+          ]
+        },
+        {
+          "name": "GPT-2 Training — test_gpt2_fp32.cu",
+          "slug": "gpt-2-training-test-gpt2-fp32-cu",
+          "files": [
+            "test_gpt2_fp32.cu"
+          ]
+        },
+        {
+          "name": "GPT-2 Training — dev",
+          "slug": "gpt-2-training-dev",
+          "files": [
+            "dev/loss_checker_ci.py",
+            "dev/vislog.ipynb"
+          ]
+        },
+        {
+          "name": "GPT-2 Training — Makefile",
+          "slug": "gpt-2-training-makefile",
+          "files": [
+            "Makefile"
+          ]
+        },
+        {
+          "name": "GPT-2 Training — README.md",
+          "slug": "gpt-2-training-readme-md",
+          "files": [
+            "README.md"
+          ]
+        },
+        {
+          "name": "GPT-2 Training — requirements.txt",
+          "slug": "gpt-2-training-requirements-txt",
+          "files": [
+            "requirements.txt"
+          ]
+        },
+        {
+          "name": "GPT-2 Training — scripts",
+          "slug": "gpt-2-training-scripts",
+          "files": [
+            "scripts/pyrun_gpt2_124M.sh",
+            "scripts/run_gpt2_124M.sh",
+            "scripts/run_gpt2_1558M.sh",
+            "scripts/run_gpt2_350M.sh",
+            "scripts/run_gpt2_774M.sh",
+            "scripts/run_gpt3_125M.sh",
+            "scripts/README.md"
+          ]
+        },
+        {
+          "name": "GPT-2 Training — multi_node",
+          "slug": "gpt-2-training-multi-node",
+          "files": [
+            "scripts/multi_node/run_gpt2_124M_fs.sbatch",
+            "scripts/multi_node/run_gpt2_124M_mpi.sh",
+            "scripts/multi_node/run_gpt2_124M_tcp.sbatch"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LLaMA Training",
+      "slug": "llama-training",
+      "files": [
+        "train_llama3.py"
+      ]
+    },
+    {
+      "name": "Model Evaluation & Export",
+      "slug": "model-evaluation-export",
+      "files": [
+        "dev/eval/export_hf.py",
+        "dev/eval/summarize_eval.py",
+        "dev/eval/README.md",
+        "dev/eval/run_eval.sh"
+      ]
+    },
+    {
+      "name": "CPU Reference Kernels",
+      "slug": "cpu-reference-kernels",
+      "files": [
+        "dev/cpu/matmul_forward.c"
+      ]
+    },
+    {
+      "name": "LayerNorm Tutorial",
+      "slug": "layernorm-tutorial",
+      "files": [
+        "doc/layernorm/layernorm.c",
+        "doc/layernorm/layernorm.py",
+        "doc/layernorm/layernorm.md"
+      ]
+    }
+  ]
+}

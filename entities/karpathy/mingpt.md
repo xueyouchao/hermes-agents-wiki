@@ -1,10 +1,10 @@
 ---
 title: minGPT
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-05-11
 type: entity
 tags: [repository, python, gpt, transformer, karpathy]
-sources: []
+sources: [raw/gitnexus/karpathy/mingpt/overview.md]
 ---
 
 # minGPT
@@ -46,6 +46,16 @@ Three core files (~300 lines total):
 | GPT-1 | 117M | 12 | 12 | 768 | 512 |
 | GPT-2 | 1.5B | 48 | 16 | 1600 | 1024 |
 | GPT-3 | 175B | 96 | 96 | 12288 | 2048 |
+
+## GitNexus Wiki Pages
+- [[raw/gitnexus/karpathy/mingpt/overview]] - GitNexus-generated repository overview
+- [[raw/gitnexus/karpathy/mingpt/model-architecture]] - Core GPT model definition and transformer block structure
+- [[raw/gitnexus/karpathy/mingpt/training]] - Generic trainer loop, callbacks, and optimizer contract
+- [[raw/gitnexus/karpathy/mingpt/tokenization]] - GPT-2 BPE encoder and token preparation flow
+- [[raw/gitnexus/karpathy/mingpt/utilities-configuration]] - CfgNode configuration helpers and shared utilities
+- [[raw/gitnexus/karpathy/mingpt/addition-project]] - Worked arithmetic-sequence training example
+- [[raw/gitnexus/karpathy/mingpt/character-level-gpt-project]] - Character-level language-model project walkthrough
+- [[raw/gitnexus/karpathy/mingpt/other]] - Supporting notebooks, tests, and package extras
 
 ## Related
 

@@ -1,0 +1,108 @@
+[
+  {
+    "name": "Model Architecture",
+    "slug": "model-architecture",
+    "files": [
+      "model.py"
+    ]
+  },
+  {
+    "name": "Training",
+    "slug": "training",
+    "files": [
+      "train.py"
+    ]
+  },
+  {
+    "name": "Inference",
+    "slug": "inference",
+    "files": [
+      "sample.py"
+    ]
+  },
+  {
+    "name": "Benchmarking",
+    "slug": "benchmarking",
+    "files": [
+      "bench.py"
+    ]
+  },
+  {
+    "name": "Data Preparation",
+    "slug": "data-preparation",
+    "files": [
+      "data/openwebtext/prepare.py",
+      "data/shakespeare/prepare.py",
+      "data/shakespeare_char/prepare.py"
+    ]
+  },
+  {
+    "name": "Configuration Utility",
+    "slug": "configuration-utility",
+    "files": [
+      "configurator.py"
+    ]
+  },
+  {
+    "name": "Other",
+    "slug": "other",
+    "files": [],
+    "children": [
+      {
+        "name": "Other — README.md",
+        "slug": "other-readme-md",
+        "files": [
+          "README.md"
+        ]
+      },
+      {
+        "name": "Other — config",
+        "slug": "other-config",
+        "files": [
+          "config/eval_gpt2.py",
+          "config/eval_gpt2_large.py",
+          "config/eval_gpt2_medium.py",
+          "config/eval_gpt2_xl.py",
+          "config/finetune_shakespeare.py",
+          "config/train_gpt2.py",
+          "config/train_shakespeare_char.py"
+        ]
+      },
+      {
+        "name": "Other — openwebtext",
+        "slug": "other-openwebtext",
+        "files": [
+          "data/openwebtext/readme.md"
+        ]
+      },
+      {
+        "name": "Other — shakespeare",
+        "slug": "other-shakespeare",
+        "files": [
+          "data/shakespeare/readme.md"
+        ]
+      },
+      {
+        "name": "Other — shakespeare_char",
+        "slug": "other-shakespeare-char",
+        "files": [
+          "data/shakespeare_char/readme.md"
+        ]
+      },
+      {
+        "name": "Other — scaling_laws.ipynb",
+        "slug": "other-scaling-laws-ipynb",
+        "files": [
+          "scaling_laws.ipynb"
+        ]
+      },
+      {
+        "name": "Other — transformer_sizing.ipynb",
+        "slug": "other-transformer-sizing-ipynb",
+        "files": [
+          "transformer_sizing.ipynb"
+        ]
+      }
+    ]
+  }
+]

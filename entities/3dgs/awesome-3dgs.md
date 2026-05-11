@@ -1,10 +1,10 @@
 ---
 title: Awesome 3D Gaussian Splatting
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-05-11
 type: entity
 tags: [3dgs, gaussian-splatting, papers, resources, curated-list]
-sources: [https://github.com/MrNeRF/awesome-3D-gaussian-splatting]
+sources: [https://github.com/MrNeRF/awesome-3D-gaussian-splatting, raw/gitnexus/3dgs/awesome-3dgs/overview.md]
 ---
 
 # Awesome 3D Gaussian Splatting
@@ -61,6 +61,16 @@ A curated collection of papers and resources focused on 3D Gaussian Splatting, m
 3. **Gaussian-2-Life** — Text animation
 4. **QUEEN** — Efficient encoding
 5. **CF-3DGS** — COLMAP-free reconstruction
+
+## GitNexus Wiki Pages
+
+- [[raw/gitnexus/3dgs/awesome-3dgs/overview]] - GitNexus-generated repository overview
+- [[raw/gitnexus/3dgs/awesome-3dgs/paper-data-model]] - Structured schema for the curated paper catalog
+- [[raw/gitnexus/3dgs/awesome-3dgs/yaml-data-processing]] - YAML ingestion, validation, and normalization pipeline
+- [[raw/gitnexus/3dgs/awesome-3dgs/arxiv-integration]] - arXiv metadata fetch and append workflow
+- [[raw/gitnexus/3dgs/awesome-3dgs/site-generation]] - Static site build path from YAML records to HTML
+- [[raw/gitnexus/3dgs/awesome-3dgs/editor-application]] - Desktop editor for paper curation and metadata maintenance
+- [[raw/gitnexus/3dgs/awesome-3dgs/other]] - Supporting assets and miscellaneous project files
 
 ## Related Concepts
 

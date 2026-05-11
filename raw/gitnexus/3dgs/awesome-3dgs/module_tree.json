@@ -1,0 +1,68 @@
+[
+  {
+    "name": "ArXiv Integration",
+    "slug": "arxiv-integration",
+    "files": [
+      "src/arxiv_integration.py"
+    ]
+  },
+  {
+    "name": "Editor Application",
+    "slug": "editor-application",
+    "files": [
+      "src/yaml_editor.py",
+      "src/components/dialogs.py",
+      "src/components/thumbnail.py",
+      "src/components/widgets.py",
+      "editor.py"
+    ]
+  },
+  {
+    "name": "Paper Data Model",
+    "slug": "paper-data-model",
+    "files": [
+      "src/paper_schema.py"
+    ]
+  },
+  {
+    "name": "Site Generation",
+    "slug": "site-generation",
+    "files": [
+      "src/generate.py",
+      "src/paper_generator.py",
+      "src/helper.py",
+      "src/template_engine.py",
+      "src/utils.py"
+    ]
+  },
+  {
+    "name": "YAML Data Processing",
+    "slug": "yaml-data-processing",
+    "files": [
+      "src/fix_date.py",
+      "src/validate_yaml.py"
+    ]
+  },
+  {
+    "name": "Other",
+    "slug": "other",
+    "files": [
+      "README.md",
+      "requirements.txt",
+      "src/__init__.py",
+      "src/components/__init__.py",
+      "src/static/css/base.css",
+      "src/static/css/components.css",
+      "src/static/css/responsive.css",
+      "src/static/js/filters.js",
+      "src/static/js/main.js",
+      "src/static/js/navigation.js",
+      "src/static/js/selection.js",
+      "src/static/js/sharing.js",
+      "src/static/js/state.js",
+      "src/static/js/utils.js",
+      "src/templates/index.html",
+      "src/templates/paper_card.html"
+    ]
+  }
+]

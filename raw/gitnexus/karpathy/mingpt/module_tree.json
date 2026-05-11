@@ -1,0 +1,59 @@
+[
+  {
+    "name": "Tokenization",
+    "slug": "tokenization",
+    "files": [
+      "mingpt/bpe.py"
+    ]
+  },
+  {
+    "name": "Model Architecture",
+    "slug": "model-architecture",
+    "files": [
+      "mingpt/model.py"
+    ]
+  },
+  {
+    "name": "Training",
+    "slug": "training",
+    "files": [
+      "mingpt/trainer.py"
+    ]
+  },
+  {
+    "name": "Utilities & Configuration",
+    "slug": "utilities-configuration",
+    "files": [
+      "mingpt/__init__.py",
+      "mingpt/utils.py"
+    ]
+  },
+  {
+    "name": "Addition Project",
+    "slug": "addition-project",
+    "files": [
+      "projects/adder/adder.py"
+    ]
+  },
+  {
+    "name": "Character-Level GPT Project",
+    "slug": "character-level-gpt-project",
+    "files": [
+      "projects/chargpt/chargpt.py"
+    ]
+  },
+  {
+    "name": "Other",
+    "slug": "other",
+    "files": [
+      "README.md",
+      "demo.ipynb",
+      "generate.ipynb",
+      "projects/adder/readme.md",
+      "projects/chargpt/readme.md",
+      "projects/readme.md",
+      "setup.py",
+      "tests/test_huggingface_import.py"
+    ]
+  }
+]

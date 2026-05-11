@@ -158,3 +158,12 @@
 - Updated index.md with the new query entry
 - No GitHub repos extracted; GitNexus not run and Graphify not run
 
+## [2026-05-11] update | Import remaining GitNexus repo wikis into raw knowledgebase sources
+- Generated GitNexus wiki bundles sequentially with provider=openai model=glm-5.1:cloud base_url=http://127.0.0.1:11434/v1
+- Copied GitNexus-generated wiki page sets into raw/gitnexus/karpathy/mingpt/, raw/gitnexus/karpathy/nanogpt/, raw/gitnexus/karpathy/llm-c/, raw/gitnexus/3dgs/gaussian-impl/, and raw/gitnexus/3dgs/awesome-3dgs/
+- Updated entities/karpathy/mingpt.md to reference imported GitNexus wiki pages
+- Updated entities/karpathy/nanogpt.md to reference imported GitNexus wiki pages
+- Updated entities/karpathy/llm-c.md to reference imported GitNexus wiki pages
+- Updated entities/3dgs/gaussian-impl.md to reference imported GitNexus wiki pages
+- Updated entities/3dgs/awesome-3dgs.md to reference imported GitNexus wiki pages
+- GitNexus analyze emitted non-fatal scope-extraction warnings for awesome-3D-gaussian-splatting src/__init__.py and src/components/__init__.py, but wiki generation completed successfully

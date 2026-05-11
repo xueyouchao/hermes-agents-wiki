@@ -1,0 +1,95 @@
+{
+  "fromCommit": "37baab71b9abea1b76ab957409a1cc2fbfba8a26",
+  "generatedAt": "2026-05-11T16:18:01.689Z",
+  "model": "glm-5.1:cloud",
+  "moduleFiles": {
+    "Tokenization": [
+      "mingpt/bpe.py"
+    ],
+    "Model Architecture": [
+      "mingpt/model.py"
+    ],
+    "Training": [
+      "mingpt/trainer.py"
+    ],
+    "Utilities & Configuration": [
+      "mingpt/__init__.py",
+      "mingpt/utils.py"
+    ],
+    "Addition Project": [
+      "projects/adder/adder.py"
+    ],
+    "Character-Level GPT Project": [
+      "projects/chargpt/chargpt.py"
+    ],
+    "Other": [
+      "README.md",
+      "demo.ipynb",
+      "generate.ipynb",
+      "projects/adder/readme.md",
+      "projects/chargpt/readme.md",
+      "projects/readme.md",
+      "setup.py",
+      "tests/test_huggingface_import.py"
+    ]
+  },
+  "moduleTree": [
+    {
+      "name": "Tokenization",
+      "slug": "tokenization",
+      "files": [
+        "mingpt/bpe.py"
+      ]
+    },
+    {
+      "name": "Model Architecture",
+      "slug": "model-architecture",
+      "files": [
+        "mingpt/model.py"
+      ]
+    },
+    {
+      "name": "Training",
+      "slug": "training",
+      "files": [
+        "mingpt/trainer.py"
+      ]
+    },
+    {
+      "name": "Utilities & Configuration",
+      "slug": "utilities-configuration",
+      "files": [
+        "mingpt/__init__.py",
+        "mingpt/utils.py"
+      ]
+    },
+    {
+      "name": "Addition Project",
+      "slug": "addition-project",
+      "files": [
+        "projects/adder/adder.py"
+      ]
+    },
+    {
+      "name": "Character-Level GPT Project",
+      "slug": "character-level-gpt-project",
+      "files": [
+        "projects/chargpt/chargpt.py"
+      ]
+    },
+    {
+      "name": "Other",
+      "slug": "other",
+      "files": [
+        "README.md",
+        "demo.ipynb",
+        "generate.ipynb",
+        "projects/adder/readme.md",
+        "projects/chargpt/readme.md",
+        "projects/readme.md",
+        "setup.py",
+        "tests/test_huggingface_import.py"
+      ]
+    }
+  ]
+}
