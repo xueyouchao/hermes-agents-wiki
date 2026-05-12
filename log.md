@@ -167,3 +167,16 @@
 - Updated entities/3dgs/gaussian-impl.md to reference imported GitNexus wiki pages
 - Updated entities/3dgs/awesome-3dgs.md to reference imported GitNexus wiki pages
 - GitNexus analyze emitted non-fatal scope-extraction warnings for awesome-3D-gaussian-splatting src/__init__.py and src/components/__init__.py, but wiki generation completed successfully
+
+## [2026-05-12] ingest | X AI/tech daily digest
+- Scraped X.com successfully with valid stored session (0 likes, 0 bookmarks, 7 timeline posts)
+- Retained 4 AI/tech timeline posts after relevance screening
+- Created xdailyupdates/2026-05-12/raw/001_Marry-Evan.md
+- Created xdailyupdates/2026-05-12/raw/002_AilaunchX.md
+- Created xdailyupdates/2026-05-12/raw/003_Matt-Pocock.md
+- Created xdailyupdates/2026-05-12/raw/004_Kshitij-Mishra-AI-Tech.md
+- Created xdailyupdates/2026-05-12/index.md
+- Created queries/2026-05-12-x-daily.md
+- Updated index.md with the new query entry
+- Inferred 4 GitHub repos from broken-format post text and cloned/analyzed them with basic README triage: The-Swarm-Corporation/AutoHedge, HKUDS/Vibe-Trading, AgriciDaniel/claude-ads, nowork-studio/toprank
+- GitNexus available but not run; Graphify not installed
