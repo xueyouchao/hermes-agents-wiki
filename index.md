@@ -3,7 +3,7 @@
 
 > Master catalog for the Hermes Agents wiki.
 > The root index tracks topic hubs first, then supporting pages grouped by domain.
-> Last updated: 2026-05-12
+> Last updated: 2026-05-13
 
 ## Topic Hubs
 
@@ -267,6 +267,7 @@
 
 ## Queries
 
+- [[queries/2026-05-13-x-daily]] - X AI/tech daily digest for 2026-05-13 (Claude operator education, monetization playbooks, and trading-automation signal)
 - [[queries/2026-05-12-x-daily]] - X AI/tech daily digest for 2026-05-12 (Claude trading automation, Anthropic prompting education, agent-tooling updates, and repo discovery)
 - [[queries/2026-05-11-x-daily]] - X AI/tech daily digest for 2026-05-11 (Claude prompting education, agentic services, market automation, and browser-based 3D walkthroughs)
 - [[queries/2026-05-10-x-daily]] - X AI/tech daily digest for 2026-05-10 (multimodal science app, trading LLM talk, and Karpathy knowledge-system signal)
