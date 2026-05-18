@@ -232,3 +232,14 @@
 - Created `queries/2026-05-16-x-daily.md` and `queries/2026-05-17-x-daily.md`.
 - Created `xdailyupdates/2026-05-16/` and `xdailyupdates/2026-05-17/` raw backfill bundles.
 - Recovery limitation: likes/bookmarks returned zero tweet articles, and deep home-timeline scrolling did not recover 2026-05-15 posts.
+
+## [2026-05-18] update | X AI/tech daily digest same-day addendum
+- Scraped X.com successfully with valid stored session (0 likes, 0 bookmarks, 8 timeline posts)
+- Added 4 newly observed relevant AI/tech posts to the existing 2026-05-18 digest: David max on a Polymarket bot anecdote, ardizor on Claude money-printer/prompt claims, Anatoli Kopadze on Claude Code prompting patterns, and Tabassum Parveen on an LLM-building lecture
+- Created xdailyupdates/2026-05-18/raw/009_David-max.md
+- Created xdailyupdates/2026-05-18/raw/010_ardizor.md
+- Created xdailyupdates/2026-05-18/raw/011_Anatoli-Kopadze.md
+- Created xdailyupdates/2026-05-18/raw/012_Tabassum-Parveen.md
+- Updated xdailyupdates/2026-05-18/index.md
+- Updated queries/2026-05-18-x-daily.md
+- No GitHub repos extracted; GitNexus not run and Graphify not run
