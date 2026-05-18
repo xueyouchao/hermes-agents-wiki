@@ -218,4 +218,11 @@
 - Created queries/2026-05-18-x-daily.md
 - Updated index.md with the new query entry
 - No canonical GitHub repos extracted; GitNexus not run and Graphify not run
+## [2026-05-18] update | X AI/tech daily digest same-day addendum
+- Scraped X.com successfully with valid stored session (0 likes, 0 bookmarks, 6 timeline posts)
+- Added 1 newly observed relevant Claude Code education post to the existing 2026-05-18 digest: Khairallah AL-Awady on an Anthropic/Boris Cherny Claude Code workshop
+- Created xdailyupdates/2026-05-18/raw/008_Khairallah-AL-Awady.md
+- Updated xdailyupdates/2026-05-18/index.md
+- Updated queries/2026-05-18-x-daily.md
+- No GitHub repos extracted; GitNexus not run and Graphify not run
 

@@ -1,8 +1,8 @@
 # X Daily Update — 2026-05-18
 
-Source: X/Twitter scrape (likes: 0, bookmarks: 0, timeline: 7)
+Source: X/Twitter scrape (likes: 0, bookmarks: 0, timeline: 8 accumulated retained posts across same-day runs)
 
-## AI Tech Highlights (7 posts retained, 0 skipped)
+## AI Tech Highlights (8 posts retained, 0 skipped)
 
 ### 1. @VALIX — May 17
 **Author:** VALIX
@@ -81,6 +81,17 @@ Source: X/Twitter scrape (likes: 0, bookmarks: 0, timeline: 7)
 **Cross-refs:** [[ai-repos-research]], [[hermes-agent]]
 ---
 
+### 8. @Khairallah AL-Awady — May 17
+**Author:** Khairallah AL-Awady
+
+**Text:** Claude Code workshop recommendation pointing to a free 30-minute Anthropic/Boris Cherny session on using Claude Code properly. This reinforces the day’s Claude education/tooling theme.
+
+**Topics:** Claude Code, AI developer tooling, Anthropic education, agentic coding workflows
+**Repos:** None
+**Priority:** timeline
+**Cross-refs:** [[claude-managed-agents]], [[hermes-agent]]
+---
+
 ## Repo Analysis
 
 - **GitHub repos detected by scraper:** 0
@@ -88,8 +99,8 @@ Source: X/Twitter scrape (likes: 0, bookmarks: 0, timeline: 7)
 - **GitNexus:** not run (no repos extracted)
 - **Graphify:** not run (no repos extracted)
 - **Entity pages created:** 0
-- **Wiki files updated:** xdailyupdates/2026-05-18/index.md, queries/2026-05-18-x-daily.md, 7 raw post files, index.md, log.md
+- **Wiki files updated:** xdailyupdates/2026-05-18/index.md, queries/2026-05-18-x-daily.md, xdailyupdates/2026-05-18/raw/008_Khairallah-AL-Awady.md, log.md
 
 ## Summary
 
-The day was a high-noise but relevant timeline scrape: repeated Claude education and workflow-tooling posts, AI web/design tooling via Kimi K2.6, two AI/crypto trading-bot claims, and a programming-games resource list. No standalone entity or comparison page was warranted because the scrape exposed no canonical GitHub repos and the posts primarily reinforce existing themes in [[agent-platform-landscape]], [[claude-managed-agents]], [[hermes-agent]], and [[polymarket-ai-arbitrage]].
+The accumulated day remains a high-noise but relevant timeline scrape: repeated Claude education and workflow-tooling posts, AI web/design tooling via Kimi K2.6, two AI/crypto trading-bot claims, and programming-games resources. The additional same-day scrape added another Claude Code workshop recommendation but exposed no canonical GitHub repos and did not warrant standalone entity or comparison pages. Existing themes remain [[agent-platform-landscape]], [[claude-managed-agents]], [[hermes-agent]], and [[polymarket-ai-arbitrage]].
