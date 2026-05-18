@@ -268,6 +268,8 @@
 ## Queries
 
 - [[queries/2026-05-18-x-daily]] - X AI/tech daily digest for 2026-05-18 (Claude education/tooling, Kimi design workflow, AI trading-bot discourse, and programming-learning resources)
+- [[queries/2026-05-17-x-daily]] - X AI/tech daily backfill for 2026-05-17 (AI deployment/tooling, Claude Code education, agent-growth tactics, LLM context, and programming resources)
+- [[queries/2026-05-16-x-daily]] - X AI/tech daily backfill for 2026-05-16 (AI-agent governance, Claude Code friction, quant-agent claims, and vibe-coded apps/robotics)
 - [[queries/2026-05-14-x-daily]] - X AI/tech daily digest for 2026-05-14 (AI discourse accounts, Wi-Fi sensing/privacy, npm supply-chain security, and Claude/Polymarket automation)
 - [[queries/2026-05-13-x-daily]] - X AI/tech daily digest for 2026-05-13 (Claude operator education, monetization playbooks, and trading-automation signal)
 - [[queries/2026-05-12-x-daily]] - X AI/tech daily digest for 2026-05-12 (Claude trading automation, Anthropic prompting education, agent-tooling updates, and repo discovery)

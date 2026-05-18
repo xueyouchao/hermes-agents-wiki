@@ -226,3 +226,9 @@
 - Updated queries/2026-05-18-x-daily.md
 - No GitHub repos extracted; GitNexus not run and Graphify not run
 
+
+## [2026-05-18] ingest | X daily backfill for missed 2026-05-16 and 2026-05-17 dates
+- Recovered authenticated home-timeline posts for missed cron dates after the daily X ingest was blocked by a prompt-safety filter.
+- Created `queries/2026-05-16-x-daily.md` and `queries/2026-05-17-x-daily.md`.
+- Created `xdailyupdates/2026-05-16/` and `xdailyupdates/2026-05-17/` raw backfill bundles.
+- Recovery limitation: likes/bookmarks returned zero tweet articles, and deep home-timeline scrolling did not recover 2026-05-15 posts.
