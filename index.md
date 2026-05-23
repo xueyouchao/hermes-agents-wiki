@@ -3,7 +3,7 @@
 
 > Master catalog for the Hermes Agents wiki.
 > The root index tracks topic hubs first, then supporting pages grouped by domain.
-> Last updated: 2026-05-22
+> Last updated: 2026-05-23
 
 ## Topic Hubs
 
@@ -106,6 +106,7 @@
 
 ### Tools
 
+- [[entities/knowledge-graph-tools/codegraph]] - Local-first code knowledge graph and MCP tooling for AI coding agents
 - [[entities/knowledge-graph-tools/graphify]] - Knowledge graph tooling entity
 - [[entities/knowledge-graph-tools/neo4j]] - Graph database entity
 - [[entities/knowledge-graph-tools/code2vec]] - Code representation learning entity
@@ -267,6 +268,7 @@
 
 ## Queries
 
+- [[queries/2026-05-23-x-daily]] - X AI/tech daily digest for 2026-05-23 (LLM education, CodeGraph local code-knowledge tooling, and agent-memory discourse)
 - [[queries/2026-05-22-x-daily]] - X AI/tech daily digest for 2026-05-22 (local/open-weights AI workflow discourse, GitHub private-repository security signal, knowledge-system discourse, and Gemma on-device automation)
 - [[queries/2026-05-20-x-daily]] - X AI/tech daily digest for 2026-05-20 (Claude education, xurl/Hermes automation, Polymarket bot discourse, OpenClaw monetization claims, and open-source intelligence tooling)
 - [[queries/2026-05-19-x-daily]] - X AI/tech daily digest for 2026-05-19 (Claude/agent education, Google agent examples, Codex design workflow, system-design learning, and local-agent monetization discourse)

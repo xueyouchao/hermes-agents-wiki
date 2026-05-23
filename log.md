@@ -284,3 +284,16 @@
 - Created queries/2026-05-22-x-daily.md
 - Updated index.md with the new query entry
 - No GitHub repos extracted; GitNexus not run and Graphify not run
+
+## [2026-05-23] ingest | X AI/tech daily digest
+- Scraped X.com successfully with valid stored session (0 likes, 0 bookmarks, 7 timeline posts)
+- Retained 3 AI/tech timeline posts after relevance screening, duplicate suppression, and 24-hour timestamp filtering
+- Normalized 1 broken-line GitHub URL from text: colbymchenry/codegraph
+- Ran GitNexus on colbymchenry/codegraph successfully (4,107 nodes, 9,071 edges, 115 clusters, 300 flows); Graphify not run because it was not installed
+- Created xdailyupdates/2026-05-23/raw/001_Rahul.md
+- Created xdailyupdates/2026-05-23/raw/002_Sharbel.md
+- Created xdailyupdates/2026-05-23/raw/003_Movez.md
+- Created xdailyupdates/2026-05-23/index.md
+- Created queries/2026-05-23-x-daily.md
+- Created entities/knowledge-graph-tools/codegraph.md
+- Updated index.md with the new query and entity entries
