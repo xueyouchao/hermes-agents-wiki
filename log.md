@@ -308,3 +308,13 @@
 - Created queries/2026-05-24-x-daily.md
 - Updated index.md with the new query entry
 - No GitHub repos extracted; GitNexus not run and Graphify not run
+
+## [2026-05-25] ingest | X AI/tech daily digest
+- Scraped X.com successfully with valid stored session (0 likes, 0 bookmarks, 5 timeline posts)
+- Retained 2 AI/tech timeline posts after relevance screening, duplicate suppression, and prior-bundle search
+- Created xdailyupdates/2026-05-25/raw/001_Sprytix.md
+- Created xdailyupdates/2026-05-25/raw/002_Hyperagent.md
+- Created xdailyupdates/2026-05-25/index.md
+- Created queries/2026-05-25-x-daily.md
+- Updated index.md with the new query entry
+- No GitHub repos extracted; GitNexus not run and Graphify not run
