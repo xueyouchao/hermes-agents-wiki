@@ -3,7 +3,7 @@
 
 > Master catalog for the Hermes Agents wiki.
 > The root index tracks topic hubs first, then supporting pages grouped by domain.
-> Last updated: 2026-05-25
+> Last updated: 2026-05-26
 
 ## Topic Hubs
 
@@ -268,6 +268,7 @@
 
 ## Queries
 
+- [[queries/2026-05-26-x-daily]] - X AI/tech daily digest for 2026-05-26 (agentic software-factory discourse and AI 2D-to-3D real-estate visualization signal)
 - [[queries/2026-05-25-x-daily]] - X AI/tech daily digest for 2026-05-25 (unverified AI/Polymarket automation discourse and cloud agent-sandbox product signal)
 - [[queries/2026-05-24-x-daily]] - X AI/tech daily digest for 2026-05-24 (Claude Code cost/adoption discourse, Polymarket infrastructure chatter, and mobile AI-coding workflow signal)
 - [[queries/2026-05-23-x-daily]] - X AI/tech daily digest for 2026-05-23 (LLM education, CodeGraph local code-knowledge tooling, and agent-memory discourse)
