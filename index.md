@@ -3,7 +3,7 @@
 
 > Master catalog for the Hermes Agents wiki.
 > The root index tracks topic hubs first, then supporting pages grouped by domain.
-> Last updated: 2026-05-26
+> Last updated: 2026-05-27
 
 ## Topic Hubs
 
@@ -252,6 +252,7 @@
 - [[awesome-llm-apps]] - Curated LLM apps list
 - [[everything-claude-code]] - Claude Code resources
 - [[hermes-agent]] - Hermes Agent documentation
+- [[react-doctor]] - Deterministic React codebase scanner and agent skill
 - [[llm-app]] - LLM application collection
 - [[xiaozhi-esp32]] - ESP32 voice assistant
 
@@ -268,6 +269,7 @@
 
 ## Queries
 
+- [[queries/2026-05-27-x-daily]] - X AI/tech daily digest for 2026-05-27 (react-doctor: deterministic React scanner and agent skill)
 - [[queries/2026-05-26-x-daily]] - X AI/tech daily digest for 2026-05-26 (agentic software-factory discourse and AI 2D-to-3D real-estate visualization signal)
 - [[queries/2026-05-25-x-daily]] - X AI/tech daily digest for 2026-05-25 (unverified AI/Polymarket automation discourse and cloud agent-sandbox product signal)
 - [[queries/2026-05-24-x-daily]] - X AI/tech daily digest for 2026-05-24 (Claude Code cost/adoption discourse, Polymarket infrastructure chatter, and mobile AI-coding workflow signal)

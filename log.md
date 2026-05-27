@@ -328,3 +328,13 @@
 - Created queries/2026-05-26-x-daily.md
 - Updated index.md with the new query entry
 - No GitHub repos extracted; GitNexus not run and Graphify not run
+
+## [2026-05-27] ingest | X AI/tech daily digest
+- Scraped X.com successfully with valid stored session (0 likes, 0 bookmarks, 7 timeline posts)
+- Retained 1 AI/tech timeline post after relevance screening and duplicate suppression; 6 posts skipped as recirculated discourse
+- Created xdailyupdates/2026-05-27/raw/001_Aiden_Bai.md
+- Created entities/react-doctor.md (new entity for millionco/react-doctor deterministic React scanner + agent skill)
+- Created xdailyupdates/2026-05-27/index.md
+- Created queries/2026-05-27-x-daily.md
+- Updated index.md with react-doctor entity and 2026-05-27 query entry
+- 1 repo extracted: millionco/react-doctor (normalized from post text — no structured github_links); GitNexus not run, Graphify not run
