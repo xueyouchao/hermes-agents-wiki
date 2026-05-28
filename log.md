@@ -338,3 +338,16 @@
 - Created queries/2026-05-27-x-daily.md
 - Updated index.md with react-doctor entity and 2026-05-27 query entry
 - 1 repo extracted: millionco/react-doctor (normalized from post text — no structured github_links); GitNexus not run, Graphify not run
+
+## [2026-05-28] ingest | X AI/tech daily — Opus 4.8 release, Claude Code security plugin, Devin CLI Opus 4.8
+
+- Scrape: storage_state_valid=true, 0 likes, 0 bookmarks, 10 timeline posts
+- Retained 3 AI/tech posts:
+  1. @Claude — Claude Opus 4.8 model release (sharper judgment, longer independent work, same price)
+  2. @ClaudeDevs — Claude Code security-guidance plugin (identify/fix vulnerabilities during coding, via /plugins)
+  3. @nader dabit — Devin CLI now supports Claude Opus 4.8
+- Skipped 7 posts: repeated Hyperagent promo, trading-bot promo, deepfake scare, AI-founder listicle, education resource listicle, OSINT tutorial, Elon Musk self-driving car
+- No GitHub repos extracted; GitNexus not run, Graphify not run
+- Created: xdailyupdates/2026-05-28/raw/001_Claude.md, 002_ClaudeDevs.md, 003_nader_dabit.md
+- Created: xdailyupdates/2026-05-28/index.md, queries/2026-05-28-x-daily.md
+- Updated: index.md (new query entry), log.md (this entry)

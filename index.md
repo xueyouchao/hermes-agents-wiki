@@ -3,7 +3,7 @@
 
 > Master catalog for the Hermes Agents wiki.
 > The root index tracks topic hubs first, then supporting pages grouped by domain.
-> Last updated: 2026-05-27
+> Last updated: 2026-05-28
 
 ## Topic Hubs
 
@@ -269,6 +269,7 @@
 
 ## Queries
 
+- [[queries/2026-05-28-x-daily]] - X AI/tech daily digest for 2026-05-28 (Claude Opus 4.8 model release, Claude Code security-guidance plugin, and Devin CLI Opus 4.8 integration)
 - [[queries/2026-05-27-x-daily]] - X AI/tech daily digest for 2026-05-27 (react-doctor: deterministic React scanner and agent skill)
 - [[queries/2026-05-26-x-daily]] - X AI/tech daily digest for 2026-05-26 (agentic software-factory discourse and AI 2D-to-3D real-estate visualization signal)
 - [[queries/2026-05-25-x-daily]] - X AI/tech daily digest for 2026-05-25 (unverified AI/Polymarket automation discourse and cloud agent-sandbox product signal)
