@@ -351,3 +351,12 @@
 - Created: xdailyupdates/2026-05-28/raw/001_Claude.md, 002_ClaudeDevs.md, 003_nader_dabit.md
 - Created: xdailyupdates/2026-05-28/index.md, queries/2026-05-28-x-daily.md
 - Updated: index.md (new query entry), log.md (this entry)
+
+## [2026-05-29] ingest | X AI/tech daily digest for 2026-05-29
+
+- Scrape: 8 timeline, 0 likes, 0 bookmarks; 3 retained after AI/tech filter and recirculation dedup
+- Retained: Codex + Ollama local deployment (WorldofAI), Claude Code /ultracode Dynamic Workflows agent swarms (Dan McAteer), Claude for Finance lecture (Rony)
+- Skipped: Rohit (workshop recirculation since 05-07/05-11), Quickcast AI (CX marketing), Elon Musk (empty), eternal classic (vague), Bitdefender (security PSA)
+- No GitHub repos extracted; GitNexus not run, Graphify not run
+- Created: xdailyupdates/2026-05-29/raw/001_WorldofAI.md, 002_Dan_McAteer.md, 003_Rony.md, xdailyupdates/2026-05-29/index.md, queries/2026-05-29-x-daily.md
+- Updated: index.md, log.md
