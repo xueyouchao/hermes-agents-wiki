@@ -360,3 +360,13 @@
 - No GitHub repos extracted; GitNexus not run, Graphify not run
 - Created: xdailyupdates/2026-05-29/raw/001_WorldofAI.md, 002_Dan_McAteer.md, 003_Rony.md, xdailyupdates/2026-05-29/index.md, queries/2026-05-29-x-daily.md
 - Updated: index.md, log.md
+
+## [2026-05-30] ingest | X AI/tech daily digest for 2026-05-30
+
+- Scrape: 8 timeline, 0 likes, 0 bookmarks; 3 retained after AI/tech filter and recirculation dedup
+- Retained: Claude Code autonomous workflow (@darkzodchi), DGX Spark local supercomputer (@starmex), reconurge/flow infra mapping (@Tom Dörr)
+- Skipped: @Clerk (auth-marketing, no depth), @MobileVibe (recirculated since 05-24), @ₕₐₘₚₜₒₙ (not AI/tech), @Melvyn + @Machina (empty)
+- 1 GitHub repo referenced (reconurge/flow) but not found (private/deleted); no valid repos extracted
+- GitNexus not run, Graphify not run (no repos extracted)
+- Created: xdailyupdates/2026-05-30/raw/001_darkzodchi.md, 002_starmex.md, 003_Tom_Dorr.md, xdailyupdates/2026-05-30/index.md, queries/2026-05-30-x-daily.md
+- Updated: index.md (new query entry), log.md (this entry)
