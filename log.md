@@ -370,3 +370,12 @@
 - GitNexus not run, Graphify not run (no repos extracted)
 - Created: xdailyupdates/2026-05-30/raw/001_darkzodchi.md, 002_starmex.md, 003_Tom_Dorr.md, xdailyupdates/2026-05-30/index.md, queries/2026-05-30-x-daily.md
 - Updated: index.md (new query entry), log.md (this entry)
+
+## [2026-05-31] ingest | X AI/tech daily — Karpathy Wiki Layer, 5 focused agents
+
+- Scrape: storage_state_valid=true, 0 likes, 0 bookmarks, 6 timeline posts; 2 retained after AI/tech filter and recirculation dedup
+- Retained: @Asteri (Karpathy Wiki Layer token-reduction), @darkzodchi (5 focused agents in one afternoon)
+- Skipped: @AI_Explorer (follow-listicle), @MobileVibe (recirculated since 05-24), @Harman (recirculated listicle), @Vikas Singh (recirculated Claude course since 05-18)
+- No GitHub repos extracted; GitNexus not run, Graphify not run
+- Created: xdailyupdates/2026-05-31/raw/001_Asteri.md, 002_darkzodchi.md, xdailyupdates/2026-05-31/index.md, queries/2026-05-31-x-daily.md
+- Updated: index.md (new query entry), log.md (this entry)
