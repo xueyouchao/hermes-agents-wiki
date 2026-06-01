@@ -379,3 +379,13 @@
 - No GitHub repos extracted; GitNexus not run, Graphify not run
 - Created: xdailyupdates/2026-05-31/raw/001_Asteri.md, 002_darkzodchi.md, xdailyupdates/2026-05-31/index.md, queries/2026-05-31-x-daily.md
 - Updated: index.md (new query entry), log.md (this entry)
+
+## [2026-06-01] ingest | X AI/tech daily digest
+
+- Scrape: storage_state_valid=true, 0 likes, 0 bookmarks, 8 timeline posts
+- Retained 1 AI/tech timeline post after relevance screening and recirculation dedup (7 skipped: 4 recirculated, 1 not AI/tech, 2 trading/promo)
+- Retained: @Stevie3D (archviz Gaussian splat testing from Blender with lichtfeldstudio)
+- Skipped: @BuBBliK (RTX Spark, recirculated since 05-30), @MobileVibe (Claude Code on phone, recirculated since 05-24), @shirish (RTX Spark, recirculated since 05-30), @Elon Musk (not AI/tech), @lucacadalora (meta follow-count tweet), @Quant Pilot (trading promo, recirculated), @Himanshu Kumar (unverified income claims)
+- No GitHub repos extracted; GitNexus not run and Graphify not run
+- Created: xdailyupdates/2026-06-01/raw/001_Stevie3D.md, xdailyupdates/2026-06-01/index.md, queries/2026-06-01-x-daily.md
+- Updated: index.md (new query entry), log.md (this entry)
