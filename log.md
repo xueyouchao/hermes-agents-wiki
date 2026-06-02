@@ -389,3 +389,13 @@
 - No GitHub repos extracted; GitNexus not run and Graphify not run
 - Created: xdailyupdates/2026-06-01/raw/001_Stevie3D.md, xdailyupdates/2026-06-01/index.md, queries/2026-06-01-x-daily.md
 - Updated: index.md (new query entry), log.md (this entry)
+
+## [2026-06-02] ingest | X AI/tech daily digest
+
+- Scrape: storage_state_valid=true, 0 likes, 0 bookmarks, 7 timeline posts
+- Retained 4 AI/tech timeline posts after relevance screening and recirculation dedup (3 skipped: 1 recirculated follow listicle, 1 not AI/tech, 1 not substantive)
+- Retained: ElevenLabs Developers (YouTube channel for AI engineers), Sac (vibe-coding live-stream monetization), Peter Dedene (GitHub Copilot post-June 2026 discourse), Gipp (Mac Mini M4 AI cost claim — repeated discourse signal)
+- Skipped: AI_Explorer (recirculated follow listicle), Burger King (ad), Black Squad (not substantive AI/tech)
+- No GitHub repos extracted; GitNexus not run and Graphify not run
+- Created: xdailyupdates/2026-06-02/raw/001_ElevenLabs-Developers.md, 002_Sac.md, 003_Peter-Dedene.md, 004_Gipp.md, xdailyupdates/2026-06-02/index.md, queries/2026-06-02-x-daily.md
+- Updated: index.md (new query entry), log.md (this entry)

@@ -3,7 +3,7 @@
 
 > Master catalog for the Hermes Agents wiki.
 > The root index tracks topic hubs first, then supporting pages grouped by domain.
-> Last updated: 2026-06-01
+> Last updated: 2026-06-02
 
 ## Topic Hubs
 
@@ -269,6 +269,7 @@
 
 ## Queries
 
+- [[queries/2026-06-02-x-daily]] - X AI/tech daily digest for 2026-06-02 (ElevenLabs Devs channel, vibe-coding monetization, Copilot discourse, Mac Mini cost claim)
 - [[queries/2026-06-01-x-daily]] - X AI/tech daily digest for 2026-06-01 (3DGS archviz Gaussian splat from Blender)
 - [[queries/2026-05-31-x-daily]] - X AI/tech daily digest for 2026-05-31 (Karpathy Wiki Layer token efficiency, building 5 focused agents with Claude Code)
 - [[queries/2026-05-30-x-daily]] - X AI/tech daily digest for 2026-05-30 (Claude Code autonomous workflow, DGX Spark local supercomputer, reconurge/flow infra mapping)
