@@ -3,7 +3,7 @@
 
 > Master catalog for the Hermes Agents wiki.
 > The root index tracks topic hubs first, then supporting pages grouped by domain.
-> Last updated: 2026-06-02
+> Last updated: 2026-06-03
 
 ## Topic Hubs
 
@@ -99,6 +99,7 @@
 - [[splat-webgl]] - Browser viewer for splat scenes
 - [[awesome-3dgs]] - Curated ecosystem and paper list
 - [[interiorgs]] - Large-scale indoor scene dataset (1,000 scenes)
+- [[supersplat]] - Free open-source 3DGS editor with WebGPU renderer and LOD
 
 ## Knowledge Graph Tools
 
@@ -269,6 +270,7 @@
 
 ## Queries
 
+- [[queries/2026-06-03-x-daily]] - X AI/tech daily digest for 2026-06-03 (SuperSplat WebGPU + LOD upgrade for 24M Gaussians)
 - [[queries/2026-06-02-x-daily]] - X AI/tech daily digest for 2026-06-02 (ElevenLabs Devs channel, vibe-coding monetization, Copilot discourse, Mac Mini cost claim)
 - [[queries/2026-06-01-x-daily]] - X AI/tech daily digest for 2026-06-01 (3DGS archviz Gaussian splat from Blender)
 - [[queries/2026-05-31-x-daily]] - X AI/tech daily digest for 2026-05-31 (Karpathy Wiki Layer token efficiency, building 5 focused agents with Claude Code)

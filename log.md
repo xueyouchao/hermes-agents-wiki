@@ -399,3 +399,13 @@
 - No GitHub repos extracted; GitNexus not run and Graphify not run
 - Created: xdailyupdates/2026-06-02/raw/001_ElevenLabs-Developers.md, 002_Sac.md, 003_Peter-Dedene.md, 004_Gipp.md, xdailyupdates/2026-06-02/index.md, queries/2026-06-02-x-daily.md
 - Updated: index.md (new query entry), log.md (this entry)
+
+## [2026-06-03] ingest | X AI/tech daily digest for 2026-06-03
+
+- Scrape: storage_state_valid=true, 0 likes, 0 bookmarks, 6 timeline posts
+- Retained 1 AI/tech timeline post after relevance screening and recirculation dedup (5 skipped: 1 recirculated Copilot discourse from 2026-06-02, 1 AI sales promo, 1 AI shopping marketing, 1 Jensen Huang meme, 1 NVDA photonics speculation)
+- Retained: @PlayCanvas (SuperSplat WebGPU + LOD upgrade for 24M Gaussians)
+- 1 GitHub repo extracted: playcanvas/supersplat; GitNexus run (4,720 nodes, 9,520 edges, 141 clusters, 300 flows)
+- Graphify: not installed
+- Created: xdailyupdates/2026-06-03/raw/001_PlayCanvas.md, xdailyupdates/2026-06-03/index.md, queries/2026-06-03-x-daily.md, entities/3dgs/supersplat.md
+- Updated: index.md (new query + supersplat entity), research/3dgs/3dgs-research.md (added supersplat), log.md (this entry)

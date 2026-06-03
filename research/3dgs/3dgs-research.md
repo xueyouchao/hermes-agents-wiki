@@ -1,7 +1,7 @@
 ---
 title: 3D Gaussian Splatting Knowledge
 created: 2026-04-20
-updated: 2026-04-20
+updated: 2026-06-03
 type: summary
 tags: [3dgs, gaussian-splatting, radiance-field, nerf, view-synthesis, 3d-reconstruction]
 sources: []
@@ -22,6 +22,7 @@ This section covers 3D Gaussian Splatting (3DGS), a real-time radiance field ren
 
 - [[gaussian-impl]] - Reference implementation (Python/PyTorch/CUDA)
 - [[splat-webgl]] - WebGL browser viewer
+- [[supersplat]] - Free open-source 3DGS editor with WebGPU renderer and LOD (playcanvas/supersplat)
 - [[awesome-3dgs]] - Curated paper/implementation list
 - [[interiorgs]] - Large-scale indoor scene dataset (1,000 scenes)
 
