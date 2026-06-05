@@ -409,3 +409,13 @@
 - Graphify: not installed
 - Created: xdailyupdates/2026-06-03/raw/001_PlayCanvas.md, xdailyupdates/2026-06-03/index.md, queries/2026-06-03-x-daily.md, entities/3dgs/supersplat.md
 - Updated: index.md (new query + supersplat entity), research/3dgs/3dgs-research.md (added supersplat), log.md (this entry)
+
+## [2026-06-05] ingest | X AI/tech daily digest
+
+- Scrape: storage_state_valid=true, 0 likes, 0 bookmarks, 8 timeline posts
+- Retained 1 AI/tech timeline post after relevance screening and recirculation dedup (7 skipped: 2 recirculated follow listicles, 1 recirculated Grok Imagine demo, 1 not AI/tech, 1 promotional hardware call, 1 minor dev showcase, 1 stock promo)
+- Retained: @Arun Kurian (AirVis Studio — local Gaussian Splat 3D digital twins from video)
+- Skipped: @Soar (travel app), @AI_Explorer (recirculated follow listicle), @Nalin (recirculated follow listicle), @Just a Dude Who Invests (not AI/tech), @Elon Musk (recirculated Grok Imagine demo), @lumos robotics (promotional hardware call), @Craig Taylor (minor dev showcase), @Jealousy 尼卡 (stock promo)
+- No GitHub repos extracted; GitNexus not run and Graphify not run
+- Created: xdailyupdates/2026-06-05/raw/001_Arun-Kurian.md, xdailyupdates/2026-06-05/index.md, queries/2026-06-05-x-daily.md
+- Updated: index.md (new query entry), log.md (this entry)
