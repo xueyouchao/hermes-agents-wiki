@@ -429,3 +429,13 @@
 - No GitHub repos extracted (Trinity repo could not be resolved); GitNexus not run and Graphify not run
 - Created: xdailyupdates/2026-06-06/raw/001_Trinity-by-Ability.md, xdailyupdates/2026-06-06/index.md, queries/2026-06-06-x-daily.md
 - Updated: index.md (new query entry), log.md (this entry)
+
+## [2026-06-07] ingest | X AI/tech daily digest
+
+- Scrape: storage_state_valid=true, 0 likes, 0 bookmarks, 10 timeline posts
+- Retained 1 AI/tech timeline post after relevance screening and recirculation dedup (9 skipped: 2 trading/marketing, 1 personal metrics, 1 follow-bait, 2 Claude education recirculation, 1 stock hype, 1 product marketing, 1 recirculated agentic discourse)
+- Retained: @Peter Steinberger (agentic loop design: "design loops that prompt your agents")
+- Skipped: Mulight 沐光 (Serenity Skills trading marketing), Quant Pilot (recirculated trading promo), Kaichao You (vLLM personal metrics), David Ondrej (follow-bait), Codez (Boris Cherny / Claude Code education, recirculated since 05-18), Wimar.X (NVIDIA/SpaceX stock hype), Oxylabs (product marketing), Anuj (Claude education, recirculated), Rahul (7 Claude agents, recirculated agentic discourse)
+- No GitHub repos extracted; GitNexus not run and Graphify not run
+- Created: xdailyupdates/2026-06-07/raw/001_Peter-Steinberger.md, xdailyupdates/2026-06-07/index.md, queries/2026-06-07-x-daily.md
+- Updated: index.md (new query entry), log.md (this entry)
