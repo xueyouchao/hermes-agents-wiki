@@ -439,3 +439,13 @@
 - No GitHub repos extracted; GitNexus not run and Graphify not run
 - Created: xdailyupdates/2026-06-07/raw/001_Peter-Steinberger.md, xdailyupdates/2026-06-07/index.md, queries/2026-06-07-x-daily.md
 - Updated: index.md (new query entry), log.md (this entry)
+
+## [2026-06-08] ingest | X AI/tech daily digest
+
+- Scrape: storage_state_valid=true, 0 likes, 0 bookmarks, 8 timeline posts
+- Retained 1 AI/tech timeline post after relevance screening and recirculation dedup (7 skipped: 2 follow-bait, 2 recirculated product marketing, 1 vague, 1 promotional showcase, 1 stock hype)
+- Retained: @Sebastian Aaltonen (WASM mini-engine with ECS + AI-generated asset pipeline)
+- Skipped: David Ondrej (follow-bait, recirculated from 06-07), Hyperagent (recirculated cloud sandbox promo since 04-23), Aymeric Rabot (vague "2D and 3D in sync"), Hyper3D by Deemos (Rodin Gen-2.5 promotional showcase), Nancy Pelosi Stock Tracker (stock hype), Neo Kim (follow-bait), Oxylabs (recirculated product marketing from 06-07)
+- No GitHub repos extracted (Sebastian Aaltonen's engine is proprietary/unreleased); GitNexus not run and Graphify not run
+- Created: xdailyupdates/2026-06-08/raw/001_Sebastian-Aaltonen.md, xdailyupdates/2026-06-08/index.md, queries/2026-06-08-x-daily.md
+- Updated: index.md (new query entry), log.md (this entry)
