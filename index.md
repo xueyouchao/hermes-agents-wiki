@@ -3,7 +3,7 @@
 
 > Master catalog for the Hermes Agents wiki.
 > The root index tracks topic hubs first, then supporting pages grouped by domain.
-> Last updated: 2026-06-08
+> Last updated: 2026-06-09
 
 ## Topic Hubs
 
@@ -270,6 +270,7 @@
 
 ## Queries
 
+- [[queries/2026-06-09-x-daily]] - X AI/tech daily digest for 2026-06-09 (Claude Fable 5 Mythos-class model release + Claude Code workflow shift)
 - [[queries/2026-06-08-x-daily]] - X AI/tech daily digest for 2026-06-08 (WASM game engine + AI asset pipeline)
 - [[queries/2026-06-07-x-daily]] - X AI/tech daily digest for 2026-06-07 (agentic loop design: design loops that prompt agents)
 - [[queries/2026-06-06-x-daily]] - X AI/tech daily digest for 2026-06-06 (Trinity by Ability: open-source Claude Code agent production runtime)

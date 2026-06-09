@@ -449,3 +449,13 @@
 - No GitHub repos extracted (Sebastian Aaltonen's engine is proprietary/unreleased); GitNexus not run and Graphify not run
 - Created: xdailyupdates/2026-06-08/raw/001_Sebastian-Aaltonen.md, xdailyupdates/2026-06-08/index.md, queries/2026-06-08-x-daily.md
 - Updated: index.md (new query entry), log.md (this entry)
+
+## [2026-06-09] ingest | X AI/tech daily digest
+
+- Scrape: storage_state_valid=true, 0 likes, 0 bookmarks, 8 timeline posts
+- Retained 2 AI/tech timeline posts after relevance screening and recirculation dedup (6 skipped: 2 follow-bait/listicle, 1 stock trading, 1 recirculated Hyperagent promo, 1 ISP ad, 1 resource listicle without repos)
+- Retained: @Claude (Claude Fable 5 Mythos-class model general release), @ClaudeDevs (Claude Code workflow shift under Fable 5)
+- Skipped: @AI_Explorer (follow listicle), @Starlink (ISP ad), @华尔街观察 Xtrader (stock trading), @Hyperagent (recirculated cloud sandbox promo since April), @Vaiz (product ad), @Sasha Malysheva (resource listicle without concrete repos)
+- No GitHub repos extracted; GitNexus not run and Graphify not run
+- Created: xdailyupdates/2026-06-09/raw/001_Claude.md, xdailyupdates/2026-06-09/raw/002_ClaudeDevs.md, xdailyupdates/2026-06-09/index.md, queries/2026-06-09-x-daily.md
+- Updated: index.md (new query entry), log.md (this entry)
