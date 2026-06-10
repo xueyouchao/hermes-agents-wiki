@@ -459,3 +459,15 @@
 - No GitHub repos extracted; GitNexus not run and Graphify not run
 - Created: xdailyupdates/2026-06-09/raw/001_Claude.md, xdailyupdates/2026-06-09/raw/002_ClaudeDevs.md, xdailyupdates/2026-06-09/index.md, queries/2026-06-09-x-daily.md
 - Updated: index.md (new query entry), log.md (this entry)
+
+## [2026-06-10] ingest | X AI/tech daily digest
+
+- Scrape: 8 timeline posts, 0 likes, 0 bookmarks; storage state valid
+- Retained 3 AI/tech signals after relevance screening and recirculation dedup
+- Skipped 5: 3 stock/financial (Serenity), 1 ISP ad (Starlink), 1 recirculated Hyperagent promo
+- No GitHub repos extracted; GitNexus not run and Graphify not run (no repos extracted)
+- Created xdailyupdates/2026-06-10/raw/001_Claude.md, 002_Pliny-the-Liberator.md, 003_AI_Explorer.md
+- Created xdailyupdates/2026-06-10/index.md
+- Created queries/2026-06-10-x-daily.md
+- Updated index.md with the new query entry
+- Key signals: @Claude highlighted Cursor AI growth (15→700 people, 60% Fortune 500), @Pliny-the-Liberator claimed Fable 5 jailbreak (unverified, continues 06-09 Fable 5 narrative), @AI_Explorer recommended Anthropic ecosystem accounts
