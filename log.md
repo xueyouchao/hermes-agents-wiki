@@ -471,3 +471,13 @@
 - Created queries/2026-06-10-x-daily.md
 - Updated index.md with the new query entry
 - Key signals: @Claude highlighted Cursor AI growth (15→700 people, 60% Fortune 500), @Pliny-the-Liberator claimed Fable 5 jailbreak (unverified, continues 06-09 Fable 5 narrative), @AI_Explorer recommended Anthropic ecosystem accounts
+
+## [2026-06-11] ingest | X AI/tech daily digest
+
+- Scrape: 10 timeline posts, 0 likes, 0 bookmarks; storage state valid
+- Retained 2 AI/tech signals after relevance screening and recirculation dedup
+- Suppressed 3 Fable 5 creative-use posts as recirculated discourse (already captured 06-09/06-10); skipped 5 non-AI posts
+- No GitHub repos extracted; GitNexus not run (no repos extracted) and Graphify not run (not installed)
+- Created: xdailyupdates/2026-06-11/raw/001_MartinValigursky.md, 002_MrNeRF.md, xdailyupdates/2026-06-11/index.md, queries/2026-06-11-x-daily.md
+- Updated: index.md (new query entry), log.md (this entry)
+- Key signals: PlayCanvas relighting of captured splat scenes (proxy mesh + dynamic sky/sun/point lights), MrNeRF 1B Gaussians at 60fps/5GB VRAM milestone
