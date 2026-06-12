@@ -3,7 +3,7 @@
 
 > Master catalog for the Hermes Agents wiki.
 > The root index tracks topic hubs first, then supporting pages grouped by domain.
-> Last updated: 2026-06-11
+> Last updated: 2026-06-12
 
 ## Topic Hubs
 
@@ -270,6 +270,7 @@
 
 ## Queries
 
+- [[queries/2026-06-12-x-daily]] - X AI/tech daily digest for 2026-06-12 (@levelsio AI-ported classic games to web via Fable, vibe-coded text-as-video stream)
 - [[queries/2026-06-11-x-daily]] - X AI/tech daily digest for 2026-06-11 (3DGS relighting in PlayCanvas + 1B Gaussians at 60fps milestone)
 - [[queries/2026-06-10-x-daily]] - X AI/tech daily digest for 2026-06-10 (Cursor AI growth milestone + Fable 5 jailbreak discourse + Anthropic ecosystem accounts)
 - [[queries/2026-06-09-x-daily]] - X AI/tech daily digest for 2026-06-09 (Claude Fable 5 Mythos-class model release + Claude Code workflow shift)

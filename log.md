@@ -481,3 +481,12 @@
 - Created: xdailyupdates/2026-06-11/raw/001_MartinValigursky.md, 002_MrNeRF.md, xdailyupdates/2026-06-11/index.md, queries/2026-06-11-x-daily.md
 - Updated: index.md (new query entry), log.md (this entry)
 - Key signals: PlayCanvas relighting of captured splat scenes (proxy mesh + dynamic sky/sun/point lights), MrNeRF 1B Gaussians at 60fps/5GB VRAM milestone
+
+## [2026-06-12] ingest | X AI/tech daily digest
+
+- Scrape: 8 timeline posts, 0 likes, 0 bookmarks; storage state valid
+- Retained 2 AI/tech signals after relevance screening and recirculation dedup
+- Skipped 6: 1 stock/financial (Serenity), 1 ISP ad (Starlink), 1 SuperGrok promo (Grok), 1 unsubstantiated AI prediction (tamrat), 1 recirculated follow listicle (AI_Explorer, identical to 06-10), 1 vague meme (Know Your Computer)
+- No GitHub repos extracted; GitNexus not run and Graphify not run (no repos extracted)
+- Created: xdailyupdates/2026-06-12/raw/001_levelsio.md, 002_Om-Patel.md, xdailyupdates/2026-06-12/index.md, queries/2026-06-12-x-daily.md
+- Updated: index.md (new query entry), log.md (this entry)
