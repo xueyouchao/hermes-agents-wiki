@@ -490,3 +490,13 @@
 - No GitHub repos extracted; GitNexus not run and Graphify not run (no repos extracted)
 - Created: xdailyupdates/2026-06-12/raw/001_levelsio.md, 002_Om-Patel.md, xdailyupdates/2026-06-12/index.md, queries/2026-06-12-x-daily.md
 - Updated: index.md (new query entry), log.md (this entry)
+
+## [2026-06-13] ingest | X AI/tech daily digest
+
+- Scrape: 8 timeline posts, 0 likes, 0 bookmarks; storage state valid
+- Retained 1 AI/tech signal after relevance screening and recirculation dedup
+- Skipped 7: 3 stock/trading (Serenity), 1 ISP ad (Starlink), 1 unsubstantiated clickbait (AI Evolution), 1 meme/joke (Eliot), 1 recirculated Trinity promo (already captured 2026-06-06)
+- Retained: @Piotr Pomorski (Fable 5 pirate bay leak claim — continues Fable 5 narrative from 06-09/06-10/06-11)
+- No GitHub repos extracted; GitNexus not run and Graphify not run (no repos extracted)
+- Created: xdailyupdates/2026-06-13/raw/001_Piotr-Pomorski.md, xdailyupdates/2026-06-13/index.md, queries/2026-06-13-x-daily.md
+- Updated: index.md (new query entry), log.md (this entry)
