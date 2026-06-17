@@ -270,6 +270,7 @@
 
 ## Queries
 
+- [[queries/2026-06-17-x-daily]] - X AI/tech daily digest for 2026-06-17 (Anthropic finance workflow claim, Cursor conference, NVIDIA Nemotron-3.5-ASR)
 - [[queries/2026-06-13-x-daily]] - X AI/tech daily digest for 2026-06-13 (Fable 5 pirate bay leak discourse signal)
 - [[queries/2026-06-12-x-daily]] - X AI/tech daily digest for 2026-06-12 (@levelsio AI-ported classic games to web via Fable, vibe-coded text-as-video stream)
 - [[queries/2026-06-11-x-daily]] - X AI/tech daily digest for 2026-06-11 (3DGS relighting in PlayCanvas + 1B Gaussians at 60fps milestone)
