@@ -20,3 +20,13 @@
 - No GitHub repos extracted; GitNexus not run and Graphify not run (no repos extracted)
 - Created: xdailyupdates/2026-06-17/raw/001_CyrilXBT.md, 002_Madni-Aghadi.md, 003_mousepotato.md, 004_Vaidehi.md, xdailyupdates/2026-06-17/index.md, queries/2026-06-17-x-daily.md
 - Updated: index.md (new query entry), log.md (this entry)
+
+## [2026-06-18] ingest | X AI/tech daily digest
+- Scrape: 9 timeline posts, 0 likes, 0 bookmarks; storage state valid
+- Retained 3 AI/tech posts after relevance screening, recirculation dedup, and 24h filter
+- Skipped 6: 2 recirculated Grok Imagine, 1 follow-bait listicle, 1 meme, 1 generic vibe-coding listicle, 1 outside 24h window
+- Retained: @DevDude (AI text-to-animation pipeline signal), @Will Eastcott (Crysta_AI 3D-print configurator for Gaussian splats, built on PlayCanvas), @self.dll (Agent-Reach open-source AI agent social-scraping toolkit, 34K+ stars)
+- 1 GitHub repo extracted: Panniantong/Agent-Reach; GitNexus run (1,453 nodes, 2,279 edges, 21 clusters, 54 flows)
+- Graphify: not run (not installed)
+- Created: xdailyupdates/2026-06-18/raw/001_DevDude.md, 002_Will-Eastcott.md, 003_self-dll.md, xdailyupdates/2026-06-18/index.md, queries/2026-06-18-x-daily.md, entities/repos/agent-reach.md
+- Updated: index.md (new query entry + agent-reach repo entry), log.md (this entry)

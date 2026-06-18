@@ -3,7 +3,7 @@
 
 > Master catalog for the Hermes Agents wiki.
 > The root index tracks topic hubs first, then supporting pages grouped by domain.
-> Last updated: 2026-06-13
+> Last updated: 2026-06-18
 
 ## Topic Hubs
 
@@ -235,6 +235,7 @@
 
 - [[firecrawl]] - AI web scraping
 - [[repomix]] - Repository to LLM-friendly format
+- [[agent-reach]] - Open-source social-scraping toolkit for AI agents (zero API fees)
 
 ### Research & Papers
 
@@ -270,6 +271,7 @@
 
 ## Queries
 
+- [[queries/2026-06-18-x-daily]] - X AI/tech daily digest for 2026-06-18 (Agent-Reach open-source AI agent scraping toolkit, Crysta_AI 3D-print configurator for Gaussian splats, AI text-to-animation pipeline signal)
 - [[queries/2026-06-17-x-daily]] - X AI/tech daily digest for 2026-06-17 (Anthropic finance workflow claim, Cursor conference, NVIDIA Nemotron-3.5-ASR)
 - [[queries/2026-06-13-x-daily]] - X AI/tech daily digest for 2026-06-13 (Fable 5 pirate bay leak discourse signal)
 - [[queries/2026-06-12-x-daily]] - X AI/tech daily digest for 2026-06-12 (@levelsio AI-ported classic games to web via Fable, vibe-coded text-as-video stream)
